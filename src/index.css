@@ -1,0 +1,89 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-white dark:bg-neutral-950 text-neutral-900 dark:text-neutral-100 antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  ::selection {
+    @apply bg-primary-500/30;
+  }
+}
+
+@layer components {
+  .section-container {
+    @apply max-w-5xl mx-auto px-6 py-16 md:py-20;
+  }
+
+  .section-title {
+    @apply text-sm font-mono uppercase tracking-widest text-primary-500 dark:text-primary-400 mb-4;
+  }
+
+  .section-heading {
+    @apply text-3xl md:text-4xl font-bold text-neutral-900 dark:text-white mb-8;
+  }
+
+  .gradient-text {
+    @apply bg-gradient-to-r from-primary-500 via-primary-400 to-accent-500 bg-clip-text text-transparent;
+  }
+
+  .card {
+    @apply bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-2xl p-6 transition-all duration-300 hover:border-primary-500/50 dark:hover:border-primary-500/50;
+  }
+
+  .skill-tag {
+    @apply px-3 py-1.5 text-sm font-medium bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 rounded-lg border border-neutral-200 dark:border-neutral-700 hover:border-primary-500/50 dark:hover:border-primary-500/50 transition-colors;
+  }
+
+  .nav-link {
+    @apply text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition-colors text-sm font-medium;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center gap-2 px-6 py-3 bg-primary-500 hover:bg-primary-600 text-white font-medium rounded-xl transition-all duration-200 hover:shadow-lg hover:shadow-primary-500/25;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center gap-2 px-6 py-3 bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700 text-neutral-900 dark:text-white font-medium rounded-xl transition-all duration-200 border border-neutral-200 dark:border-neutral-700;
+  }
+}
+
+@layer utilities {
+  .animate-delay-100 {
+    animation-delay: 100ms;
+  }
+  .animate-delay-200 {
+    animation-delay: 200ms;
+  }
+  .animate-delay-300 {
+    animation-delay: 300ms;
+  }
+  .animate-delay-400 {
+    animation-delay: 400ms;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-neutral-300 dark:bg-neutral-700 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-neutral-400 dark:bg-neutral-600;
+}
