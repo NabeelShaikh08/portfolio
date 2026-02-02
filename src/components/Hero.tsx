@@ -6,21 +6,20 @@ export default function Hero() {
       {/* Subtle background */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary-100/40 via-transparent to-transparent dark:from-primary-900/20 dark:via-transparent" />
 
-      <div className="relative z-10 max-w-4xl mx-auto px-6">
+      <div className="relative z-10 max-w-4xl px-6 md:px-16 lg:px-24">
         {/* Intro line */}
         <p className="text-neutral-500 dark:text-neutral-400 mb-4 font-mono text-sm">
           Hey there, I'm
         </p>
 
         {/* Name */}
-        <h1 className="text-5xl md:text-7xl font-bold text-neutral-900 dark:text-white mb-4 tracking-tight">
+        <h1 className="text-5xl md:text-7xl font-bold text-primary-600 dark:text-primary-400 mb-4 tracking-tight">
           Nabeel Shaikh
         </h1>
 
         {/* Role with accent */}
         <h2 className="text-2xl md:text-3xl font-semibold text-neutral-700 dark:text-neutral-300 mb-6">
-          AI Engineer at{' '}
-          <span className="text-primary-600 dark:text-primary-400">Naptick</span>
+          AI Engineer at Naptick
         </h2>
 
         {/* Description - more personal and specific */}

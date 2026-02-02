@@ -72,7 +72,7 @@ export default function Experience() {
                     index % 2 === 0 ? 'md:pr-12' : 'md:col-start-2 md:pl-12'
                   }`}
                 >
-                  <div className="card hover:shadow-lg hover:shadow-primary-500/5">
+                  <div className={`card hover:shadow-lg hover:shadow-primary-500/5 ${index % 2 === 0 ? 'bg-primary-50 dark:bg-primary-950/30' : ''}`}>
                     <div className="flex flex-wrap items-center gap-3 mb-4">
                       <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 rounded-full text-sm font-medium">
                         <Briefcase className="w-3.5 h-3.5" />

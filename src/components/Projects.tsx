@@ -13,7 +13,6 @@ const projects = [
     ],
     tech: ['Amazon Bedrock', 'Claude Sonnet', 'Titan Embeddings', 'RAG', 'Python'],
     icon: Bot,
-    gradient: 'from-primary-500 to-primary-600',
     github: '#',
     live: '#',
   },
@@ -29,7 +28,6 @@ const projects = [
     ],
     tech: ['React.js', 'React Router', 'CSS Modules', 'CSS Variables', 'Responsive Design'],
     icon: Heart,
-    gradient: 'from-rose-500 to-pink-600',
     github: 'https://github.com/NabeelShaikh08/Life-Fit-Healthcare',
     live: '#',
   },
@@ -45,7 +43,6 @@ const projects = [
     ],
     tech: ['Python', 'TensorFlow', 'CNN', 'Deep Learning', 'Image Classification'],
     icon: Brain,
-    gradient: 'from-violet-500 to-purple-600',
     github: 'https://github.com/NabeelShaikh08/cnn-model',
     live: '#',
   },
@@ -61,7 +58,6 @@ const projects = [
     ],
     tech: ['React.js', 'Node.js', 'MongoDB', 'JWT', 'Express.js'],
     icon: BookOpen,
-    gradient: 'from-accent-500 to-accent-600',
     github: 'https://github.com/NabeelShaikh08/BookHub',
     live: '#',
   },
@@ -83,7 +79,7 @@ export default function Projects() {
               {/* Header with icon and title */}
               <div className="flex items-start gap-4 mb-4">
                 <div
-                  className={`w-12 h-12 rounded-xl bg-gradient-to-br ${project.gradient} flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform flex-shrink-0`}
+                  className="w-12 h-12 rounded-xl bg-primary-500 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform flex-shrink-0"
                 >
                   <project.icon className="w-6 h-6 text-white" />
                 </div>

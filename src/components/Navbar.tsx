@@ -34,7 +34,7 @@ export default function Navbar({ isDark, toggleTheme }: NavbarProps) {
           : 'bg-transparent'
       }`}
     >
-      <div className="max-w-5xl mx-auto px-6">
+      <div className="w-full px-6 md:px-12 lg:px-16">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <a href="#" className="block">
