@@ -65,7 +65,7 @@ const projects = [
 
 export default function Projects() {
   return (
-    <section id="projects" className="bg-neutral-50 dark:bg-neutral-900/50">
+    <section id="projects" className="bg-[#EADDCA] dark:bg-neutral-900/50">
       <div className="section-container">
         <p className="section-title">Projects</p>
         <h2 className="section-heading">Featured Work</h2>

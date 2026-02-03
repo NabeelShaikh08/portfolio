@@ -1,12 +1,15 @@
 import { Github, Linkedin, Mail, Download } from 'lucide-react';
+import heroImg from '../assets/images/hero-img.jpg';
 
 export default function Hero() {
   return (
-    <section className="pt-32 pb-16 md:pt-40 md:pb-24 relative">
+    <section className="pt-32 pb-16 md:pt-40 md:pb-24 relative bg-[#EADDCA] dark:bg-neutral-950">
       {/* Subtle background */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary-100/40 via-transparent to-transparent dark:from-primary-900/20 dark:via-transparent" />
 
-      <div className="relative z-10 max-w-4xl px-6 md:px-16 lg:px-24">
+      <div className="relative z-10 max-w-6xl mx-auto px-6 md:px-16 lg:px-24 flex flex-col md:flex-row items-center gap-12">
+        {/* Text content */}
+        <div className="flex-1">
         {/* Intro line */}
         <p className="text-neutral-500 dark:text-neutral-400 mb-4 font-mono text-sm">
           Hey there, I'm
@@ -85,6 +88,16 @@ export default function Hero() {
           >
             <Mail className="w-5 h-5" />
           </a>
+        </div>
+        </div>
+
+        {/* Hero Image */}
+        <div className="flex-shrink-0 md:-mt-24">
+          <img
+            src={heroImg}
+            alt="Nabeel Shaikh"
+            className="w-72 h-72 md:w-[28rem] md:h-[28rem] rounded-full object-cover shadow-2xl border-4 border-primary-500/20"
+          />
         </div>
       </div>
     </section>

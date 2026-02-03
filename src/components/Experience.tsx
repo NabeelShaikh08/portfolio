@@ -45,7 +45,7 @@ const experiences = [
 
 export default function Experience() {
   return (
-    <section id="experience">
+    <section id="experience" className="bg-white dark:bg-neutral-900/50">
       <div className="section-container">
         <p className="section-title">Experience</p>
         <h2 className="section-heading">Where I've Worked</h2>

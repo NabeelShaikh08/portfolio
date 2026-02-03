@@ -25,7 +25,7 @@ const highlights = [
 
 export default function About() {
   return (
-    <section id="about" className="bg-neutral-50 dark:bg-neutral-900/50">
+    <section id="about" className="bg-white dark:bg-neutral-900/50">
       <div className="section-container">
         <p className="section-title">About Me</p>
         <h2 className="section-heading">

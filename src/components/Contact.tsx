@@ -44,7 +44,7 @@ const socialLinks = [
 
 export default function Contact() {
   return (
-    <section id="contact" className="bg-neutral-50 dark:bg-neutral-900/50">
+    <section id="contact" className="bg-white dark:bg-neutral-900/50">
       <div className="section-container">
         <p className="section-title">Contact</p>
         <h2 className="section-heading">Let's Work Together</h2>

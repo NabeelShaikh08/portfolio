@@ -2,7 +2,7 @@ import { GraduationCap, Award } from 'lucide-react';
 
 export default function Education() {
   return (
-    <section id="education" className="bg-neutral-50 dark:bg-neutral-900/50">
+    <section id="education" className="bg-white dark:bg-neutral-900/50">
       <div className="section-container">
         <p className="section-title">Education</p>
         <h2 className="section-heading">Academic Background</h2>

@@ -38,7 +38,7 @@ const bottomSkills = [
 
 export default function Skills() {
   return (
-    <section id="skills">
+    <section id="skills" className="bg-[#EADDCA] dark:bg-neutral-950">
       <div className="section-container">
         <p className="section-title">Skills</p>
         <h2 className="section-heading">Technologies I Work With</h2>
@@ -48,7 +48,7 @@ export default function Skills() {
           <div className="grid md:grid-cols-3 gap-6 mb-0">
             {topSkills.map((category, index) => (
               <div key={index} className="flex flex-col items-center">
-                <div className={`card group hover:shadow-lg hover:shadow-primary-500/5 w-full h-64 ${index % 2 === 0 ? 'bg-primary-50 dark:bg-primary-950/30' : ''}`}>
+                <div className="card group hover:shadow-lg hover:shadow-primary-500/5 w-full h-64">
                   <div className="flex items-center gap-3 mb-4">
                     <div className="w-10 h-10 rounded-lg bg-primary-500 flex items-center justify-center group-hover:scale-110 transition-transform">
                       <category.icon className="w-5 h-5 text-white" />
@@ -80,7 +80,7 @@ export default function Skills() {
               <div key={index} className="flex flex-col items-center">
                 {/* Connector line up */}
                 <div className="hidden md:block w-0.5 h-8 bg-primary-500" />
-                <div className={`card group hover:shadow-lg hover:shadow-primary-500/5 w-full h-64 ${index === 1 ? 'bg-primary-50 dark:bg-primary-950/30' : ''}`}>
+                <div className="card group hover:shadow-lg hover:shadow-primary-500/5 w-full h-64">
                   <div className="flex items-center gap-3 mb-4">
                     <div className="w-10 h-10 rounded-lg bg-primary-500 flex items-center justify-center group-hover:scale-110 transition-transform">
                       <category.icon className="w-5 h-5 text-white" />
