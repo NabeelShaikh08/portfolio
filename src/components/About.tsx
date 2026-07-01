@@ -1,10 +1,10 @@
-import { Brain, Server, Workflow, Code2 } from 'lucide-react';
+import { Brain, Server, Workflow, Code2, Smartphone, Cpu } from 'lucide-react';
 
 const highlights = [
   {
     icon: Brain,
     title: 'AI Systems',
-    description: 'RAG architectures, semantic search, and voice-based AI interactions',
+    description: 'RAG architectures, semantic search, and deep learning for computer vision',
   },
   {
     icon: Server,
@@ -21,6 +21,16 @@ const highlights = [
     title: 'Full-Stack',
     description: 'MERN stack applications with modern UI/UX practices',
   },
+  {
+    icon: Smartphone,
+    title: 'Mobile',
+    description: 'Cross-platform apps with Flutter, including in-app chat experiences',
+  },
+  {
+    icon: Cpu,
+    title: 'Embedded',
+    description: 'Raspberry Pi & ESP firmware with GPIO controls and Python scripting',
+  },
 ];
 
 export default function About() {
@@ -36,14 +46,19 @@ export default function About() {
           {/* Text content */}
           <div className="space-y-6">
             <p className="text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed">
-              I am an <span className="text-neutral-900 dark:text-white font-medium">AI Engineer</span> with
-              strong experience building applied AI systems and automation pipelines, complemented by a
-              solid full-stack background.
+              I am an <span className="text-neutral-900 dark:text-white font-medium">AI Engineer</span> and
+              full-stack developer with experience building production-ready web, mobile, and embedded
+              systems, from applied AI and automation pipelines to Flutter apps and Raspberry Pi firmware.
             </p>
             <p className="text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed">
               My work focuses on designing <span className="text-primary-500 font-medium">RAG-based architectures</span>,
               integrating cloud-native AI services on AWS, and building intelligent workflows using n8n for
               data collection, research, and insights.
+            </p>
+            <p className="text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed">
+              I also train and deploy <span className="text-primary-500 font-medium">deep learning models</span> for
+              computer vision, containerizing them with Docker and shipping interactive demos to platforms like
+              Hugging Face Spaces.
             </p>
             <p className="text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed">
               I have hands-on experience integrating AI features such as semantic search, voice-based

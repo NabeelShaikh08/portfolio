@@ -1,6 +1,21 @@
-import { ExternalLink, Github, Bot, BookOpen, Heart, Brain } from 'lucide-react';
+import { ExternalLink, Github, Bot, BookOpen, Heart, Brain, Bone } from 'lucide-react';
 
 const projects = [
+  {
+    title: 'BoneScan AI',
+    subtitle: 'VGG16 Transfer Learning for X-ray Fracture Classification',
+    description:
+      'A deep-learning web app that classifies bone X-rays as oblique or spiral fractures using a VGG16 transfer-learning model. Containerized with Docker and deployed as a live, interactive demo on Hugging Face Spaces.',
+    highlights: [
+      'Applied transfer learning on a pre-trained VGG16 model for medical X-ray fracture classification',
+      'Built a Flask web app with drag-and-drop upload, live preview, and animated confidence bars',
+      'Containerized with Docker and deployed a live demo on Hugging Face Spaces',
+    ],
+    tech: ['Python', 'TensorFlow', 'Keras', 'VGG16', 'Flask', 'Docker', 'Hugging Face'],
+    icon: Bone,
+    github: 'https://github.com/NabeelShaikh08/Image-Classification',
+    live: 'https://huggingface.co/spaces/nabeelshk/bonescan-fracture-classifier',
+  },
   {
     title: 'Ragnius',
     subtitle: 'Intelligent Chat Agent with Bedrock RAG Architecture',
