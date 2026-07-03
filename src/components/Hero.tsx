@@ -28,7 +28,7 @@ export default function Hero() {
         {/* Description - more personal and specific */}
         <p className="text-lg text-neutral-600 dark:text-neutral-400 max-w-2xl mb-8 leading-relaxed">
           I build AI-powered products and full-stack applications. Currently working on
-          RAG systems, voice AI, and workflow automation. Based in Mumbai.
+          RAG systems, autonomous AI agents, voice AI, and workflow automation. Based in Mumbai.
         </p>
 
         {/* Status + Location inline */}

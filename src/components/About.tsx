@@ -51,7 +51,8 @@ export default function About() {
               systems, from applied AI and automation pipelines to Flutter apps and Raspberry Pi firmware.
             </p>
             <p className="text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed">
-              My work focuses on designing <span className="text-primary-500 font-medium">RAG-based architectures</span>,
+              My work focuses on designing <span className="text-primary-500 font-medium">RAG-based architectures</span> and
+              <span className="text-primary-500 font-medium"> autonomous AI agents</span> that plan and execute multi-step tasks,
               integrating cloud-native AI services on AWS, and building intelligent workflows using n8n for
               data collection, research, and insights.
             </p>
