@@ -1,6 +1,21 @@
-import { ExternalLink, Github, Bot, BookOpen, Heart, Brain, Bone } from 'lucide-react';
+import { ExternalLink, Github, Bot, BookOpen, Heart, Brain, Bone, FileText } from 'lucide-react';
 
 const projects = [
+  {
+    title: 'SCRIBE',
+    subtitle: 'Autonomous AI Agent for Business Document Generation',
+    description:
+      'An autonomous AI agent that turns a single natural-language request into a polished Microsoft Word document. It plans its own task list, writes each section, self-reviews the content, and calls real tools for dates and budgets — all behind a FastAPI service with a custom web frontend.',
+    highlights: [
+      'Autonomous Plan → Execute → Reflect → Build loop with an LLM-generated task list',
+      'Reflection self-check that scores each section and rewrites weak ones, backed by retry and model-fallback logic',
+      'Native tool-calling for real dates and exact budget math, exporting a styled .docx via python-docx',
+    ],
+    tech: ['Python', 'FastAPI', 'Groq / Llama 3.3', 'Pydantic', 'python-docx', 'Docker', 'Hugging Face'],
+    icon: FileText,
+    github: 'https://github.com/NabeelShaikh08/Autonomus_Doc_Agent',
+    live: 'https://huggingface.co/spaces/nabeelshk/Autonomus_Doc_Agent',
+  },
   {
     title: 'BoneScan AI',
     subtitle: 'VGG16 Transfer Learning for X-ray Fracture Classification',
