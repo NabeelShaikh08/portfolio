@@ -1,6 +1,21 @@
-import { ExternalLink, Github, Bot, BookOpen, Heart, Brain, Bone, FileText } from 'lucide-react';
+import { ExternalLink, Github, Bot, BookOpen, Heart, Brain, Bone, FileText, Shirt } from 'lucide-react';
 
 const projects = [
+  {
+    title: 'SARTOR',
+    subtitle: 'Real-Time Formal Attire Detection with YOLO26',
+    description:
+      'A computer-vision app that judges whether a person is dressed formally or casually — and explains why. A custom-trained YOLO26 model detects individual garments (shirt, tie, jacket, trousers, shoes), and a transparent rule layer turns those detections into an explainable verdict. Supports image upload, video, and live webcam.',
+    highlights: [
+      'Trained a YOLO26 object detector on a filtered Fashionpedia dataset to localize 8 garment classes',
+      'Explainable rule-based formality engine that scores garments and justifies each verdict',
+      'Three input modes (image, video, live webcam) served in-process via FastAPI, deployed on Hugging Face',
+    ],
+    tech: ['Python', 'YOLO26', 'Ultralytics', 'FastAPI', 'OpenCV', 'Docker', 'Hugging Face'],
+    icon: Shirt,
+    github: 'https://github.com/NabeelShaikh08/Formal-Detector',
+    live: 'https://nabeelshk-formal-detector.hf.space',
+  },
   {
     title: 'SCRIBE',
     subtitle: 'Autonomous AI Agent for Business Document Generation',
