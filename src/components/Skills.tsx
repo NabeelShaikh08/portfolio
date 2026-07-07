@@ -9,7 +9,7 @@ const topSkills = [
   {
     title: 'Frameworks & Libraries',
     icon: Layers,
-    skills: ['React.js', 'Node.js', 'Next.js', 'NestJS', 'Express.js', 'Flutter', 'TensorFlow', 'Keras', 'FastAPI', 'Flask', 'Pydantic', 'Hugging Face'],
+    skills: ['React.js', 'Node.js', 'Next.js', 'NestJS', 'Express.js', 'Flutter', 'TensorFlow', 'Keras', 'FastAPI', 'Flask', 'Pydantic', 'OpenCV', 'Hugging Face'],
   },
   {
     title: 'Databases & Cloud',
@@ -27,7 +27,7 @@ const bottomSkills = [
   {
     title: 'AI & ML',
     icon: Brain,
-    skills: ['RAG', 'AI Agents', 'Tool Calling', 'NLP', 'CNN', 'Computer Vision', 'Transfer Learning', 'Model Fine-Tuning', 'STT/TTS', 'Semantic Search', 'LLM Integration', 'n8n'],
+    skills: ['RAG', 'AI Agents', 'Tool Calling', 'NLP', 'CNN', 'Computer Vision', 'YOLO', 'Object Detection', 'Transfer Learning', 'Model Fine-Tuning', 'STT/TTS', 'Semantic Search', 'LLM Integration', 'n8n'],
   },
   {
     title: 'Embedded Systems',
