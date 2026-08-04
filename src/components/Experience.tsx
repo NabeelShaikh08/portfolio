@@ -2,6 +2,20 @@ import { Briefcase, Calendar, MapPin } from 'lucide-react';
 
 const experiences = [
   {
+    company: 'Keystone Vacations',
+    role: 'Freelance Full-Stack & Mobile Developer',
+    type: 'Freelance',
+    duration: 'July 2026 - Present',
+    location: 'Remote',
+    description: [
+      'Building an end-to-end membership, booking and customer-servicing platform — a single Flutter codebase shipping to both iOS and Android, serving SuperAdmin, Admin and Customer roles',
+      'Architected the NestJS + Firestore backend on Google Cloud Run with server-side role-based access control, a nights ledger derived on every read, EMI and payment tracking, and seven CSV reports, deployed continuously through GitHub Actions',
+      'Designed the KYC pipeline around data minimisation — storing only the last four digits of an ID number, with documents held in a CMEK-encrypted bucket behind short-lived, audit-logged access tokens',
+      'Designed and shipped the public marketing site in Next.js and React, live in production on Firebase Hosting',
+    ],
+    current: true,
+  },
+  {
     company: 'Naptick',
     role: 'AI Engineer',
     type: 'Full-time',
