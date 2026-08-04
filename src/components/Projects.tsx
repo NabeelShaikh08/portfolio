@@ -1,6 +1,43 @@
-import { ExternalLink, Github, Bot, BookOpen, Heart, Brain, Bone, FileText, Shirt } from 'lucide-react';
+import { ExternalLink, Github, Lock, Bot, BookOpen, Heart, Brain, Bone, FileText, Shirt, Palmtree } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 
-const projects = [
+type Project = {
+  title: string;
+  subtitle: string;
+  description: string;
+  highlights: string[];
+  tech: string[];
+  icon: LucideIcon;
+  github: string;
+  live: string;
+  /** Pill shown beside the title — used to mark client work apart from personal projects. */
+  badge?: string;
+  /** Client repos stay closed; say so rather than leaving an unexplained gap where Code sits. */
+  sourcePrivate?: boolean;
+  /** Label for the live link when "Demo" is the wrong word. */
+  liveLabel?: string;
+};
+
+const projects: Project[] = [
+  {
+    title: 'Keystone Vacations',
+    subtitle: 'Membership Platform — Cross-Platform App, Cloud Backend & Marketing Site',
+    description:
+      'An end-to-end platform for a vacation-membership club, digitising everything that follows an offline membership sale: field enrollment with KYC and signature capture, generated application PDFs, bookings drawn against a nights ledger, EMI and payment tracking, referrals and reporting. A single Flutter codebase serves iOS and Android across three roles, on a NestJS backend running on Google Cloud Run.',
+    highlights: [
+      'Shipped a Flutter app for iOS and Android serving three roles (SuperAdmin, Admin, Customer), including a 7-step field-enrollment flow with section-level autosave and resume',
+      'Built the NestJS + Firestore backend on Cloud Run with server-side RBAC on every route, a nights ledger derived on read rather than stored as a counter, EMI schedules and seven CSV reports',
+      'Designed KYC around data minimisation — only the last four digits of an ID number are ever stored, with documents held in a CMEK-encrypted bucket reachable only through short-lived, audit-logged tokens',
+      'Designed and deployed the public marketing site in Next.js 16 and React 19, live in production on Firebase Hosting',
+    ],
+    tech: ['Flutter', 'Dart', 'NestJS', 'TypeScript', 'Firestore', 'Cloud Run', 'Cloud Storage', 'Next.js', 'React', 'Tailwind CSS', 'GitHub Actions'],
+    icon: Palmtree,
+    badge: 'Freelance',
+    github: '#',
+    sourcePrivate: true,
+    live: 'https://thekeystonevacations.com/',
+    liveLabel: 'Visit Site',
+  },
   {
     title: 'SARTOR',
     subtitle: 'Real-Time Formal Attire Detection with YOLO26',
@@ -129,9 +166,16 @@ export default function Projects() {
                   <project.icon className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-neutral-900 dark:text-white">
-                    {project.title}
-                  </h3>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <h3 className="text-xl font-bold text-neutral-900 dark:text-white">
+                      {project.title}
+                    </h3>
+                    {project.badge && (
+                      <span className="px-2.5 py-0.5 bg-accent-100 dark:bg-accent-900/30 text-accent-700 dark:text-accent-300 rounded-full text-xs font-medium whitespace-nowrap">
+                        {project.badge}
+                      </span>
+                    )}
+                  </div>
                   <p className="text-sm font-medium text-primary-600 dark:text-primary-400">
                     {project.subtitle}
                   </p>
@@ -180,15 +224,23 @@ export default function Projects() {
 
               {/* Links */}
               <div className="flex items-center gap-3 pt-4 mt-auto border-t border-neutral-200 dark:border-neutral-800">
-                <a
-                  href={project.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-4 py-2 bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 rounded-lg text-sm font-medium hover:opacity-90 transition-opacity"
-                >
-                  <Github className="w-4 h-4" />
-                  Code
-                </a>
+                {project.github !== '#' && (
+                  <a
+                    href={project.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 rounded-lg text-sm font-medium hover:opacity-90 transition-opacity"
+                  >
+                    <Github className="w-4 h-4" />
+                    Code
+                  </a>
+                )}
+                {project.sourcePrivate && (
+                  <span className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-neutral-500 dark:text-neutral-500">
+                    <Lock className="w-4 h-4" />
+                    Private repo — client work
+                  </span>
+                )}
                 {project.live !== '#' && (
                   <a
                     href={project.live}
@@ -197,7 +249,7 @@ export default function Projects() {
                     className="inline-flex items-center gap-2 px-4 py-2 border border-neutral-200 dark:border-neutral-700 rounded-lg text-sm font-medium hover:border-primary-500 dark:hover:border-primary-500 transition-colors"
                   >
                     <ExternalLink className="w-4 h-4" />
-                    Demo
+                    {project.liveLabel ?? 'Demo'}
                   </a>
                 )}
               </div>

@@ -4,7 +4,7 @@ const topSkills = [
   {
     title: 'Languages',
     icon: Code,
-    skills: ['Python', 'JavaScript', 'TypeScript', 'Java', 'C/C++', 'SQL'],
+    skills: ['Python', 'JavaScript', 'TypeScript', 'Dart', 'Java', 'C/C++', 'SQL'],
   },
   {
     title: 'Frameworks & Libraries',
@@ -14,7 +14,7 @@ const topSkills = [
   {
     title: 'Databases & Cloud',
     icon: Database,
-    skills: ['MongoDB', 'Redis', 'ChromaDB', 'FAISS', 'AWS S3', 'AWS EC2', 'AWS Bedrock', 'AWS SQS', 'AWS Amplify', 'Secrets Manager'],
+    skills: ['MongoDB', 'Firestore', 'Redis', 'ChromaDB', 'FAISS', 'AWS S3', 'AWS EC2', 'AWS Bedrock', 'AWS SQS', 'AWS Amplify', 'Secrets Manager', 'Google Cloud Run', 'Cloud Storage'],
   },
 ];
 
