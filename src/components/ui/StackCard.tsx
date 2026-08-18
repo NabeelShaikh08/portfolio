@@ -1,4 +1,6 @@
+import { motion } from 'framer-motion'
 import type { ReactNode } from 'react'
+import { useMediaQuery } from '../../hooks/useMediaQuery'
 
 type Props = {
   /** Position in the deck; drives how far this card pins from the top. */
@@ -22,6 +24,14 @@ type Props = {
  *
  * Pinning is plain CSS sticky. The scale and the scrim are set per frame by
  * useCardStack, which finds these elements by their data attributes.
+ *
+ * Below the stacking breakpoint the card fades and rises in instead. That is
+ * not decoration for its own sake — it replaces an entrance that was lost.
+ * Reveal had to come off these cards because a card fading in cannot occlude
+ * the one behind it, but that reasoning only applies where cards actually
+ * overlap, and removing it everywhere left phones with no entrance at all.
+ * The two are mutually exclusive by construction: stacking is lg and up, this
+ * runs below it, so a fading card can never sit in a deck.
  */
 export default function StackCard({
   index,
@@ -29,6 +39,8 @@ export default function StackCard({
   surfaceClassName = '',
   children,
 }: Props) {
+  const stacks = useMediaQuery('(min-width: 1024px)') && !reducedMotion
+
   return (
     <li
       className={reducedMotion ? undefined : 'lg:sticky'}
@@ -39,7 +51,15 @@ export default function StackCard({
         top: `calc(6.5rem + ${Math.min(index, 5) * 0.5}rem)`,
       }}
     >
-      <div data-stack-card style={{ transformOrigin: 'center top' }} className="pb-4 sm:pb-6">
+      <motion.div
+        data-stack-card
+        style={{ transformOrigin: 'center top' }}
+        className="pb-4 sm:pb-6"
+        initial={stacks ? false : { opacity: 0, y: 26 }}
+        whileInView={stacks ? undefined : { opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-60px' }}
+        transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
+      >
         <div
           className={`group relative rounded-2xl p-5 shadow-[0_24px_70px_-40px_rgba(0,0,0,0.55)] ring-1 ring-black/[0.06] sm:rounded-3xl sm:p-7 md:p-10 dark:ring-white/[0.08] ${surfaceClassName}`}
           // Opaque on purpose. A translucent card cannot hide the one behind
@@ -60,7 +80,7 @@ export default function StackCard({
           />
           {children}
         </div>
-      </div>
+      </motion.div>
     </li>
   )
 }
