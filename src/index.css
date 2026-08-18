@@ -2,88 +2,211 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+  The WebGL field is a single fixed canvas sitting behind everything. Sections
+  are therefore translucent: the hero lets the field through at full strength,
+  and content sections drop a frosted veil over it so type stays crisp while
+  the field still glows underneath. All the veil opacities live here so the
+  balance can be tuned in one place.
+*/
 @layer base {
+  :root {
+    --veil: 250 247 242;        /* ink-50  */
+    --veil-strong: 255 255 255;
+    --hairline: 0 0 0;
+  }
+
+  .dark {
+    --veil: 11 8 7;             /* ink-950 */
+    --veil-strong: 22 18 16;    /* ink-900 */
+    --hairline: 255 255 255;
+  }
+
   html {
     scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  /* Lenis drives scrolling; native smooth scroll would fight it. */
+  html.lenis {
+    scroll-behavior: auto;
   }
 
   body {
-    @apply bg-white dark:bg-neutral-950 text-neutral-900 dark:text-neutral-100 antialiased;
+    @apply text-ink-800 dark:text-ink-100 antialiased;
+    background-color: rgb(var(--veil));
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    overscroll-behavior-y: none;
   }
 
   ::selection {
     @apply bg-primary-500/30;
   }
+
+  /* Display face is optically large — pull it tight so headings read as
+     one mass rather than loose words. */
+  .font-display {
+    font-feature-settings: "liga", "kern";
+    letter-spacing: -0.02em;
+  }
 }
 
 @layer components {
   .section-container {
-    @apply max-w-5xl mx-auto px-6 py-16 md:py-20;
+    @apply max-w-6xl mx-auto px-6 md:px-10 py-24 md:py-32;
+  }
+
+  /* Frosted veil applied to every content section so the field recedes. */
+  .section-veil {
+    position: relative;
+    background-color: rgb(var(--veil) / 0.82);
+    backdrop-filter: blur(28px) saturate(120%);
+    -webkit-backdrop-filter: blur(28px) saturate(120%);
   }
 
   .section-title {
-    @apply text-sm font-mono uppercase tracking-widest text-primary-500 dark:text-primary-400 mb-4;
+    @apply inline-flex items-center gap-3 text-xs font-mono uppercase tracking-[0.25em] text-primary-500 dark:text-primary-400 mb-6;
+  }
+
+  .section-title::before {
+    content: '';
+    @apply w-8 h-px bg-primary-500/60 dark:bg-primary-400/60;
   }
 
   .section-heading {
-    @apply text-3xl md:text-4xl font-bold text-neutral-900 dark:text-white mb-8;
+    @apply font-display text-4xl md:text-6xl leading-[1.05] tracking-tightest text-ink-900 dark:text-ink-50 mb-10;
   }
 
-  .gradient-text {
-    @apply bg-gradient-to-r from-primary-500 via-primary-400 to-accent-500 bg-clip-text text-transparent;
-  }
-
+  /* Glass card. The inset highlight on the top edge is what stops these
+     reading as flat rectangles once they tilt. */
   .card {
-    @apply bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-2xl p-6 transition-all duration-300 hover:border-primary-500/50 dark:hover:border-primary-500/50;
+    @apply relative rounded-2xl p-6 transition-all duration-500 ease-smooth;
+    background-color: rgb(var(--veil-strong) / 0.55);
+    border: 1px solid rgb(var(--hairline) / 0.08);
+    box-shadow:
+      0 1px 0 0 rgb(255 255 255 / 0.06) inset,
+      0 10px 40px -20px rgb(0 0 0 / 0.35);
+  }
+
+  .card:hover {
+    border-color: rgb(224 138 58 / 0.35);
+    box-shadow:
+      0 1px 0 0 rgb(255 255 255 / 0.1) inset,
+      0 24px 60px -24px rgb(167 85 2 / 0.3);
   }
 
   .skill-tag {
-    @apply px-3 py-1.5 text-sm font-medium bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 rounded-lg border border-neutral-200 dark:border-neutral-700 hover:border-primary-500/50 dark:hover:border-primary-500/50 transition-colors;
+    @apply px-3 py-1.5 text-sm font-medium rounded-lg transition-all duration-300 ease-smooth
+           text-ink-600 dark:text-ink-300;
+    background-color: rgb(var(--hairline) / 0.04);
+    border: 1px solid rgb(var(--hairline) / 0.08);
+  }
+
+  .skill-tag:hover {
+    @apply text-primary-600 dark:text-primary-300 -translate-y-0.5;
+    border-color: rgb(224 138 58 / 0.45);
+    background-color: rgb(224 138 58 / 0.08);
   }
 
   .nav-link {
-    @apply text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition-colors text-sm font-medium;
+    @apply relative text-sm font-medium text-ink-500 dark:text-ink-400
+           hover:text-ink-900 dark:hover:text-white transition-colors duration-300;
   }
 
   .btn-primary {
-    @apply inline-flex items-center gap-2 px-6 py-3 bg-primary-500 hover:bg-primary-600 text-white font-medium rounded-xl transition-all duration-200 hover:shadow-lg hover:shadow-primary-500/25;
+    @apply relative inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-medium
+           text-white bg-primary-500 overflow-hidden
+           transition-all duration-500 ease-smooth
+           hover:shadow-[0_16px_50px_-12px_rgba(167,85,2,0.7)] hover:-translate-y-0.5;
+  }
+
+  /* Sheen sweep on hover — one shared gesture reused by both buttons. */
+  .btn-primary::after,
+  .btn-secondary::after {
+    content: '';
+    @apply absolute inset-0 -translate-x-full;
+    background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.25), transparent);
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .btn-primary:hover::after,
+  .btn-secondary:hover::after {
+    @apply translate-x-full;
   }
 
   .btn-secondary {
-    @apply inline-flex items-center gap-2 px-6 py-3 bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700 text-neutral-900 dark:text-white font-medium rounded-xl transition-all duration-200 border border-neutral-200 dark:border-neutral-700;
+    @apply relative inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-medium overflow-hidden
+           text-ink-900 dark:text-white transition-all duration-500 ease-smooth hover:-translate-y-0.5;
+    background-color: rgb(var(--hairline) / 0.05);
+    border: 1px solid rgb(var(--hairline) / 0.12);
+  }
+
+  .btn-secondary:hover {
+    border-color: rgb(224 138 58 / 0.5);
+  }
+
+  .hairline {
+    border-color: rgb(var(--hairline) / 0.1);
   }
 }
 
 @layer utilities {
-  .animate-delay-100 {
-    animation-delay: 100ms;
+  .text-balance {
+    text-wrap: balance;
   }
-  .animate-delay-200 {
-    animation-delay: 200ms;
+
+  /* Perspective wrapper for the tilt cards. Kept as a utility so the tilt
+     hook stays purely about maths and never touches styling. */
+  .perspective {
+    perspective: 1200px;
   }
-  .animate-delay-300 {
-    animation-delay: 300ms;
-  }
-  .animate-delay-400 {
-    animation-delay: 400ms;
+
+  .preserve-3d {
+    transform-style: preserve-3d;
   }
 }
 
-/* Custom scrollbar */
+/* Film grain. Sits above the canvas but below content — it is what keeps the
+   WebGL gradients from banding on cheap panels. */
+.grain::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-transparent;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-neutral-300 dark:bg-neutral-700 rounded-full;
+  @apply bg-ink-300 dark:bg-ink-700 rounded-full;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-neutral-400 dark:bg-neutral-600;
+  @apply bg-primary-400;
+}
+
+/* Everything decorative is opt-out. The site must stay fully usable — and
+   fully readable — with motion disabled. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

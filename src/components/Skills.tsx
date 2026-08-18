@@ -1,6 +1,9 @@
-import { Code, Database, Wrench, Brain, Layers, Cpu } from 'lucide-react';
+import { motion } from 'framer-motion'
+import { Brain, Code, Cpu, Database, Layers, Wrench } from 'lucide-react'
+import Reveal from './ui/Reveal'
+import TiltCard from './ui/TiltCard'
 
-const topSkills = [
+const skillGroups = [
   {
     title: 'Languages',
     icon: Code,
@@ -16,9 +19,6 @@ const topSkills = [
     icon: Database,
     skills: ['MongoDB', 'Firestore', 'Redis', 'ChromaDB', 'FAISS', 'AWS S3', 'AWS EC2', 'AWS Bedrock', 'AWS SQS', 'AWS Amplify', 'Secrets Manager', 'Google Cloud Run', 'Cloud Storage'],
   },
-];
-
-const bottomSkills = [
   {
     title: 'DevOps & Tools',
     icon: Wrench,
@@ -34,75 +34,60 @@ const bottomSkills = [
     icon: Cpu,
     skills: ['Raspberry Pi', 'ESP', 'GPIO Programming', 'Python Firmware'],
   },
-];
+]
 
 export default function Skills() {
   return (
-    <section id="skills" className="bg-[#EADDCA] dark:bg-neutral-950">
+    <section id="skills" className="section-veil">
       <div className="section-container">
-        <p className="section-title">Skills</p>
-        <h2 className="section-heading">Technologies I Work With</h2>
+        <Reveal>
+          <p className="section-title">Skills</p>
+        </Reveal>
+        <Reveal delay={1}>
+          <h2 className="section-heading">Technologies I Work With</h2>
+        </Reveal>
 
         <div className="relative">
-          {/* Top row of cards */}
-          <div className="grid md:grid-cols-3 gap-6 mb-0">
-            {topSkills.map((category, index) => (
-              <div key={index} className="flex flex-col items-center">
-                <div className="card group hover:shadow-lg hover:shadow-primary-500/5 w-full flex-grow">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 rounded-lg bg-primary-500 flex items-center justify-center group-hover:scale-110 transition-transform">
-                      <category.icon className="w-5 h-5 text-white" />
-                    </div>
-                    <h3 className="font-semibold text-neutral-900 dark:text-white">
-                      {category.title}
-                    </h3>
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    {category.skills.map((skill, i) => (
-                      <span key={i} className="skill-tag">
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-                {/* Connector line down */}
-                <div className="hidden md:block w-0.5 h-8 bg-primary-500" />
-              </div>
-            ))}
-          </div>
+          {/* Spine. The original layout drew literal connector lines between
+              the two rows; this keeps that idea but reduces it to a single
+              rail that draws itself in as the section enters. */}
+          <motion.div
+            aria-hidden="true"
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
+            viewport={{ once: true, margin: '-120px' }}
+            transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
+            className="pointer-events-none absolute left-0 right-0 top-1/2 hidden h-px origin-left bg-gradient-to-r from-transparent via-primary-500/40 to-transparent lg:block"
+          />
 
-          {/* Horizontal line */}
-          <div className="hidden md:block w-full h-0.5 bg-primary-500 my-0" />
-
-          {/* Bottom row of cards */}
-          <div className="grid md:grid-cols-3 gap-6 mt-0">
-            {bottomSkills.map((category, index) => (
-              <div key={index} className="flex flex-col items-center">
-                {/* Connector line up */}
-                <div className="hidden md:block w-0.5 h-8 bg-primary-500" />
-                <div className="card group hover:shadow-lg hover:shadow-primary-500/5 w-full flex-grow">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 rounded-lg bg-primary-500 flex items-center justify-center group-hover:scale-110 transition-transform">
-                      <category.icon className="w-5 h-5 text-white" />
-                    </div>
-                    <h3 className="font-semibold text-neutral-900 dark:text-white">
-                      {category.title}
-                    </h3>
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    {category.skills.map((skill, i) => (
-                      <span key={i} className="skill-tag">
-                        {skill}
+          <div className="relative grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+            {skillGroups.map((group, index) => (
+              <Reveal key={group.title} delay={index}>
+                <TiltCard intensity={5}>
+                  <div className="card group h-full">
+                    <div className="mb-5 flex items-center gap-3">
+                      <div className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-primary-500 to-primary-600 shadow-lg shadow-primary-500/25 transition-transform duration-500 ease-smooth group-hover:scale-110">
+                        <group.icon className="h-5 w-5 text-white" />
+                      </div>
+                      <h3 className="font-semibold text-ink-900 dark:text-white">{group.title}</h3>
+                      <span className="ml-auto font-mono text-xs text-ink-400">
+                        {String(group.skills.length).padStart(2, '0')}
                       </span>
-                    ))}
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {group.skills.map((skill) => (
+                        <span key={skill} className="skill-tag">
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              </div>
+                </TiltCard>
+              </Reveal>
             ))}
           </div>
         </div>
-
       </div>
     </section>
-  );
+  )
 }

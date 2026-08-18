@@ -1,22 +1,24 @@
-import { ExternalLink, Github, Lock, Bot, BookOpen, Heart, Brain, Bone, FileText, Shirt, Palmtree } from 'lucide-react';
-import type { LucideIcon } from 'lucide-react';
+import { BookOpen, Bone, Bot, Brain, ExternalLink, FileText, Github, Heart, Lock, Palmtree, Shirt } from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
+import Reveal from './ui/Reveal'
+import TiltCard from './ui/TiltCard'
 
 type Project = {
-  title: string;
-  subtitle: string;
-  description: string;
-  highlights: string[];
-  tech: string[];
-  icon: LucideIcon;
-  github: string;
-  live: string;
+  title: string
+  subtitle: string
+  description: string
+  highlights: string[]
+  tech: string[]
+  icon: LucideIcon
+  github: string
+  live: string
   /** Pill shown beside the title — used to mark client work apart from personal projects. */
-  badge?: string;
+  badge?: string
   /** Client repos stay closed; say so rather than leaving an unexplained gap where Code sits. */
-  sourcePrivate?: boolean;
+  sourcePrivate?: boolean
   /** Label for the live link when "Demo" is the wrong word. */
-  liveLabel?: string;
-};
+  liveLabel?: string
+}
 
 const projects: Project[] = [
   {
@@ -143,120 +145,166 @@ const projects: Project[] = [
     github: 'https://github.com/NabeelShaikh08/BookHub',
     live: '#',
   },
-];
+]
+
+function ProjectLinks({ project }: { project: Project }) {
+  return (
+    <div className="mt-auto flex flex-wrap items-center gap-3 border-t pt-5 hairline">
+      {project.github !== '#' && (
+        <a
+          href={project.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 rounded-full bg-ink-900 px-4 py-2 text-sm font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg dark:bg-white dark:text-ink-900"
+        >
+          <Github className="h-4 w-4" />
+          Code
+        </a>
+      )}
+      {project.sourcePrivate && (
+        <span className="inline-flex items-center gap-2 px-1 py-2 text-sm font-medium text-ink-500">
+          <Lock className="h-4 w-4" />
+          Private repo — client work
+        </span>
+      )}
+      {project.live !== '#' && (
+        <a
+          href={project.live}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium ring-1 ring-black/10 transition-all duration-300 hover:-translate-y-0.5 hover:text-primary-600 hover:ring-primary-500/50 dark:ring-white/15 dark:hover:text-primary-400"
+        >
+          <ExternalLink className="h-4 w-4" />
+          {project.liveLabel ?? 'Demo'}
+        </a>
+      )}
+    </div>
+  )
+}
+
+function TechList({ tech }: { tech: string[] }) {
+  return (
+    <div>
+      <h4 className="mb-2.5 font-mono text-[10px] uppercase tracking-[0.2em] text-ink-400">
+        Tech Stack
+      </h4>
+      <div className="flex flex-wrap gap-1.5">
+        {tech.map((item) => (
+          <span
+            key={item}
+            className="rounded-md px-2 py-1 text-xs font-medium text-ink-600 ring-1 ring-black/5 dark:text-ink-400 dark:ring-white/10"
+          >
+            {item}
+          </span>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function Highlights({ highlights }: { highlights: string[] }) {
+  return (
+    <div>
+      <h4 className="mb-2.5 font-mono text-[10px] uppercase tracking-[0.2em] text-ink-400">
+        Key Features
+      </h4>
+      <ul className="space-y-2">
+        {highlights.map((line) => (
+          <li key={line} className="flex items-start gap-2.5 text-sm text-ink-600 dark:text-ink-400">
+            <span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-primary-500/70" />
+            <span className="leading-relaxed">{line}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
+
+function ProjectHeader({ project, large = false }: { project: Project; large?: boolean }) {
+  return (
+    <div className="mb-5 flex items-start gap-4">
+      <div
+        className={`grid flex-shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-primary-500 to-primary-700 shadow-lg shadow-primary-500/25 transition-transform duration-500 ease-smooth group-hover:scale-110 ${
+          large ? 'h-16 w-16' : 'h-12 w-12'
+        }`}
+      >
+        <project.icon className={large ? 'h-8 w-8 text-white' : 'h-6 w-6 text-white'} />
+      </div>
+      <div className="min-w-0">
+        <div className="flex flex-wrap items-center gap-2">
+          <h3
+            className={`font-display leading-tight text-ink-900 dark:text-white ${
+              large ? 'text-3xl md:text-4xl' : 'text-2xl'
+            }`}
+          >
+            {project.title}
+          </h3>
+          {project.badge && (
+            <span className="whitespace-nowrap rounded-full bg-accent-500/15 px-2.5 py-0.5 text-xs font-medium text-accent-700 ring-1 ring-accent-500/25 dark:text-accent-300">
+              {project.badge}
+            </span>
+          )}
+        </div>
+        <p className="mt-1 text-sm font-medium text-primary-600 dark:text-primary-400">
+          {project.subtitle}
+        </p>
+      </div>
+    </div>
+  )
+}
 
 export default function Projects() {
+  const [featured, ...rest] = projects
+
   return (
-    <section id="projects" className="bg-[#EADDCA] dark:bg-neutral-900/50">
+    <section id="projects" className="section-veil">
       <div className="section-container">
-        <p className="section-title">Projects</p>
-        <h2 className="section-heading">Featured Work</h2>
+        <Reveal>
+          <p className="section-title">Projects</p>
+        </Reveal>
+        <Reveal delay={1}>
+          <h2 className="section-heading">Featured Work</h2>
+        </Reveal>
 
-        <div className="grid md:grid-cols-2 gap-6">
-          {projects.map((project, index) => (
-            <div
-              key={index}
-              className="card group hover:shadow-xl hover:shadow-primary-500/5 overflow-hidden flex flex-col h-full"
-            >
-              {/* Header with icon and title */}
-              <div className="flex items-start gap-4 mb-4">
-                <div
-                  className="w-12 h-12 rounded-xl bg-primary-500 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform flex-shrink-0"
-                >
-                  <project.icon className="w-6 h-6 text-white" />
-                </div>
-                <div>
-                  <div className="flex flex-wrap items-center gap-2">
-                    <h3 className="text-xl font-bold text-neutral-900 dark:text-white">
-                      {project.title}
-                    </h3>
-                    {project.badge && (
-                      <span className="px-2.5 py-0.5 bg-accent-100 dark:bg-accent-900/30 text-accent-700 dark:text-accent-300 rounded-full text-xs font-medium whitespace-nowrap">
-                        {project.badge}
-                      </span>
-                    )}
-                  </div>
-                  <p className="text-sm font-medium text-primary-600 dark:text-primary-400">
-                    {project.subtitle}
+        {/* The flagship gets a full-width, two-column treatment. Giving every
+            project identical weight is the fastest way to make none of them
+            look important. */}
+        <Reveal delay={2}>
+          <TiltCard intensity={3}>
+            <div className="card group mb-6 md:p-8">
+              <ProjectHeader project={featured} large />
+              <div className="grid gap-8 md:grid-cols-2">
+                <div className="flex flex-col gap-6">
+                  <p className="leading-relaxed text-ink-600 dark:text-ink-400">
+                    {featured.description}
                   </p>
+                  <TechList tech={featured.tech} />
+                  <ProjectLinks project={featured} />
                 </div>
-              </div>
-
-              {/* Description */}
-              <p className="text-neutral-600 dark:text-neutral-400 text-sm mb-4">
-                {project.description}
-              </p>
-
-              {/* Highlights */}
-              <div className="mb-4 flex-grow">
-                <h4 className="text-xs font-semibold text-neutral-500 dark:text-neutral-500 uppercase tracking-wider mb-2">
-                  Key Features
-                </h4>
-                <ul className="space-y-1.5">
-                  {project.highlights.map((highlight, i) => (
-                    <li
-                      key={i}
-                      className="flex items-start gap-2 text-neutral-600 dark:text-neutral-400 text-sm"
-                    >
-                      <span className="w-1.5 h-1.5 rounded-full bg-primary-500 mt-1.5 flex-shrink-0" />
-                      <span>{highlight}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Tech Stack */}
-              <div className="mb-4">
-                <h4 className="text-xs font-semibold text-neutral-500 dark:text-neutral-500 uppercase tracking-wider mb-2">
-                  Tech Stack
-                </h4>
-                <div className="flex flex-wrap gap-1.5">
-                  {project.tech.map((tech, i) => (
-                    <span
-                      key={i}
-                      className="px-2 py-1 text-xs font-medium bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 rounded-md"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              {/* Links */}
-              <div className="flex items-center gap-3 pt-4 mt-auto border-t border-neutral-200 dark:border-neutral-800">
-                {project.github !== '#' && (
-                  <a
-                    href={project.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-4 py-2 bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 rounded-lg text-sm font-medium hover:opacity-90 transition-opacity"
-                  >
-                    <Github className="w-4 h-4" />
-                    Code
-                  </a>
-                )}
-                {project.sourcePrivate && (
-                  <span className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-neutral-500 dark:text-neutral-500">
-                    <Lock className="w-4 h-4" />
-                    Private repo — client work
-                  </span>
-                )}
-                {project.live !== '#' && (
-                  <a
-                    href={project.live}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-4 py-2 border border-neutral-200 dark:border-neutral-700 rounded-lg text-sm font-medium hover:border-primary-500 dark:hover:border-primary-500 transition-colors"
-                  >
-                    <ExternalLink className="w-4 h-4" />
-                    {project.liveLabel ?? 'Demo'}
-                  </a>
-                )}
+                <Highlights highlights={featured.highlights} />
               </div>
             </div>
+          </TiltCard>
+        </Reveal>
+
+        <div className="grid gap-6 md:grid-cols-2">
+          {rest.map((project, index) => (
+            <Reveal key={project.title} delay={index % 2}>
+              <TiltCard intensity={4}>
+                <div className="card group flex h-full flex-col gap-5">
+                  <ProjectHeader project={project} />
+                  <p className="text-sm leading-relaxed text-ink-600 dark:text-ink-400">
+                    {project.description}
+                  </p>
+                  <Highlights highlights={project.highlights} />
+                  <TechList tech={project.tech} />
+                  <ProjectLinks project={project} />
+                </div>
+              </TiltCard>
+            </Reveal>
           ))}
         </div>
       </div>
     </section>
-  );
+  )
 }

@@ -1,4 +1,9 @@
-import { Briefcase, Calendar, MapPin } from 'lucide-react';
+import { useRef } from 'react'
+import { motion, useSpring } from 'framer-motion'
+import { Briefcase, Calendar, MapPin } from 'lucide-react'
+import { useElementProgress } from '../hooks/useElementProgress'
+import Reveal from './ui/Reveal'
+import TiltCard from './ui/TiltCard'
 
 const experiences = [
   {
@@ -54,83 +59,121 @@ const experiences = [
     ],
     current: false,
   },
-];
+]
 
 export default function Experience() {
+  const trackRef = useRef<HTMLDivElement>(null)
+
+  // Fill the spine in step with how far the section has been read. Anchored
+  // to the track itself, so it reaches full height exactly as the last card
+  // clears the viewport regardless of how many entries there are.
+  const trackProgress = useElementProgress(trackRef)
+  const fill = useSpring(trackProgress, { stiffness: 90, damping: 26, restDelta: 0.001 })
+
   return (
-    <section id="experience" className="bg-white dark:bg-neutral-900/50">
+    <section id="experience" className="section-veil">
       <div className="section-container">
-        <p className="section-title">Experience</p>
-        <h2 className="section-heading">Where I've Worked</h2>
+        <Reveal>
+          <p className="section-title">Experience</p>
+        </Reveal>
+        <Reveal delay={1}>
+          <h2 className="section-heading">Where I've Worked</h2>
+        </Reveal>
 
-        <div className="relative">
-          {/* Timeline line */}
-          <div className="absolute left-0 md:left-1/2 top-0 bottom-0 w-px bg-neutral-200 dark:bg-neutral-800 transform md:-translate-x-1/2" />
+        <div ref={trackRef} className="relative">
+          {/* Unfilled track */}
+          <div
+            aria-hidden="true"
+            className="absolute left-[7px] top-2 bottom-2 w-px bg-ink-200 md:left-1/2 md:-translate-x-1/2 dark:bg-ink-800"
+          />
+          {/* Filled portion. The wrapper carries the positioning because
+              framer-motion writes `transform` inline on the motion element,
+              which would otherwise clobber Tailwind's -translate-x-1/2. */}
+          <div
+            aria-hidden="true"
+            className="absolute left-[7px] top-2 bottom-2 w-px md:left-1/2 md:-translate-x-1/2"
+          >
+            <motion.div
+              style={{ scaleY: fill }}
+              className="h-full w-full origin-top bg-gradient-to-b from-primary-500 via-accent-400 to-primary-500"
+            />
+          </div>
 
-          {/* Experience items */}
-          <div className="space-y-12">
-            {experiences.map((exp, index) => (
-              <div
-                key={index}
-                className={`relative grid md:grid-cols-2 gap-8 ${
-                  index % 2 === 0 ? '' : 'md:direction-rtl'
-                }`}
-              >
-                {/* Timeline dot */}
-                <div className="absolute left-0 md:left-1/2 w-4 h-4 bg-primary-500 rounded-full transform -translate-x-1/2 border-4 border-white dark:border-neutral-950 z-10" />
+          <div className="space-y-10 md:space-y-16">
+            {experiences.map((exp, index) => {
+              const onLeft = index % 2 === 0
+              return (
+                <div key={`${exp.company}-${exp.role}`} className="relative md:grid md:grid-cols-2 md:gap-12">
+                  {/* Node */}
+                  <span
+                    aria-hidden="true"
+                    className="absolute left-0 top-2 z-10 grid h-[15px] w-[15px] place-items-center md:left-1/2 md:-translate-x-1/2"
+                  >
+                    <span className="absolute inset-0 rounded-full bg-primary-500 ring-4 ring-[rgb(var(--veil))]" />
+                    {exp.current && (
+                      <span className="absolute inset-0 animate-pulse-ring rounded-full bg-accent-500" />
+                    )}
+                  </span>
 
-                {/* Content */}
-                <div
-                  className={`ml-8 md:ml-0 ${
-                    index % 2 === 0 ? 'md:pr-12' : 'md:col-start-2 md:pl-12'
-                  }`}
-                >
-                  <div className={`card hover:shadow-lg hover:shadow-primary-500/5 ${index % 2 === 0 ? 'bg-primary-50 dark:bg-primary-950/30' : ''}`}>
-                    <div className="flex flex-wrap items-center gap-3 mb-4">
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 rounded-full text-sm font-medium">
-                        <Briefcase className="w-3.5 h-3.5" />
-                        {exp.company}
-                      </span>
-                      {exp.current && (
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-accent-100 dark:bg-accent-900/30 text-accent-700 dark:text-accent-300 rounded-full text-sm font-medium">
-                          Current
-                        </span>
-                      )}
-                    </div>
+                  <div
+                    className={`ml-8 md:ml-0 ${
+                      onLeft ? 'md:pr-4 md:text-left' : 'md:col-start-2 md:pl-4'
+                    }`}
+                  >
+                    <Reveal y={32}>
+                      <TiltCard intensity={4}>
+                        <div className="card">
+                          <div className="mb-4 flex flex-wrap items-center gap-2">
+                            <span className="inline-flex items-center gap-1.5 rounded-full bg-primary-500/10 px-3 py-1 text-sm font-medium text-primary-700 ring-1 ring-primary-500/20 dark:text-primary-300">
+                              <Briefcase className="h-3.5 w-3.5" />
+                              {exp.company}
+                            </span>
+                            <span className="rounded-full px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-ink-500 ring-1 ring-black/10 dark:text-ink-400 dark:ring-white/10">
+                              {exp.type}
+                            </span>
+                            {exp.current && (
+                              <span className="rounded-full bg-accent-500/15 px-3 py-1 text-sm font-medium text-accent-700 ring-1 ring-accent-500/25 dark:text-accent-300">
+                                Current
+                              </span>
+                            )}
+                          </div>
 
-                    <h3 className="text-xl font-bold text-neutral-900 dark:text-white mb-2">
-                      {exp.role}
-                    </h3>
+                          <h3 className="mb-3 font-display text-2xl leading-tight text-ink-900 dark:text-white">
+                            {exp.role}
+                          </h3>
 
-                    <div className="flex flex-wrap items-center gap-4 text-sm text-neutral-500 mb-4">
-                      <span className="inline-flex items-center gap-1.5">
-                        <Calendar className="w-4 h-4" />
-                        {exp.duration}
-                      </span>
-                      <span className="inline-flex items-center gap-1.5">
-                        <MapPin className="w-4 h-4" />
-                        {exp.location}
-                      </span>
-                    </div>
+                          <div className="mb-5 flex flex-wrap items-center gap-4 text-sm text-ink-500">
+                            <span className="inline-flex items-center gap-1.5">
+                              <Calendar className="h-4 w-4" />
+                              {exp.duration}
+                            </span>
+                            <span className="inline-flex items-center gap-1.5">
+                              <MapPin className="h-4 w-4" />
+                              {exp.location}
+                            </span>
+                          </div>
 
-                    <ul className="space-y-2">
-                      {exp.description.map((item, i) => (
-                        <li
-                          key={i}
-                          className="flex items-start gap-2 text-neutral-600 dark:text-neutral-400"
-                        >
-                          <span className="w-1.5 h-1.5 rounded-full bg-primary-500 mt-2 flex-shrink-0" />
-                          <span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
+                          <ul className="space-y-2.5">
+                            {exp.description.map((line) => (
+                              <li
+                                key={line}
+                                className="flex items-start gap-3 text-ink-600 dark:text-ink-400"
+                              >
+                                <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-primary-500/70" />
+                                <span className="leading-relaxed">{line}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </TiltCard>
+                    </Reveal>
                   </div>
                 </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
         </div>
       </div>
     </section>
-  );
+  )
 }
