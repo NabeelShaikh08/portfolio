@@ -43,10 +43,14 @@ export default function Skills() {
   return (
     <section id="skills" className="section-veil">
       <div className="section-container">
-        <Reveal>
-          <p className="section-title">Skills</p>
-        </Reveal>
-        <SplitText className="section-heading">Technologies I Work With</SplitText>
+        <div className="section-head">
+          <Reveal>
+            <p className="section-title">Skills</p>
+          </Reveal>
+          <SplitText className="section-heading mx-auto">
+            Technologies I Work With
+          </SplitText>
+        </div>
 
         <div className="relative">
           {/* Spine. The original layout drew literal connector lines between

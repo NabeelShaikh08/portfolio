@@ -24,8 +24,8 @@
   }
 
   .dark {
-    --veil: 10 16 15;           /* ink-950 */
-    --veil-strong: 17 25 23;    /* ink-900 */
+    --veil: 4 6 5;              /* ink-950 — effectively black */
+    --veil-strong: 12 18 17;    /* ink-900 */
     --hairline: 255 255 255;
     /* Lifted a step in the dark: the mid verdigris muddies against a near
        black ground, where the lighter patina still reads as metal. */
@@ -65,7 +65,7 @@
 
 @layer components {
   .section-container {
-    @apply max-w-6xl mx-auto px-6 md:px-10 py-24 md:py-32;
+    @apply max-w-6xl mx-auto px-6 md:px-10 py-28 md:py-36;
   }
 
   /* Frosted veil applied to every content section so the field recedes. */
@@ -76,17 +76,25 @@
     -webkit-backdrop-filter: blur(28px) saturate(120%);
   }
 
+  /* Wrapper for a centred section header. Sections keep their own grids
+     below; only the header block is centred, which is what gives the page a
+     single spine to read down. */
+  .section-head {
+    @apply mx-auto mb-14 max-w-3xl text-center;
+  }
+
   .section-title {
     @apply inline-flex items-center gap-3 text-xs font-mono uppercase tracking-[0.25em] text-primary-500 dark:text-primary-400 mb-6;
   }
 
-  .section-title::before {
+  .section-title::before,
+  .section-title::after {
     content: '';
-    @apply w-8 h-px bg-primary-500/60 dark:bg-primary-400/60;
+    @apply h-px w-8 bg-primary-500/60 dark:bg-primary-400/60;
   }
 
   .section-heading {
-    @apply font-display text-4xl md:text-6xl leading-[1.05] tracking-tightest text-ink-900 dark:text-ink-50 mb-10;
+    @apply font-display text-4xl md:text-6xl leading-[1.05] tracking-tightest text-ink-900 dark:text-ink-50 mb-0;
   }
 
   /* Glass card. The inset highlight on the top edge is what stops these

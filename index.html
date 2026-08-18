@@ -10,16 +10,19 @@
     <meta property="og:title" content="Nabeel Shaikh | AI Engineer & Full-Stack Developer" />
     <meta property="og:description" content="Building intelligent systems, RAG architectures, and scalable web applications." />
     <meta property="og:type" content="website" />
-    <meta name="theme-color" content="#0A100F" />
+    <meta name="theme-color" content="#040605" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <title>Nabeel Shaikh | AI Engineer & Full-Stack Developer</title>
     <script>
       (function() {
-        const theme = localStorage.getItem('theme');
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        if (theme === 'dark' || (!theme && prefersDark)) {
+        // Dark is the default: the site is built around a luminous field on a
+        // black ground, and that is the first impression it should make. The
+        // OS preference is deliberately not consulted for a first visit — only
+        // an explicit choice the visitor made here can turn it light.
+        var theme = localStorage.getItem('theme');
+        if (theme !== 'light') {
           document.documentElement.classList.add('dark');
         }
       })();

@@ -24,8 +24,8 @@ const PALETTE = {
     b: new Color('#E3C77E'),
     link: new Color('#4FAF98'),
     blending: AdditiveBlending,
-    pointOpacity: 1.3,
-    linkOpacity: 0.5,
+    pointOpacity: 1.55,
+    linkOpacity: 0.62,
     coreBoost: 0.6,
   },
   // Light mode is a balancing act. Additive light on a near-black ground
@@ -38,8 +38,8 @@ const PALETTE = {
     b: new Color('#A8843A'),
     link: new Color('#1F6F63'),
     blending: NormalBlending,
-    pointOpacity: 0.62,
-    linkOpacity: 0.22,
+    pointOpacity: 0.7,
+    linkOpacity: 0.26,
     coreBoost: 0.0,
   },
 }
@@ -66,7 +66,7 @@ export default function NeuralField({ dark, count, linkNodes }: Props) {
       uniforms: {
         uTime: { value: 0 },
         uProgress: { value: 0 },
-        uSize: { value: 9.0 },
+        uSize: { value: 9.8 },
         uPixelRatio: { value: 1 },
         uColorA: { value: PALETTE.dark.a.clone() },
         uColorB: { value: PALETTE.dark.b.clone() },

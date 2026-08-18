@@ -260,10 +260,14 @@ export default function Projects() {
   return (
     <section id="projects" className="section-veil">
       <div className="section-container">
-        <Reveal>
-          <p className="section-title">Projects</p>
-        </Reveal>
-        <SplitText className="section-heading">Featured Work</SplitText>
+        <div className="section-head">
+          <Reveal>
+            <p className="section-title">Projects</p>
+          </Reveal>
+          <SplitText className="section-heading mx-auto">
+            Featured Work
+          </SplitText>
+        </div>
 
         {/* The flagship gets a full-width, two-column treatment. Giving every
             project identical weight is the fastest way to make none of them

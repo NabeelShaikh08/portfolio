@@ -74,10 +74,14 @@ export default function Experience() {
   return (
     <section id="experience" className="section-veil">
       <div className="section-container">
-        <Reveal>
-          <p className="section-title">Experience</p>
-        </Reveal>
-        <SplitText className="section-heading">Where I've Worked</SplitText>
+        <div className="section-head">
+          <Reveal>
+            <p className="section-title">Experience</p>
+          </Reveal>
+          <SplitText className="section-heading mx-auto">
+            Where I've Worked
+          </SplitText>
+        </div>
 
         <div ref={trackRef} className="relative">
           {/* Unfilled track */}

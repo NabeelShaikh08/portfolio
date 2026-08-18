@@ -1,4 +1,5 @@
 import { Brain, Code2, Cpu, Server, Smartphone, Workflow } from 'lucide-react'
+import workspaceImg from '../assets/images/hero-img.jpg'
 import Orbit from './ui/Orbit'
 import Reveal from './ui/Reveal'
 import SplitText from './ui/SplitText'
@@ -41,12 +42,30 @@ export default function About() {
   return (
     <section id="about" className="section-veil">
       <div className="section-container">
+        <div className="section-head">
+          <Reveal>
+            <p className="section-title">About Me</p>
+          </Reveal>
+          <SplitText className="section-heading max-w-4xl text-balance mx-auto">
+            Crafting intelligent solutions at the intersection of AI and web development
+          </SplitText>
+        </div>
+
         <Reveal>
-          <p className="section-title">About Me</p>
+          <figure className="group relative mx-auto mb-16 max-w-3xl overflow-hidden rounded-2xl ring-1 ring-black/5 dark:ring-white/10">
+            <img
+              src={workspaceImg}
+              alt="Nabeel Shaikh's desk — an external monitor and laptop running code, lit warm at night"
+              loading="lazy"
+              className="aspect-[16/10] w-full object-cover object-center transition-transform duration-[1.2s] ease-smooth group-hover:scale-105"
+            />
+            {/* Cools the photo's warm cast toward the page temperature. */}
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 bg-gradient-to-t from-primary-950/60 via-transparent to-transparent mix-blend-multiply dark:mix-blend-overlay"
+            />
+          </figure>
         </Reveal>
-        <SplitText className="section-heading max-w-4xl text-balance">
-          Crafting intelligent solutions at the intersection of AI and web development
-        </SplitText>
 
         <div className="grid items-start gap-14 lg:grid-cols-[1.05fr_0.95fr]">
           <div className="space-y-6">
@@ -89,11 +108,13 @@ export default function About() {
             </Reveal>
           </div>
 
-          <div className="relative grid gap-4 sm:grid-cols-2">
+          <div className="relative">
             <Orbit
               size={340}
               className="absolute -right-24 -top-28 hidden opacity-70 lg:block"
             />
+
+            <div className="grid gap-4 sm:grid-cols-2">
             {highlights.map((item, index) => (
               <Reveal key={item.title} delay={index + 2}>
                 <TiltCard>
@@ -119,6 +140,7 @@ export default function About() {
                 </TiltCard>
               </Reveal>
             ))}
+            </div>
           </div>
         </div>
       </div>

@@ -8,10 +8,14 @@ export default function Education() {
   return (
     <section id="education" className="section-veil">
       <div className="section-container">
-        <Reveal>
-          <p className="section-title">Education</p>
-        </Reveal>
-        <SplitText className="section-heading">Academic Background</SplitText>
+        <div className="section-head">
+          <Reveal>
+            <p className="section-title">Education</p>
+          </Reveal>
+          <SplitText className="section-heading mx-auto">
+            Academic Background
+          </SplitText>
+        </div>
 
         <div className="grid gap-6 md:grid-cols-2">
           <Reveal delay={2}>

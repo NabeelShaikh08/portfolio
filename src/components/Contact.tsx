@@ -25,10 +25,14 @@ export default function Contact() {
   return (
     <section id="contact" className="section-veil">
       <div className="section-container">
-        <Reveal>
-          <p className="section-title">Contact</p>
-        </Reveal>
-        <SplitText className="section-heading">Let's Work Together</SplitText>
+        <div className="section-head">
+          <Reveal>
+            <p className="section-title">Contact</p>
+          </Reveal>
+          <SplitText className="section-heading mx-auto">
+            Let's Work Together
+          </SplitText>
+        </div>
 
         <div className="relative grid gap-12 lg:grid-cols-2">
           <Orbit
