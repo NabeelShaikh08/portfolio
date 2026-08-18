@@ -252,6 +252,15 @@ export default function Projects() {
                       aria-hidden="true"
                       className="absolute left-0 top-8 h-0 w-px bg-primary-500 transition-all duration-500 ease-smooth group-hover:h-[calc(100%-4rem)]"
                     />
+                    {/* Opaque scrim that fades up as this card is buried.
+                        Dimming via opacity would make the card see-through
+                        and break the occlusion the deck depends on. */}
+                    <span
+                      aria-hidden="true"
+                      data-stack-scrim
+                      className="pointer-events-none absolute inset-0 z-10 rounded-3xl opacity-0"
+                      style={{ background: 'rgb(var(--veil))' }}
+                    />
 
                     {/* Narrative */}
                     <div className="flex flex-col gap-4">
