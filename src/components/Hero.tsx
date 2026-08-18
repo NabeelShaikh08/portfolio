@@ -139,7 +139,7 @@ export default function Hero() {
               target={href.startsWith('http') ? '_blank' : undefined}
               rel="noopener noreferrer"
               aria-label={label}
-              className="group relative grid h-11 w-11 place-items-center rounded-full text-ink-500 transition-all duration-500 ease-smooth hover:-translate-y-1 hover:text-primary-500"
+              className="tap-target group relative grid h-11 w-11 place-items-center rounded-full text-ink-500 transition-all duration-500 ease-smooth hover:-translate-y-1 hover:text-primary-500"
             >
               <span className="absolute inset-0 scale-75 rounded-full opacity-0 ring-1 ring-primary-500/0 transition-all duration-500 ease-smooth group-hover:scale-100 group-hover:bg-primary-500/10 group-hover:opacity-100 group-hover:ring-primary-500/30" />
               <Icon className="relative h-[18px] w-[18px]" />

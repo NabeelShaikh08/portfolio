@@ -84,7 +84,7 @@
 
 @layer components {
   .section-container {
-    @apply max-w-6xl mx-auto px-6 md:px-10 py-16 md:py-20;
+    @apply max-w-6xl mx-auto px-4 sm:px-6 md:px-10 py-12 sm:py-16 md:py-20;
   }
 
   /* Frosted veil applied to every content section so the field recedes. */
@@ -99,7 +99,7 @@
      below; only the header block is centred, which is what gives the page a
      single spine to read down. */
   .section-head {
-    @apply mx-auto mb-10 max-w-3xl text-center;
+    @apply mx-auto mb-8 max-w-3xl text-center sm:mb-10;
   }
 
   .section-title {
@@ -217,6 +217,29 @@
 
   .z-far {
     transform: translateZ(10px);
+  }
+
+  /*
+    Guarantees a 44px hit area on touch without changing layout.
+    Several controls are visually smaller than a fingertip — icon buttons at
+    36-40px, and text links only 20px tall — and simply padding them out would
+    move the design around on every screen. A centred pseudo-element grows the
+    tappable region instead, and only where the pointer is coarse.
+  */
+  @media (pointer: coarse) {
+    .tap-target {
+      position: relative;
+    }
+
+    .tap-target::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: max(100%, 44px);
+      height: max(100%, 44px);
+      transform: translate(-50%, -50%);
+    }
   }
 
   /* Masks the ends of a marquee so rows dissolve rather than being clipped. */

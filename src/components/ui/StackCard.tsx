@@ -39,9 +39,9 @@ export default function StackCard({
         top: `calc(6.5rem + ${Math.min(index, 5) * 0.5}rem)`,
       }}
     >
-      <div data-stack-card style={{ transformOrigin: 'center top' }} className="pb-6">
+      <div data-stack-card style={{ transformOrigin: 'center top' }} className="pb-4 sm:pb-6">
         <div
-          className={`group relative rounded-3xl p-8 shadow-[0_24px_70px_-40px_rgba(0,0,0,0.55)] ring-1 ring-black/[0.06] md:p-10 dark:ring-white/[0.08] ${surfaceClassName}`}
+          className={`group relative rounded-2xl p-5 shadow-[0_24px_70px_-40px_rgba(0,0,0,0.55)] ring-1 ring-black/[0.06] sm:rounded-3xl sm:p-7 md:p-10 dark:ring-white/[0.08] ${surfaceClassName}`}
           // Opaque on purpose. A translucent card cannot hide the one behind
           // it, and the whole effect depends on that.
           style={{ background: 'rgb(var(--veil-strong))' }}
@@ -55,7 +55,7 @@ export default function StackCard({
           <span
             aria-hidden="true"
             data-stack-scrim
-            className="pointer-events-none absolute inset-0 z-10 rounded-3xl opacity-0"
+            className="pointer-events-none absolute inset-0 z-10 rounded-2xl opacity-0 sm:rounded-3xl"
             style={{ background: 'rgb(var(--veil))' }}
           />
           {children}

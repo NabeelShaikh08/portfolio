@@ -97,7 +97,7 @@ export default function Experience() {
               key={`${exp.company}-${exp.role}`}
               index={index}
               reducedMotion={reducedMotion}
-              surfaceClassName="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:gap-14"
+              surfaceClassName="grid gap-6 sm:gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:gap-14"
             >
               <div className="flex flex-col gap-4">
                 <div className="flex items-center gap-4">

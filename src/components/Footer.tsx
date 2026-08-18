@@ -46,7 +46,7 @@ export default function Footer() {
                 <a
                   key={link.name}
                   href={link.href}
-                  className="group inline-flex w-fit items-center gap-2 text-sm text-ink-500 transition-colors hover:text-primary-600 dark:hover:text-primary-400"
+                  className="tap-target group inline-flex w-fit items-center gap-2 text-sm text-ink-500 transition-colors hover:text-primary-600 dark:hover:text-primary-400"
                 >
                   <span className="h-px w-0 bg-primary-500 transition-all duration-300 group-hover:w-4" />
                   {link.name}
@@ -67,7 +67,7 @@ export default function Footer() {
                   target={href.startsWith('http') ? '_blank' : undefined}
                   rel="noopener noreferrer"
                   aria-label={label}
-                  className="grid h-10 w-10 place-items-center rounded-xl text-ink-500 ring-1 ring-black/10 transition-all duration-500 ease-smooth hover:-translate-y-1 hover:text-primary-600 hover:ring-primary-500/40 dark:ring-white/10 dark:hover:text-primary-400"
+                  className="tap-target grid h-10 w-10 place-items-center rounded-xl text-ink-500 ring-1 ring-black/10 transition-all duration-500 ease-smooth hover:-translate-y-1 hover:text-primary-600 hover:ring-primary-500/40 dark:ring-white/10 dark:hover:text-primary-400"
                 >
                   <Icon className="h-4 w-4" />
                 </a>

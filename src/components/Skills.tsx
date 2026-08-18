@@ -62,7 +62,7 @@ export default function Skills() {
           {skillGroups.map((group, index) => (
             <li key={group.title}>
               <Reveal delay={index}>
-                <div className="group relative grid gap-5 py-8 md:grid-cols-[minmax(190px,240px)_1fr] md:gap-10">
+                <div className="group relative grid gap-4 py-6 sm:gap-5 sm:py-8 md:grid-cols-[minmax(190px,240px)_1fr] md:gap-10">
                   {/* Accent rail — grows out of the row's top edge on hover,
                       so the hover target reads as the whole row. */}
                   <span

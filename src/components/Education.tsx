@@ -24,7 +24,7 @@ export default function Education() {
         <ul className="mx-auto max-w-5xl divide-y divide-black/[0.07] dark:divide-white/[0.08]">
           <li>
             <Reveal>
-              <div className="group relative grid gap-5 py-8 md:grid-cols-[minmax(190px,240px)_1fr] md:gap-10">
+              <div className="group relative grid gap-4 py-6 sm:gap-5 sm:py-8 md:grid-cols-[minmax(190px,240px)_1fr] md:gap-10">
                 <span
                   aria-hidden="true"
                   className="absolute -left-4 top-8 h-0 w-px bg-primary-500 transition-all duration-500 ease-smooth group-hover:h-[calc(100%-4rem)]"
@@ -73,7 +73,7 @@ export default function Education() {
 
           <li>
             <Reveal delay={1}>
-              <div className="group relative grid gap-5 py-8 md:grid-cols-[minmax(190px,240px)_1fr] md:gap-10">
+              <div className="group relative grid gap-4 py-6 sm:gap-5 sm:py-8 md:grid-cols-[minmax(190px,240px)_1fr] md:gap-10">
                 <span
                   aria-hidden="true"
                   className="absolute -left-4 top-8 h-0 w-px bg-accent-500 transition-all duration-500 ease-smooth group-hover:h-[calc(100%-4rem)]"

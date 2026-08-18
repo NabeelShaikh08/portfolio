@@ -96,7 +96,7 @@ export default function Contact() {
                       {item.href ? (
                         <a
                           href={item.href}
-                          className="break-all font-medium text-ink-900 transition-colors hover:text-primary-600 dark:text-white dark:hover:text-primary-400"
+                          className="tap-target break-all font-medium text-ink-900 transition-colors hover:text-primary-600 dark:text-white dark:hover:text-primary-400"
                         >
                           {item.value}
                         </a>
@@ -122,7 +122,7 @@ export default function Contact() {
                       target={href.startsWith('http') ? '_blank' : undefined}
                       rel="noopener noreferrer"
                       aria-label={label}
-                      className="group relative grid h-12 w-12 place-items-center rounded-xl ring-1 ring-black/10 transition-all duration-500 ease-smooth hover:-translate-y-1 hover:text-primary-600 hover:ring-primary-500/40 dark:ring-white/10 dark:hover:text-primary-400"
+                      className="tap-target group relative grid h-12 w-12 place-items-center rounded-xl ring-1 ring-black/10 transition-all duration-500 ease-smooth hover:-translate-y-1 hover:text-primary-600 hover:ring-primary-500/40 dark:ring-white/10 dark:hover:text-primary-400"
                     >
                       <Icon className="h-5 w-5" />
                     </a>

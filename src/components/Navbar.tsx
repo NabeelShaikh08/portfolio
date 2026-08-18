@@ -96,7 +96,7 @@ export default function Navbar({ isDark, toggleTheme }: NavbarProps) {
           <ThemeToggle isDark={isDark} toggleTheme={toggleTheme} />
           <button
             onClick={() => setIsMobileMenuOpen((open) => !open)}
-            className="rounded-full p-2.5 text-ink-600 transition-colors hover:bg-black/5 dark:text-ink-300 dark:hover:bg-white/10"
+            className="tap-target rounded-full p-2.5 text-ink-600 transition-colors hover:bg-black/5 dark:text-ink-300 dark:hover:bg-white/10"
             aria-label="Toggle menu"
             aria-expanded={isMobileMenuOpen}
           >
@@ -141,7 +141,7 @@ function ThemeToggle({ isDark, toggleTheme }: NavbarProps) {
   return (
     <button
       onClick={toggleTheme}
-      className="relative ml-1 grid h-9 w-9 place-items-center overflow-hidden rounded-full text-ink-600 transition-colors hover:bg-black/5 dark:text-ink-300 dark:hover:bg-white/10"
+      className="tap-target relative ml-1 grid h-9 w-9 place-items-center overflow-hidden rounded-full text-ink-600 transition-colors hover:bg-black/5 dark:text-ink-300 dark:hover:bg-white/10"
       aria-label={isDark ? 'Switch to light theme' : 'Switch to dark theme'}
     >
       <AnimatePresence mode="wait" initial={false}>

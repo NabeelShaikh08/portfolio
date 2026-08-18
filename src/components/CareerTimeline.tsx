@@ -94,7 +94,7 @@ export default function CareerTimeline() {
   }, [])
 
   return (
-    <figure className="mx-auto mb-16 max-w-5xl">
+    <figure className="mx-auto mb-10 max-w-5xl sm:mb-16">
       <figcaption className="mb-6 text-center">
         <h3 className="font-display text-2xl text-ink-900 dark:text-white">Roles over time</h3>
         <p className="mt-1 text-sm text-ink-500">
@@ -103,7 +103,7 @@ export default function CareerTimeline() {
         </p>
       </figcaption>
 
-      <div className="card relative !p-6 md:!p-8">
+      <div className="card relative !p-4 sm:!p-6 md:!p-8">
         <div className="relative">
           {/* Gridlines sit behind the bars, one shade off the surface. */}
           <div aria-hidden="true" className="pointer-events-none absolute inset-0">
@@ -127,9 +127,14 @@ export default function CareerTimeline() {
                 onBlur={() => setActive(null)}
                 tabIndex={0}
               >
-                <p className="mb-1.5 truncate text-sm font-medium text-ink-700 dark:text-ink-200">
-                  {row.role}
-                  <span className="ml-2 font-normal text-ink-500">{row.company}</span>
+                {/* Role and company share a line once there is room for it.
+                    On a narrow screen they were truncated mid-word — 411px of
+                    text in a 316px column — so below sm they stack instead. */}
+                <p className="mb-1.5 text-sm font-medium text-ink-700 dark:text-ink-200">
+                  <span className="block leading-snug sm:inline">{row.role}</span>
+                  <span className="block text-xs font-normal text-ink-500 sm:ml-2 sm:inline sm:text-sm">
+                    {row.company}
+                  </span>
                 </p>
 
                 {/* Track. Hit target is the full-width row, not the bar. */}
@@ -214,8 +219,14 @@ export default function CareerTimeline() {
       </div>
 
       {/* Every chart gets a table equivalent; screen readers and anyone who
-          cannot use the hover layer get the same numbers. */}
-      <table className="sr-only">
+          cannot use the hover layer get the same numbers.
+
+          The wrapper is load-bearing: sr-only pins width to 1px, but a table
+          auto-sizes to its content and ignores that, so putting the class on
+          the table itself left a 680px element in a 390px viewport and the
+          whole page scrolled sideways. A div takes the 1px and clips it. */}
+      <div className="sr-only">
+      <table>
         <caption>Roles over time</caption>
         <thead>
           <tr>
@@ -238,6 +249,7 @@ export default function CareerTimeline() {
           ))}
         </tbody>
       </table>
+      </div>
     </figure>
   )
 }

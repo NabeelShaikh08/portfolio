@@ -159,7 +159,7 @@ function ProjectLinks({ project }: { project: Project }) {
           href={project.github}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 rounded-full bg-ink-900 px-4 py-2 text-sm font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg dark:bg-white dark:text-ink-900"
+          className="tap-target inline-flex items-center gap-2 rounded-full bg-ink-900 px-4 py-2.5 text-sm font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg dark:bg-white dark:text-ink-900"
         >
           <Github className="h-4 w-4" />
           Code
@@ -176,7 +176,7 @@ function ProjectLinks({ project }: { project: Project }) {
           href={project.live}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium ring-1 ring-black/10 transition-all duration-300 hover:-translate-y-0.5 hover:text-primary-600 hover:ring-primary-500/50 dark:ring-white/15 dark:hover:text-primary-400"
+          className="tap-target inline-flex items-center gap-2 rounded-full px-4 py-2.5 text-sm font-medium ring-1 ring-black/10 transition-all duration-300 hover:-translate-y-0.5 hover:text-primary-600 hover:ring-primary-500/50 dark:ring-white/15 dark:hover:text-primary-400"
         >
           <ExternalLink className="h-4 w-4" />
           {project.liveLabel ?? 'Demo'}
@@ -235,7 +235,7 @@ export default function Projects() {
                 key={project.title}
                 index={index}
                 reducedMotion={reducedMotion}
-                surfaceClassName="grid gap-8 lg:grid-cols-[1fr_1fr] lg:gap-14"
+                surfaceClassName="grid gap-6 sm:gap-8 lg:grid-cols-[1fr_1fr] lg:gap-14"
               >
 
                     {/* Narrative */}
