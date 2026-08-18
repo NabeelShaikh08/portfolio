@@ -1,22 +1,28 @@
-import { ExternalLink, Github, Lock, Bot, BookOpen, Heart, Brain, Bone, FileText, Shirt, Palmtree } from 'lucide-react';
-import type { LucideIcon } from 'lucide-react';
+import { BookOpen, Bone, Bot, Brain, ExternalLink, FileText, Github, Heart, Lock, Palmtree, Shirt } from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
+import { useRef } from 'react'
+import { useCardStack } from '../hooks/useCardStack'
+import { useReducedMotion } from '../hooks/useReducedMotion'
+import Reveal from './ui/Reveal'
+import SplitText from './ui/SplitText'
+import StackCard from './ui/StackCard'
 
 type Project = {
-  title: string;
-  subtitle: string;
-  description: string;
-  highlights: string[];
-  tech: string[];
-  icon: LucideIcon;
-  github: string;
-  live: string;
+  title: string
+  subtitle: string
+  description: string
+  highlights: string[]
+  tech: string[]
+  icon: LucideIcon
+  github: string
+  live: string
   /** Pill shown beside the title — used to mark client work apart from personal projects. */
-  badge?: string;
+  badge?: string
   /** Client repos stay closed; say so rather than leaving an unexplained gap where Code sits. */
-  sourcePrivate?: boolean;
+  sourcePrivate?: boolean
   /** Label for the live link when "Demo" is the wrong word. */
-  liveLabel?: string;
-};
+  liveLabel?: string
+}
 
 const projects: Project[] = [
   {
@@ -143,120 +149,169 @@ const projects: Project[] = [
     github: 'https://github.com/NabeelShaikh08/BookHub',
     live: '#',
   },
-];
+]
+
+function ProjectLinks({ project }: { project: Project }) {
+  return (
+    <div className="flex flex-wrap items-center gap-3 pt-1">
+      {project.github !== '#' && (
+        <a
+          href={project.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="tap-target inline-flex items-center gap-2 rounded-full bg-ink-900 px-4 py-2.5 text-sm font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg dark:bg-white dark:text-ink-900"
+        >
+          <Github className="h-4 w-4" />
+          Code
+        </a>
+      )}
+      {project.sourcePrivate && (
+        <span className="inline-flex items-center gap-2 py-2 text-sm font-medium text-ink-500">
+          <Lock className="h-4 w-4" />
+          Private repo — client work
+        </span>
+      )}
+      {project.live !== '#' && (
+        <a
+          href={project.live}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="tap-target inline-flex items-center gap-2 rounded-full px-4 py-2.5 text-sm font-medium ring-1 ring-black/10 transition-all duration-300 hover:-translate-y-0.5 hover:text-primary-600 hover:ring-primary-500/50 dark:ring-white/15 dark:hover:text-primary-400"
+        >
+          <ExternalLink className="h-4 w-4" />
+          {project.liveLabel ?? 'Demo'}
+        </a>
+      )}
+    </div>
+  )
+}
+
+/** Small caps label used above each block of specs. */
+function SpecLabel({ children }: { children: string }) {
+  return (
+    <h4 className="mb-2.5 font-mono text-[10px] uppercase tracking-[0.2em] text-ink-400">
+      {children}
+    </h4>
+  )
+}
 
 export default function Projects() {
+  const stackRef = useRef<HTMLOListElement>(null)
+  const reducedMotion = useReducedMotion()
+
+  // Stacking is desktop-only. On a phone the cards are nearly viewport-tall,
+  // and pinning them there turns a simple scroll into a fight, so the sticky
+  // class carries an lg: prefix and below that width they simply flow.
+  //
+  // The reduced-motion half is decided here rather than in CSS: an earlier
+  // version gated it with :has(), which is not supported everywhere, and a
+  // guard that silently fails on some browsers is not a guard.
+  useCardStack(stackRef, !reducedMotion)
+
   return (
-    <section id="projects" className="bg-[#EADDCA] dark:bg-neutral-900/50">
+    <section id="projects" className="section-veil">
       <div className="section-container">
-        <p className="section-title">Projects</p>
-        <h2 className="section-heading">Featured Work</h2>
-
-        <div className="grid md:grid-cols-2 gap-6">
-          {projects.map((project, index) => (
-            <div
-              key={index}
-              className="card group hover:shadow-xl hover:shadow-primary-500/5 overflow-hidden flex flex-col h-full"
-            >
-              {/* Header with icon and title */}
-              <div className="flex items-start gap-4 mb-4">
-                <div
-                  className="w-12 h-12 rounded-xl bg-primary-500 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform flex-shrink-0"
-                >
-                  <project.icon className="w-6 h-6 text-white" />
-                </div>
-                <div>
-                  <div className="flex flex-wrap items-center gap-2">
-                    <h3 className="text-xl font-bold text-neutral-900 dark:text-white">
-                      {project.title}
-                    </h3>
-                    {project.badge && (
-                      <span className="px-2.5 py-0.5 bg-accent-100 dark:bg-accent-900/30 text-accent-700 dark:text-accent-300 rounded-full text-xs font-medium whitespace-nowrap">
-                        {project.badge}
-                      </span>
-                    )}
-                  </div>
-                  <p className="text-sm font-medium text-primary-600 dark:text-primary-400">
-                    {project.subtitle}
-                  </p>
-                </div>
-              </div>
-
-              {/* Description */}
-              <p className="text-neutral-600 dark:text-neutral-400 text-sm mb-4">
-                {project.description}
-              </p>
-
-              {/* Highlights */}
-              <div className="mb-4 flex-grow">
-                <h4 className="text-xs font-semibold text-neutral-500 dark:text-neutral-500 uppercase tracking-wider mb-2">
-                  Key Features
-                </h4>
-                <ul className="space-y-1.5">
-                  {project.highlights.map((highlight, i) => (
-                    <li
-                      key={i}
-                      className="flex items-start gap-2 text-neutral-600 dark:text-neutral-400 text-sm"
-                    >
-                      <span className="w-1.5 h-1.5 rounded-full bg-primary-500 mt-1.5 flex-shrink-0" />
-                      <span>{highlight}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Tech Stack */}
-              <div className="mb-4">
-                <h4 className="text-xs font-semibold text-neutral-500 dark:text-neutral-500 uppercase tracking-wider mb-2">
-                  Tech Stack
-                </h4>
-                <div className="flex flex-wrap gap-1.5">
-                  {project.tech.map((tech, i) => (
-                    <span
-                      key={i}
-                      className="px-2 py-1 text-xs font-medium bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 rounded-md"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              {/* Links */}
-              <div className="flex items-center gap-3 pt-4 mt-auto border-t border-neutral-200 dark:border-neutral-800">
-                {project.github !== '#' && (
-                  <a
-                    href={project.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-4 py-2 bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 rounded-lg text-sm font-medium hover:opacity-90 transition-opacity"
-                  >
-                    <Github className="w-4 h-4" />
-                    Code
-                  </a>
-                )}
-                {project.sourcePrivate && (
-                  <span className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-neutral-500 dark:text-neutral-500">
-                    <Lock className="w-4 h-4" />
-                    Private repo — client work
-                  </span>
-                )}
-                {project.live !== '#' && (
-                  <a
-                    href={project.live}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-4 py-2 border border-neutral-200 dark:border-neutral-700 rounded-lg text-sm font-medium hover:border-primary-500 dark:hover:border-primary-500 transition-colors"
-                  >
-                    <ExternalLink className="w-4 h-4" />
-                    {project.liveLabel ?? 'Demo'}
-                  </a>
-                )}
-              </div>
-            </div>
-          ))}
+        <div className="section-head">
+          <Reveal>
+            <p className="section-title">Projects</p>
+          </Reveal>
+          <SplitText className="section-heading mx-auto">Featured Work</SplitText>
         </div>
+
+        {/*
+          Eight bordered cards in a two-column grid put a box around a
+          description, four bullets and eleven tags each — the content was all
+          there but it read as a wall. Full-width rows divided by hairlines
+          give every project the page width: the narrative on the left, the
+          specs on the right, and an index number to scan by. Order carries
+          the hierarchy, so the lead project needs no separate layout — only a
+          larger title.
+        */}
+        <ol ref={stackRef} className="mx-auto max-w-5xl">
+          {projects.map((project, index) => {
+            const isLead = index === 0
+            return (
+              <StackCard
+                key={project.title}
+                index={index}
+                reducedMotion={reducedMotion}
+                surfaceClassName="grid gap-6 sm:gap-8 lg:grid-cols-[1fr_1fr] lg:gap-14"
+              >
+
+                    {/* Narrative */}
+                    <div className="flex flex-col gap-4">
+                      <div className="flex items-center gap-4">
+                        <span className="font-display text-3xl leading-none text-ink-300 transition-colors duration-500 group-hover:text-primary-500/70 dark:text-ink-700">
+                          {String(index + 1).padStart(2, '0')}
+                        </span>
+                        <span className="grid h-11 w-11 place-items-center rounded-xl bg-gradient-to-br from-primary-500 to-primary-700 shadow-lg shadow-primary-500/25 transition-transform duration-500 ease-smooth group-hover:scale-110">
+                          <project.icon className="h-5 w-5 text-white" />
+                        </span>
+                      </div>
+
+                      <div>
+                        <div className="flex flex-wrap items-center gap-2.5">
+                          <h3
+                            className={`font-display leading-tight text-ink-900 dark:text-white ${
+                              isLead ? 'text-3xl md:text-4xl' : 'text-2xl md:text-3xl'
+                            }`}
+                          >
+                            {project.title}
+                          </h3>
+                          {project.badge && (
+                            <span className="whitespace-nowrap rounded-full bg-accent-500/15 px-2.5 py-0.5 text-xs font-medium text-accent-700 ring-1 ring-accent-500/25 dark:text-accent-300">
+                              {project.badge}
+                            </span>
+                          )}
+                        </div>
+                        <p className="mt-1.5 text-sm font-medium text-primary-600 dark:text-primary-400">
+                          {project.subtitle}
+                        </p>
+                      </div>
+
+                      <p className="leading-relaxed text-ink-600 dark:text-ink-400">
+                        {project.description}
+                      </p>
+
+                      <ProjectLinks project={project} />
+                    </div>
+
+                    {/* Specs */}
+                    <div className="flex flex-col gap-7 lg:pt-2">
+                      <div>
+                        <SpecLabel>Key Features</SpecLabel>
+                        <ul className="space-y-2.5">
+                          {project.highlights.map((line) => (
+                            <li
+                              key={line}
+                              className="flex items-start gap-3 text-sm text-ink-600 dark:text-ink-400"
+                            >
+                              <span className="mt-[7px] h-1 w-1 flex-shrink-0 rounded-full bg-primary-500" />
+                              <span className="leading-relaxed">{line}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      <div>
+                        <SpecLabel>Tech Stack</SpecLabel>
+                        <div className="flex flex-wrap gap-1.5">
+                          {project.tech.map((item) => (
+                            <span
+                              key={item}
+                              className="rounded-md px-2 py-1 text-xs font-medium text-ink-600 ring-1 ring-black/5 dark:text-ink-400 dark:ring-white/10"
+                            >
+                              {item}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+              </StackCard>
+            )
+          })}
+        </ol>
       </div>
     </section>
-  );
+  )
 }

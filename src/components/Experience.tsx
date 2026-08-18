@@ -1,4 +1,11 @@
-import { Briefcase, Calendar, MapPin } from 'lucide-react';
+import { useRef } from 'react'
+import { Briefcase, Calendar, MapPin } from 'lucide-react'
+import { useCardStack } from '../hooks/useCardStack'
+import { useReducedMotion } from '../hooks/useReducedMotion'
+import CareerTimeline from './CareerTimeline'
+import Reveal from './ui/Reveal'
+import SplitText from './ui/SplitText'
+import StackCard from './ui/StackCard'
 
 const experiences = [
   {
@@ -54,83 +61,106 @@ const experiences = [
     ],
     current: false,
   },
-];
+]
 
 export default function Experience() {
+  const stackRef = useRef<HTMLOListElement>(null)
+  const reducedMotion = useReducedMotion()
+
+  useCardStack(stackRef, !reducedMotion)
+
   return (
-    <section id="experience" className="bg-white dark:bg-neutral-900/50">
+    <section id="experience" className="section-veil">
       <div className="section-container">
-        <p className="section-title">Experience</p>
-        <h2 className="section-heading">Where I've Worked</h2>
+        <div className="section-head">
+          <Reveal>
+            <p className="section-title">Experience</p>
+          </Reveal>
+          <SplitText className="section-heading mx-auto">Where I've Worked</SplitText>
+        </div>
 
-        <div className="relative">
-          {/* Timeline line */}
-          <div className="absolute left-0 md:left-1/2 top-0 bottom-0 w-px bg-neutral-200 dark:bg-neutral-800 transform md:-translate-x-1/2" />
+        <Reveal>
+          <CareerTimeline />
+        </Reveal>
 
-          {/* Experience items */}
-          <div className="space-y-12">
-            {experiences.map((exp, index) => (
-              <div
-                key={index}
-                className={`relative grid md:grid-cols-2 gap-8 ${
-                  index % 2 === 0 ? '' : 'md:direction-rtl'
-                }`}
-              >
-                {/* Timeline dot */}
-                <div className="absolute left-0 md:left-1/2 w-4 h-4 bg-primary-500 rounded-full transform -translate-x-1/2 border-4 border-white dark:border-neutral-950 z-10" />
+        {/*
+          The roles are a deck, like Featured Work. The vertical spine and its
+          scroll-fill that used to live here are gone deliberately: the chart
+          directly above already states the chronology on a real time axis, so
+          the spine was drawing a second, vaguer timeline immediately below a
+          precise one. A spine cannot coexist with stacking anyway — pinned
+          cards would slide over the line and its nodes.
+        */}
+        <ol ref={stackRef} className="mx-auto max-w-5xl">
+          {experiences.map((exp, index) => (
+            <StackCard
+              key={`${exp.company}-${exp.role}`}
+              index={index}
+              reducedMotion={reducedMotion}
+              surfaceClassName="grid gap-6 sm:gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:gap-14"
+            >
+              <div className="flex flex-col gap-4">
+                <div className="flex items-center gap-4">
+                  <span className="font-display text-3xl leading-none text-ink-300 transition-colors duration-500 group-hover:text-primary-500/70 dark:text-ink-700">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                  <span className="grid h-11 w-11 place-items-center rounded-xl bg-gradient-to-br from-primary-500 to-primary-700 shadow-lg shadow-primary-500/25 transition-transform duration-500 ease-smooth group-hover:scale-110">
+                    <Briefcase className="h-5 w-5 text-white" />
+                  </span>
+                </div>
 
-                {/* Content */}
-                <div
-                  className={`ml-8 md:ml-0 ${
-                    index % 2 === 0 ? 'md:pr-12' : 'md:col-start-2 md:pl-12'
-                  }`}
-                >
-                  <div className={`card hover:shadow-lg hover:shadow-primary-500/5 ${index % 2 === 0 ? 'bg-primary-50 dark:bg-primary-950/30' : ''}`}>
-                    <div className="flex flex-wrap items-center gap-3 mb-4">
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 rounded-full text-sm font-medium">
-                        <Briefcase className="w-3.5 h-3.5" />
-                        {exp.company}
+                <div>
+                  <div className="mb-2.5 flex flex-wrap items-center gap-2">
+                    <span className="rounded-full bg-primary-500/10 px-3 py-1 text-sm font-medium text-primary-700 ring-1 ring-primary-500/20 dark:text-primary-300">
+                      {exp.company}
+                    </span>
+                    <span className="rounded-full px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-ink-500 ring-1 ring-black/10 dark:text-ink-400 dark:ring-white/10">
+                      {exp.type}
+                    </span>
+                    {exp.current && (
+                      <span className="rounded-full bg-accent-500/15 px-3 py-1 text-sm font-medium text-accent-700 ring-1 ring-accent-500/25 dark:text-accent-300">
+                        Current
                       </span>
-                      {exp.current && (
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-accent-100 dark:bg-accent-900/30 text-accent-700 dark:text-accent-300 rounded-full text-sm font-medium">
-                          Current
-                        </span>
-                      )}
-                    </div>
-
-                    <h3 className="text-xl font-bold text-neutral-900 dark:text-white mb-2">
-                      {exp.role}
-                    </h3>
-
-                    <div className="flex flex-wrap items-center gap-4 text-sm text-neutral-500 mb-4">
-                      <span className="inline-flex items-center gap-1.5">
-                        <Calendar className="w-4 h-4" />
-                        {exp.duration}
-                      </span>
-                      <span className="inline-flex items-center gap-1.5">
-                        <MapPin className="w-4 h-4" />
-                        {exp.location}
-                      </span>
-                    </div>
-
-                    <ul className="space-y-2">
-                      {exp.description.map((item, i) => (
-                        <li
-                          key={i}
-                          className="flex items-start gap-2 text-neutral-600 dark:text-neutral-400"
-                        >
-                          <span className="w-1.5 h-1.5 rounded-full bg-primary-500 mt-2 flex-shrink-0" />
-                          <span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
+                    )}
                   </div>
+
+                  <h3 className="font-display text-2xl leading-tight text-ink-900 md:text-3xl dark:text-white">
+                    {exp.role}
+                  </h3>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-4 text-sm text-ink-500">
+                  <span className="inline-flex items-center gap-1.5">
+                    <Calendar className="h-4 w-4" />
+                    {exp.duration}
+                  </span>
+                  <span className="inline-flex items-center gap-1.5">
+                    <MapPin className="h-4 w-4" />
+                    {exp.location}
+                  </span>
                 </div>
               </div>
-            ))}
-          </div>
-        </div>
+
+              <div className="lg:pt-2">
+                <h4 className="mb-2.5 font-mono text-[10px] uppercase tracking-[0.2em] text-ink-400">
+                  What I did
+                </h4>
+                <ul className="space-y-2.5">
+                  {exp.description.map((line) => (
+                    <li
+                      key={line}
+                      className="flex items-start gap-3 text-sm text-ink-600 dark:text-ink-400"
+                    >
+                      <span className="mt-[7px] h-1 w-1 flex-shrink-0 rounded-full bg-primary-500" />
+                      <span className="leading-relaxed">{line}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </StackCard>
+          ))}
+        </ol>
       </div>
     </section>
-  );
+  )
 }

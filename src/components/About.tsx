@@ -1,4 +1,9 @@
-import { Brain, Server, Workflow, Code2, Smartphone, Cpu } from 'lucide-react';
+import { Brain, Code2, Cpu, Server, Smartphone, Workflow } from 'lucide-react'
+import workspaceImg from '../assets/images/hero-img.jpg'
+import Orbit from './ui/Orbit'
+import Reveal from './ui/Reveal'
+import SplitText from './ui/SplitText'
+import TiltCard from './ui/TiltCard'
 
 const highlights = [
   {
@@ -31,68 +36,112 @@ const highlights = [
     title: 'Embedded',
     description: 'Raspberry Pi & ESP firmware with GPIO controls and Python scripting',
   },
-];
+]
 
 export default function About() {
   return (
-    <section id="about" className="bg-white dark:bg-neutral-900/50">
+    <section id="about" className="section-veil">
       <div className="section-container">
-        <p className="section-title">About Me</p>
-        <h2 className="section-heading">
-          Crafting intelligent solutions at the intersection of AI and web development
-        </h2>
+        <div className="section-head">
+          <Reveal>
+            <p className="section-title">About Me</p>
+          </Reveal>
+          <SplitText className="section-heading max-w-4xl text-balance mx-auto">
+            Crafting intelligent solutions at the intersection of AI and web development
+          </SplitText>
+        </div>
 
-        <div className="grid md:grid-cols-2 gap-12 items-start">
-          {/* Text content */}
-          <div className="space-y-6">
-            <p className="text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed">
-              I am an <span className="text-neutral-900 dark:text-white font-medium">AI Engineer</span> and
-              full-stack developer with experience building production-ready web, mobile, and embedded
-              systems, from applied AI and automation pipelines to Flutter apps and Raspberry Pi firmware.
-            </p>
-            <p className="text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed">
-              My work focuses on designing <span className="text-primary-500 font-medium">RAG-based architectures</span> and
-              <span className="text-primary-500 font-medium"> autonomous AI agents</span> that plan and execute multi-step tasks,
-              integrating cloud-native AI services on AWS, and building intelligent workflows using n8n for
-              data collection, research, and insights.
-            </p>
-            <p className="text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed">
-              I also train and deploy <span className="text-primary-500 font-medium">deep learning models</span> for
-              computer vision, containerizing them with Docker and shipping interactive demos to platforms like
-              Hugging Face Spaces.
-            </p>
-            <p className="text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed">
-              I have hands-on experience integrating AI features such as semantic search, voice-based
-              interactions, and end-to-end automation into production systems. I work closely with APIs,
-              authentication mechanisms, CI/CD pipelines, and scalable backend services.
-            </p>
-            <p className="text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed">
-              I am a continuous learner who enjoys translating complex AI concepts into practical,
-              user-facing solutions.
-            </p>
-          </div>
+        <Reveal>
+          <figure className="group relative mx-auto mb-12 max-w-5xl overflow-hidden rounded-2xl ring-1 ring-black/5 dark:ring-white/10">
+            <img
+              src={workspaceImg}
+              alt="Nabeel Shaikh's desk — an external monitor and laptop running code, lit warm at night"
+              loading="lazy"
+              className="aspect-[16/10] w-full object-cover object-center transition-transform duration-[1.2s] ease-smooth group-hover:scale-105"
+            />
+            {/* Cools the photo's warm cast toward the page temperature. */}
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 bg-gradient-to-t from-primary-950/60 via-transparent to-transparent mix-blend-multiply dark:mix-blend-overlay"
+            />
+          </figure>
+        </Reveal>
 
-          {/* Highlight cards */}
-          <div className="grid grid-cols-2 gap-4">
+        <div className="relative mx-auto max-w-3xl space-y-6">
+            {/* Lead paragraph is set larger than the rest — the eye needs one
+                obvious place to start in a five-paragraph column. */}
+            <Reveal delay={2}>
+              <p className="text-xl leading-relaxed text-ink-700 dark:text-ink-200">
+                I am an <span className="font-medium text-ink-900 dark:text-white">AI Engineer</span> and
+                full-stack developer with experience building production-ready web, mobile, and embedded
+                systems, from applied AI and automation pipelines to Flutter apps and Raspberry Pi firmware.
+              </p>
+            </Reveal>
+            <Reveal delay={3}>
+              <p className="text-lg leading-relaxed text-ink-500 dark:text-ink-400">
+                My work focuses on designing <span className="font-medium text-primary-600 dark:text-primary-400">RAG-based architectures</span> and
+                <span className="font-medium text-primary-600 dark:text-primary-400"> autonomous AI agents</span> that plan and execute multi-step tasks,
+                integrating cloud-native AI services on AWS, and building intelligent workflows using n8n for
+                data collection, research, and insights.
+              </p>
+            </Reveal>
+            <Reveal delay={4}>
+              <p className="text-lg leading-relaxed text-ink-500 dark:text-ink-400">
+                I also train and deploy <span className="font-medium text-primary-600 dark:text-primary-400">deep learning models</span> for
+                computer vision, containerizing them with Docker and shipping interactive demos to platforms like
+                Hugging Face Spaces.
+              </p>
+            </Reveal>
+            <Reveal delay={5}>
+              <p className="text-lg leading-relaxed text-ink-500 dark:text-ink-400">
+                I have hands-on experience integrating AI features such as semantic search, voice-based
+                interactions, and end-to-end automation into production systems. I work closely with APIs,
+                authentication mechanisms, CI/CD pipelines, and scalable backend services.
+              </p>
+            </Reveal>
+            <Reveal delay={6}>
+              <p className="text-lg leading-relaxed text-ink-500 dark:text-ink-400">
+                I am a continuous learner who enjoys translating complex AI concepts into practical,
+                user-facing solutions.
+              </p>
+            </Reveal>
+        </div>
+
+        <div className="relative mt-14">
+          <Orbit
+            size={300}
+            className="absolute -right-20 -top-24 hidden opacity-60 lg:block"
+          />
+
+          <div className="relative mx-auto grid max-w-5xl gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {highlights.map((item, index) => (
-              <div
-                key={index}
-                className="card group hover:shadow-lg hover:shadow-primary-500/5"
-              >
-                <div className="w-10 h-10 rounded-lg bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                  <item.icon className="w-5 h-5 text-primary-600 dark:text-primary-400" />
-                </div>
-                <h3 className="font-semibold text-neutral-900 dark:text-white mb-2">
-                  {item.title}
-                </h3>
-                <p className="text-sm text-neutral-500 dark:text-neutral-500">
-                  {item.description}
-                </p>
-              </div>
+              <Reveal key={item.title} delay={index + 2}>
+                <TiltCard>
+                  <div className="card group h-full overflow-hidden">
+                    {/* Glow anchored to the card's own plane, so it stays put
+                        while the layers above it move. */}
+                    <span
+                      aria-hidden="true"
+                      className="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-primary-500/20 opacity-60 blur-2xl transition-opacity duration-500 group-hover:opacity-100"
+                    />
+                    <div className="z-near mb-4">
+                      <div className="grid h-11 w-11 place-items-center rounded-xl bg-primary-500/10 ring-1 ring-primary-500/25 transition-transform duration-500 ease-smooth group-hover:scale-110">
+                        <item.icon className="h-5 w-5 text-primary-600 dark:text-primary-400" />
+                      </div>
+                    </div>
+                    <h3 className="z-mid mb-2 font-semibold text-ink-900 dark:text-white">
+                      {item.title}
+                    </h3>
+                    <p className="z-far text-sm leading-relaxed text-ink-500 dark:text-ink-400">
+                      {item.description}
+                    </p>
+                  </div>
+                </TiltCard>
+              </Reveal>
             ))}
           </div>
         </div>
       </div>
     </section>
-  );
+  )
 }

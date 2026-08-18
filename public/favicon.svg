@@ -1,10 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <defs>
-    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#6366f1;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:1" />
+    <linearGradient id="patina" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2E8B7A"/>
+      <stop offset="100%" stop-color="#14584E"/>
     </linearGradient>
   </defs>
-  <rect width="100" height="100" rx="20" fill="url(#grad)"/>
-  <text x="50" y="68" font-family="Arial, sans-serif" font-size="50" font-weight="bold" fill="white" text-anchor="middle">N</text>
+  <!-- Near-black ground with a verdigris field, matching the site's default
+       dark theme; the brass N echoes the display serif. -->
+  <rect width="100" height="100" rx="22" fill="#040605"/>
+  <rect x="6" y="6" width="88" height="88" rx="18" fill="url(#patina)"/>
+  <text x="50" y="70" font-family="Georgia, 'Times New Roman', serif" font-size="58"
+        fill="#E3C77E" text-anchor="middle">N</text>
 </svg>

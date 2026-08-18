@@ -1,22 +1,11 @@
-import { Heart, Github, Linkedin, Mail } from 'lucide-react';
+import { motion } from 'framer-motion'
+import { Github, Heart, Linkedin, Mail } from 'lucide-react'
 
 const socialLinks = [
-  {
-    icon: Github,
-    href: 'https://github.com/NabeelShaikh08',
-    label: 'GitHub',
-  },
-  {
-    icon: Linkedin,
-    href: 'https://linkedin.com/in/nabeelshaikh0808',
-    label: 'LinkedIn',
-  },
-  {
-    icon: Mail,
-    href: 'mailto:nabeelshk0808@gmail.com',
-    label: 'Email',
-  },
-];
+  { icon: Github, href: 'https://github.com/NabeelShaikh08', label: 'GitHub' },
+  { icon: Linkedin, href: 'https://linkedin.com/in/nabeelshaikh0808', label: 'LinkedIn' },
+  { icon: Mail, href: 'mailto:nabeelshk0808@gmail.com', label: 'Email' },
+]
 
 const navLinks = [
   { name: 'About', href: '#about' },
@@ -24,82 +13,77 @@ const navLinks = [
   { name: 'Projects', href: '#projects' },
   { name: 'Skills', href: '#skills' },
   { name: 'Contact', href: '#contact' },
-];
+]
 
 export default function Footer() {
-  const currentYear = new Date().getFullYear();
+  const currentYear = new Date().getFullYear()
 
   return (
-    <footer className="bg-[#EADDCA] dark:bg-neutral-900 border-t border-neutral-200 dark:border-neutral-800">
-      <div className="max-w-5xl mx-auto px-6 py-12">
-        <div className="grid md:grid-cols-3 gap-8 mb-8">
-          {/* Brand */}
+    <footer className="section-veil border-t hairline">
+      <div className="mx-auto max-w-5xl px-6 py-16 md:px-10">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+          className="mb-12 grid gap-10 md:grid-cols-3"
+        >
           <div className="space-y-4">
-            <a href="#" className="inline-block">
-              <img
-                src="/header.png"
-                alt="Nabeel Shaikh"
-                className="h-20 w-auto"
-              />
+            <a href="#" className="inline-block" aria-label="Back to top">
+              <img src="/header.png" alt="Nabeel Shaikh" className="h-16 w-auto" />
             </a>
-            <p className="text-neutral-500 text-sm">
+            <p className="max-w-xs text-sm leading-relaxed text-ink-500">
               AI Engineer & Full-Stack Developer building intelligent systems and scalable applications.
             </p>
           </div>
 
-          {/* Navigation */}
           <div>
-            <h4 className="font-semibold text-neutral-900 dark:text-white mb-4">
+            <h4 className="mb-5 font-mono text-[10px] uppercase tracking-[0.25em] text-ink-400">
               Quick Links
             </h4>
-            <nav className="flex flex-wrap gap-x-6 gap-y-2">
+            <nav className="flex flex-col gap-2.5">
               {navLinks.map((link) => (
                 <a
                   key={link.name}
                   href={link.href}
-                  className="text-sm text-neutral-500 hover:text-neutral-900 dark:hover:text-white transition-colors"
+                  className="tap-target group inline-flex w-fit items-center gap-2 text-sm text-ink-500 transition-colors hover:text-primary-600 dark:hover:text-primary-400"
                 >
+                  <span className="h-px w-0 bg-primary-500 transition-all duration-300 group-hover:w-4" />
                   {link.name}
                 </a>
               ))}
             </nav>
           </div>
 
-          {/* Social */}
           <div>
-            <h4 className="font-semibold text-neutral-900 dark:text-white mb-4">
+            <h4 className="mb-5 font-mono text-[10px] uppercase tracking-[0.25em] text-ink-400">
               Connect
             </h4>
-            <div className="flex items-center gap-3">
-              {socialLinks.map((link) => (
+            <div className="flex items-center gap-2">
+              {socialLinks.map(({ icon: Icon, href, label }) => (
                 <a
-                  key={link.label}
-                  href={link.href}
-                  target="_blank"
+                  key={label}
+                  href={href}
+                  target={href.startsWith('http') ? '_blank' : undefined}
                   rel="noopener noreferrer"
-                  className="p-2 rounded-lg bg-neutral-100 dark:bg-neutral-800 hover:bg-primary-100 dark:hover:bg-primary-900/30 hover:text-primary-600 dark:hover:text-primary-400 transition-all duration-200"
-                  aria-label={link.label}
+                  aria-label={label}
+                  className="tap-target grid h-10 w-10 place-items-center rounded-xl text-ink-500 ring-1 ring-black/10 transition-all duration-500 ease-smooth hover:-translate-y-1 hover:text-primary-600 hover:ring-primary-500/40 dark:ring-white/10 dark:hover:text-primary-400"
                 >
-                  <link.icon className="w-4 h-4" />
+                  <Icon className="h-4 w-4" />
                 </a>
               ))}
             </div>
           </div>
-        </div>
+        </motion.div>
 
-        {/* Bottom */}
-        <div className="pt-8 border-t border-neutral-200 dark:border-neutral-800">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-sm text-neutral-500 flex items-center gap-1">
-              {currentYear} Nabeel Shaikh. Built with{' '}
-              <Heart className="w-4 h-4 text-accent-500 fill-accent-500" /> using React & Tailwind.
-            </p>
-            <p className="text-sm text-neutral-500">
-              Mumbai, India
-            </p>
-          </div>
+        <div className="flex flex-col items-center justify-between gap-4 border-t pt-8 hairline md:flex-row">
+          <p className="flex items-center gap-1.5 text-sm text-ink-500">
+            {currentYear} Nabeel Shaikh. Built with{' '}
+            <Heart className="h-4 w-4 fill-accent-500 text-accent-500" /> using React, Three.js & Tailwind.
+          </p>
+          <p className="font-mono text-xs uppercase tracking-[0.2em] text-ink-400">Mumbai, India</p>
         </div>
       </div>
     </footer>
-  );
+  )
 }

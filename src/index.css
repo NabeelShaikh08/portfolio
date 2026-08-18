@@ -2,88 +2,302 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+  The WebGL field is a single fixed canvas sitting behind everything. Sections
+  are therefore translucent: the hero lets the field through at full strength,
+  and content sections drop a frosted veil over it so type stays crisp while
+  the field still glows underneath. All the veil opacities live here so the
+  balance can be tuned in one place.
+*/
 @layer base {
+  :root {
+    --veil: 244 246 244;        /* ink-50  */
+    --veil-strong: 255 255 255;
+    --hairline: 0 0 0;
+
+    /* Brand channels, as raw RGB triples so any rule can dial its own alpha.
+       Every glow, ring and shadow on the site derives from these three — the
+       palette is changed here and nowhere else. */
+    --brand: 46 139 122;        /* primary-500, verdigris */
+    --brand-deep: 20 88 78;     /* primary-700 */
+    --brass: 200 162 74;        /* accent-500 */
+
+    --chart-bar: #008A72;
+    --chart-ongoing: #9A6E00;
+  }
+
+  .dark {
+    --veil: 4 6 5;              /* ink-950 — effectively black */
+    --veil-strong: 12 18 17;    /* ink-900 */
+    --hairline: 255 255 255;
+    /* Lifted a step in the dark: the mid verdigris muddies against a near
+       black ground, where the lighter patina still reads as metal. */
+    --brand: 79 175 152;        /* primary-400 */
+    --brand-deep: 46 139 122;   /* primary-500 */
+    --brass: 227 199 126;       /* accent-300 */
+
+    --chart-bar: #17A88C;
+    --chart-ongoing: #B08A1E;
+  }
+
   html {
     scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  /* Lenis drives scrolling; native smooth scroll would fight it. */
+  html.lenis {
+    scroll-behavior: auto;
   }
 
   body {
-    @apply bg-white dark:bg-neutral-950 text-neutral-900 dark:text-neutral-100 antialiased;
+    @apply text-ink-800 dark:text-ink-100 antialiased;
+    background-color: rgb(var(--veil));
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    overscroll-behavior-y: none;
   }
 
   ::selection {
     @apply bg-primary-500/30;
   }
+
+  :focus-visible {
+    outline: 2px solid rgb(var(--brand));
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  /* The custom cursor hides the pointer, so a keyboard focus ring is the only
+     position feedback some visitors get — it must never be suppressed. */
+  :focus-visible,
+  :focus-visible * {
+    cursor: auto;
+  }
+
+  /* Display face is optically large — pull it tight so headings read as
+     one mass rather than loose words. */
+  .font-display {
+    font-feature-settings: "liga", "kern";
+    letter-spacing: -0.02em;
+  }
 }
 
 @layer components {
   .section-container {
-    @apply max-w-5xl mx-auto px-6 py-16 md:py-20;
+    @apply max-w-6xl mx-auto px-4 sm:px-6 md:px-10 py-12 sm:py-16 md:py-20;
+  }
+
+  /* Frosted veil applied to every content section so the field recedes. */
+  .section-veil {
+    position: relative;
+    background-color: rgb(var(--veil) / 0.82);
+    backdrop-filter: blur(28px) saturate(120%);
+    -webkit-backdrop-filter: blur(28px) saturate(120%);
+  }
+
+  /* Wrapper for a centred section header. Sections keep their own grids
+     below; only the header block is centred, which is what gives the page a
+     single spine to read down. */
+  .section-head {
+    @apply mx-auto mb-8 max-w-3xl text-center sm:mb-10;
   }
 
   .section-title {
-    @apply text-sm font-mono uppercase tracking-widest text-primary-500 dark:text-primary-400 mb-4;
+    @apply inline-flex items-center gap-3 text-xs font-mono uppercase tracking-[0.25em] text-primary-500 dark:text-primary-400 mb-4;
+  }
+
+  .section-title::before,
+  .section-title::after {
+    content: '';
+    @apply h-px w-8 bg-primary-500/60 dark:bg-primary-400/60;
   }
 
   .section-heading {
-    @apply text-3xl md:text-4xl font-bold text-neutral-900 dark:text-white mb-8;
+    @apply font-display text-4xl md:text-6xl leading-[1.05] tracking-tightest text-ink-900 dark:text-ink-50 mb-0;
   }
 
-  .gradient-text {
-    @apply bg-gradient-to-r from-primary-500 via-primary-400 to-accent-500 bg-clip-text text-transparent;
-  }
-
+  /* Glass card. The inset highlight on the top edge is what stops these
+     reading as flat rectangles once they tilt. */
   .card {
-    @apply bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-2xl p-6 transition-all duration-300 hover:border-primary-500/50 dark:hover:border-primary-500/50;
+    @apply relative rounded-2xl p-6 transition-all duration-500 ease-smooth;
+    transform-style: preserve-3d;
+    background-color: rgb(var(--veil-strong) / 0.55);
+    border: 1px solid rgb(var(--hairline) / 0.08);
+    box-shadow:
+      0 1px 0 0 rgb(255 255 255 / 0.06) inset,
+      0 10px 40px -20px rgb(0 0 0 / 0.35);
+  }
+
+  .card:hover {
+    border-color: rgb(var(--brand) / 0.4);
+    box-shadow:
+      0 1px 0 0 rgb(255 255 255 / 0.1) inset,
+      0 24px 60px -24px rgb(var(--brand-deep) / 0.35);
   }
 
   .skill-tag {
-    @apply px-3 py-1.5 text-sm font-medium bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 rounded-lg border border-neutral-200 dark:border-neutral-700 hover:border-primary-500/50 dark:hover:border-primary-500/50 transition-colors;
+    @apply px-3 py-1.5 text-sm font-medium rounded-lg transition-all duration-300 ease-smooth
+           text-ink-600 dark:text-ink-300;
+    background-color: rgb(var(--hairline) / 0.04);
+    border: 1px solid rgb(var(--hairline) / 0.08);
+  }
+
+  .skill-tag:hover {
+    @apply text-primary-600 dark:text-primary-300 -translate-y-0.5;
+    border-color: rgb(var(--brand) / 0.5);
+    background-color: rgb(var(--brand) / 0.1);
   }
 
   .nav-link {
-    @apply text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition-colors text-sm font-medium;
+    @apply relative text-sm font-medium text-ink-500 dark:text-ink-400
+           hover:text-ink-900 dark:hover:text-white transition-colors duration-300;
   }
 
   .btn-primary {
-    @apply inline-flex items-center gap-2 px-6 py-3 bg-primary-500 hover:bg-primary-600 text-white font-medium rounded-xl transition-all duration-200 hover:shadow-lg hover:shadow-primary-500/25;
+    @apply relative inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-medium
+           text-white bg-primary-500 overflow-hidden
+           transition-all duration-500 ease-smooth
+           hover:shadow-[0_16px_50px_-12px_rgb(var(--brand-deep)/0.65)] hover:-translate-y-0.5;
+  }
+
+  /* Sheen sweep on hover — one shared gesture reused by both buttons. */
+  .btn-primary::after,
+  .btn-secondary::after {
+    content: '';
+    @apply absolute inset-0 -translate-x-full;
+    background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.25), transparent);
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .btn-primary:hover::after,
+  .btn-secondary:hover::after {
+    @apply translate-x-full;
   }
 
   .btn-secondary {
-    @apply inline-flex items-center gap-2 px-6 py-3 bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700 text-neutral-900 dark:text-white font-medium rounded-xl transition-all duration-200 border border-neutral-200 dark:border-neutral-700;
+    @apply relative inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-medium overflow-hidden
+           text-ink-900 dark:text-white transition-all duration-500 ease-smooth hover:-translate-y-0.5;
+    background-color: rgb(var(--hairline) / 0.05);
+    border: 1px solid rgb(var(--hairline) / 0.12);
+  }
+
+  .btn-secondary:hover {
+    border-color: rgb(var(--brand) / 0.55);
+  }
+
+  .hairline {
+    border-color: rgb(var(--hairline) / 0.1);
   }
 }
 
 @layer utilities {
-  .animate-delay-100 {
-    animation-delay: 100ms;
+  .text-balance {
+    text-wrap: balance;
   }
-  .animate-delay-200 {
-    animation-delay: 200ms;
+
+  /* Perspective wrapper for the tilt cards. Kept as a utility so the tilt
+     hook stays purely about maths and never touches styling. */
+  .perspective {
+    perspective: 1200px;
   }
-  .animate-delay-300 {
-    animation-delay: 300ms;
+
+  .preserve-3d {
+    transform-style: preserve-3d;
   }
-  .animate-delay-400 {
-    animation-delay: 400ms;
+
+  /* Z planes for tilt-card interiors, in a fixed scale so depth stays
+     consistent between sections rather than being guessed per card. */
+  .z-near {
+    transform: translateZ(42px);
+  }
+
+  .z-mid {
+    transform: translateZ(24px);
+  }
+
+  .z-far {
+    transform: translateZ(10px);
+  }
+
+  /*
+    Guarantees a 44px hit area on touch without changing layout.
+    Several controls are visually smaller than a fingertip — icon buttons at
+    36-40px, and text links only 20px tall — and simply padding them out would
+    move the design around on every screen. A centred pseudo-element grows the
+    tappable region instead, and only where the pointer is coarse.
+  */
+  @media (pointer: coarse) {
+    .tap-target {
+      position: relative;
+    }
+
+    .tap-target::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: max(100%, 44px);
+      height: max(100%, 44px);
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  /* Masks the ends of a marquee so rows dissolve rather than being clipped. */
+  .fade-x {
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
   }
 }
 
-/* Custom scrollbar */
+/* Film grain. Sits above the canvas but below content — it is what keeps the
+   WebGL gradients from banding on cheap panels. */
+.grain::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-transparent;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-neutral-300 dark:bg-neutral-700 rounded-full;
+  @apply bg-ink-300 dark:bg-ink-700 rounded-full;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-neutral-400 dark:bg-neutral-600;
+  @apply bg-primary-400;
+}
+
+/* Everything decorative is opt-out. The site must stay fully usable — and
+   fully readable — with motion disabled. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  /* The deck's pinning is switched off in Projects.tsx, which is reactive and
+     does not depend on :has(). This only clears any transform left behind. */
+  [data-stack-card],
+  [data-stack-card] > * {
+    transform: none !important;
+    opacity: 1 !important;
+  }
 }
