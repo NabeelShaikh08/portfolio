@@ -269,4 +269,12 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+
+  /* The deck's pinning is switched off in Projects.tsx, which is reactive and
+     does not depend on :has(). This only clears any transform left behind. */
+  [data-stack-card],
+  [data-stack-card] > * {
+    transform: none !important;
+    opacity: 1 !important;
+  }
 }

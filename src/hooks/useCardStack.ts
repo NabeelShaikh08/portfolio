@@ -1,0 +1,74 @@
+import { useEffect } from 'react'
+import type { RefObject } from 'react'
+import { clamp } from '../lib/viewport'
+
+/**
+ * Drives the "buried card" look for a sticky stack.
+ *
+ * CSS `position: sticky` does the pinning on its own — this only supplies the
+ * depth cue. For each card it measures how much of it the *next* card has
+ * covered, and scales and dims it by that amount, so a card visibly settles
+ * back as the one after it slides over. Without it the stack reads as flat
+ * sheets sliding past each other rather than a deck.
+ *
+ * Measured per frame rather than from scroll events: Lenis coalesces those to
+ * roughly one per gesture, which is far too coarse for a continuous value —
+ * the same reason useElementProgress samples on rAF.
+ *
+ * Writes straight to style rather than through React state; this runs at frame
+ * rate and must never re-render the tree.
+ */
+export function useCardStack(containerRef: RefObject<HTMLElement | null>, enabled: boolean) {
+  useEffect(() => {
+    const container = containerRef.current
+    if (!container) return
+
+    const cards = Array.from(
+      container.querySelectorAll<HTMLElement>('[data-stack-card]'),
+    )
+    if (!cards.length) return
+
+    // When disabled, make sure nothing is left mid-transform from a previous
+    // run — a stale scale would otherwise persist for the whole session.
+    if (!enabled) {
+      cards.forEach((card) => {
+        card.style.transform = ''
+        card.style.opacity = ''
+      })
+      return
+    }
+
+    let frame = 0
+
+    const loop = () => {
+      for (let i = 0; i < cards.length; i++) {
+        const card = cards[i]
+        const next = cards[i + 1]
+
+        let covered = 0
+        if (next) {
+          const rect = card.getBoundingClientRect()
+          const nextRect = next.getBoundingClientRect()
+          // 0 while the next card is still below; 1 once it has ridden all
+          // the way up over this one.
+          covered = clamp((rect.bottom - nextRect.top) / Math.max(rect.height, 1))
+        }
+
+        // Deliberately small. Past a few percent the text inside starts to
+        // visibly shrink and the effect turns into a distraction.
+        card.style.transform = `scale(${1 - covered * 0.05})`
+        card.style.opacity = String(1 - covered * 0.4)
+      }
+      frame = requestAnimationFrame(loop)
+    }
+
+    frame = requestAnimationFrame(loop)
+    return () => {
+      cancelAnimationFrame(frame)
+      cards.forEach((card) => {
+        card.style.transform = ''
+        card.style.opacity = ''
+      })
+    }
+  }, [containerRef, enabled])
+}

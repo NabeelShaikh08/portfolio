@@ -1,5 +1,8 @@
 import { BookOpen, Bone, Bot, Brain, ExternalLink, FileText, Github, Heart, Lock, Palmtree, Shirt } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
+import { useRef } from 'react'
+import { useCardStack } from '../hooks/useCardStack'
+import { useReducedMotion } from '../hooks/useReducedMotion'
 import Reveal from './ui/Reveal'
 import SplitText from './ui/SplitText'
 
@@ -192,6 +195,18 @@ function SpecLabel({ children }: { children: string }) {
 }
 
 export default function Projects() {
+  const stackRef = useRef<HTMLOListElement>(null)
+  const reducedMotion = useReducedMotion()
+
+  // Stacking is desktop-only. On a phone the cards are nearly viewport-tall,
+  // and pinning them there turns a simple scroll into a fight, so the sticky
+  // class carries an lg: prefix and below that width they simply flow.
+  //
+  // The reduced-motion half is decided here rather than in CSS: an earlier
+  // version gated it with :has(), which is not supported everywhere, and a
+  // guard that silently fails on some browsers is not a guard.
+  useCardStack(stackRef, !reducedMotion)
+
   return (
     <section id="projects" className="section-veil">
       <div className="section-container">
@@ -211,16 +226,31 @@ export default function Projects() {
           the hierarchy, so the lead project needs no separate layout — only a
           larger title.
         */}
-        <ol className="mx-auto max-w-5xl divide-y divide-black/[0.07] dark:divide-white/[0.08]">
+        <ol ref={stackRef} className="mx-auto max-w-5xl">
           {projects.map((project, index) => {
             const isLead = index === 0
             return (
-              <li key={project.title}>
-                <Reveal delay={index % 2}>
-                  <article className="group relative grid gap-8 py-12 lg:grid-cols-[1fr_1fr] lg:gap-14">
+              <li
+                key={project.title}
+                className={reducedMotion ? undefined : 'lg:sticky'}
+                style={{
+                  // Each card pins a little lower than the one before, so the
+                  // deck fans and you can still see there are cards beneath.
+                  // Capped, or by the eighth project the top card would sit
+                  // halfway down the screen.
+                  top: `calc(6.5rem + ${Math.min(index, 5) * 0.5}rem)`,
+                }}
+              >
+                <div data-stack-card style={{ transformOrigin: 'center top' }} className="pb-6">
+                    {/* Opaque, unlike the hairline rows this replaced — a
+                        translucent card sliding over another shows both at
+                        once and the stack stops reading as a stack. */}
+                    <article className="group relative grid gap-8 rounded-3xl p-8 shadow-[0_24px_70px_-40px_rgba(0,0,0,0.55)] ring-1 ring-black/[0.06] md:p-10 lg:grid-cols-[1fr_1fr] lg:gap-14 dark:ring-white/[0.08]"
+                      style={{ background: 'rgb(var(--veil-strong))' }}
+                    >
                     <span
                       aria-hidden="true"
-                      className="absolute -left-4 top-12 h-0 w-px bg-primary-500 transition-all duration-500 ease-smooth group-hover:h-[calc(100%-6rem)]"
+                      className="absolute left-0 top-8 h-0 w-px bg-primary-500 transition-all duration-500 ease-smooth group-hover:h-[calc(100%-4rem)]"
                     />
 
                     {/* Narrative */}
@@ -292,8 +322,8 @@ export default function Projects() {
                         </div>
                       </div>
                     </div>
-                  </article>
-                </Reveal>
+                    </article>
+                </div>
               </li>
             )
           })}
