@@ -5,6 +5,7 @@ import { useCardStack } from '../hooks/useCardStack'
 import { useReducedMotion } from '../hooks/useReducedMotion'
 import Reveal from './ui/Reveal'
 import SplitText from './ui/SplitText'
+import StackCard from './ui/StackCard'
 
 type Project = {
   title: string
@@ -230,37 +231,12 @@ export default function Projects() {
           {projects.map((project, index) => {
             const isLead = index === 0
             return (
-              <li
+              <StackCard
                 key={project.title}
-                className={reducedMotion ? undefined : 'lg:sticky'}
-                style={{
-                  // Each card pins a little lower than the one before, so the
-                  // deck fans and you can still see there are cards beneath.
-                  // Capped, or by the eighth project the top card would sit
-                  // halfway down the screen.
-                  top: `calc(6.5rem + ${Math.min(index, 5) * 0.5}rem)`,
-                }}
+                index={index}
+                reducedMotion={reducedMotion}
+                surfaceClassName="grid gap-8 lg:grid-cols-[1fr_1fr] lg:gap-14"
               >
-                <div data-stack-card style={{ transformOrigin: 'center top' }} className="pb-6">
-                    {/* Opaque, unlike the hairline rows this replaced — a
-                        translucent card sliding over another shows both at
-                        once and the stack stops reading as a stack. */}
-                    <article className="group relative grid gap-8 rounded-3xl p-8 shadow-[0_24px_70px_-40px_rgba(0,0,0,0.55)] ring-1 ring-black/[0.06] md:p-10 lg:grid-cols-[1fr_1fr] lg:gap-14 dark:ring-white/[0.08]"
-                      style={{ background: 'rgb(var(--veil-strong))' }}
-                    >
-                    <span
-                      aria-hidden="true"
-                      className="absolute left-0 top-8 h-0 w-px bg-primary-500 transition-all duration-500 ease-smooth group-hover:h-[calc(100%-4rem)]"
-                    />
-                    {/* Opaque scrim that fades up as this card is buried.
-                        Dimming via opacity would make the card see-through
-                        and break the occlusion the deck depends on. */}
-                    <span
-                      aria-hidden="true"
-                      data-stack-scrim
-                      className="pointer-events-none absolute inset-0 z-10 rounded-3xl opacity-0"
-                      style={{ background: 'rgb(var(--veil))' }}
-                    />
 
                     {/* Narrative */}
                     <div className="flex flex-col gap-4">
@@ -331,9 +307,7 @@ export default function Projects() {
                         </div>
                       </div>
                     </div>
-                    </article>
-                </div>
-              </li>
+              </StackCard>
             )
           })}
         </ol>

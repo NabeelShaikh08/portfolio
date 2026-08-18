@@ -1,11 +1,11 @@
 import { useRef } from 'react'
-import { motion, useSpring } from 'framer-motion'
 import { Briefcase, Calendar, MapPin } from 'lucide-react'
-import { useElementProgress } from '../hooks/useElementProgress'
+import { useCardStack } from '../hooks/useCardStack'
+import { useReducedMotion } from '../hooks/useReducedMotion'
 import CareerTimeline from './CareerTimeline'
 import Reveal from './ui/Reveal'
 import SplitText from './ui/SplitText'
-import TiltCard from './ui/TiltCard'
+import StackCard from './ui/StackCard'
 
 const experiences = [
   {
@@ -64,13 +64,10 @@ const experiences = [
 ]
 
 export default function Experience() {
-  const trackRef = useRef<HTMLDivElement>(null)
+  const stackRef = useRef<HTMLOListElement>(null)
+  const reducedMotion = useReducedMotion()
 
-  // Fill the spine in step with how far the section has been read. Anchored
-  // to the track itself, so it reaches full height exactly as the last card
-  // clears the viewport regardless of how many entries there are.
-  const trackProgress = useElementProgress(trackRef)
-  const fill = useSpring(trackProgress, { stiffness: 90, damping: 26, restDelta: 0.001 })
+  useCardStack(stackRef, !reducedMotion)
 
   return (
     <section id="experience" className="section-veil">
@@ -79,114 +76,90 @@ export default function Experience() {
           <Reveal>
             <p className="section-title">Experience</p>
           </Reveal>
-          <SplitText className="section-heading mx-auto">
-            Where I've Worked
-          </SplitText>
+          <SplitText className="section-heading mx-auto">Where I've Worked</SplitText>
         </div>
 
         <Reveal>
           <CareerTimeline />
         </Reveal>
 
-        <div ref={trackRef} className="relative mx-auto max-w-5xl">
-          {/* Unfilled track */}
-          <div
-            aria-hidden="true"
-            className="absolute left-[7px] top-2 bottom-2 w-px bg-ink-200 md:left-1/2 md:-translate-x-1/2 dark:bg-ink-800"
-          />
-          {/* Filled portion. The wrapper carries the positioning because
-              framer-motion writes `transform` inline on the motion element,
-              which would otherwise clobber Tailwind's -translate-x-1/2. */}
-          <div
-            aria-hidden="true"
-            className="absolute left-[7px] top-2 bottom-2 w-px md:left-1/2 md:-translate-x-1/2"
-          >
-            <motion.div
-              style={{ scaleY: fill }}
-              className="h-full w-full origin-top bg-gradient-to-b from-primary-500 via-accent-400 to-primary-500"
-            />
-          </div>
-
-          <div className="space-y-10 md:space-y-16">
-            {experiences.map((exp, index) => {
-              const onLeft = index % 2 === 0
-              return (
-                <div key={`${exp.company}-${exp.role}`} className="relative md:grid md:grid-cols-2 md:gap-12">
-                  {/* Node */}
-                  <span
-                    aria-hidden="true"
-                    className="absolute left-0 top-2 z-10 grid h-[15px] w-[15px] place-items-center md:left-1/2 md:-translate-x-1/2"
-                  >
-                    <span className="absolute inset-0 rounded-full bg-primary-500 ring-4 ring-[rgb(var(--veil))]" />
-                    {exp.current && (
-                      <span className="absolute inset-0 animate-pulse-ring rounded-full bg-accent-500" />
-                    )}
+        {/*
+          The roles are a deck, like Featured Work. The vertical spine and its
+          scroll-fill that used to live here are gone deliberately: the chart
+          directly above already states the chronology on a real time axis, so
+          the spine was drawing a second, vaguer timeline immediately below a
+          precise one. A spine cannot coexist with stacking anyway — pinned
+          cards would slide over the line and its nodes.
+        */}
+        <ol ref={stackRef} className="mx-auto max-w-5xl">
+          {experiences.map((exp, index) => (
+            <StackCard
+              key={`${exp.company}-${exp.role}`}
+              index={index}
+              reducedMotion={reducedMotion}
+              surfaceClassName="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:gap-14"
+            >
+              <div className="flex flex-col gap-4">
+                <div className="flex items-center gap-4">
+                  <span className="font-display text-3xl leading-none text-ink-300 transition-colors duration-500 group-hover:text-primary-500/70 dark:text-ink-700">
+                    {String(index + 1).padStart(2, '0')}
                   </span>
-
-                  <div
-                    className={`ml-8 md:ml-0 ${
-                      onLeft ? 'md:pr-4 md:text-left' : 'md:col-start-2 md:pl-4'
-                    }`}
-                  >
-                    <motion.div
-                      style={{ perspective: 1400 }}
-                      initial={{ opacity: 0, rotateY: onLeft ? -22 : 22, y: 28 }}
-                      whileInView={{ opacity: 1, rotateY: 0, y: 0 }}
-                      viewport={{ once: true, margin: '-90px' }}
-                      transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-                    >
-                      <TiltCard intensity={4}>
-                        <div className="card">
-                          <div className="z-mid mb-4 flex flex-wrap items-center gap-2">
-                            <span className="inline-flex items-center gap-1.5 rounded-full bg-primary-500/10 px-3 py-1 text-sm font-medium text-primary-700 ring-1 ring-primary-500/20 dark:text-primary-300">
-                              <Briefcase className="h-3.5 w-3.5" />
-                              {exp.company}
-                            </span>
-                            <span className="rounded-full px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-ink-500 ring-1 ring-black/10 dark:text-ink-400 dark:ring-white/10">
-                              {exp.type}
-                            </span>
-                            {exp.current && (
-                              <span className="rounded-full bg-accent-500/15 px-3 py-1 text-sm font-medium text-accent-700 ring-1 ring-accent-500/25 dark:text-accent-300">
-                                Current
-                              </span>
-                            )}
-                          </div>
-
-                          <h3 className="z-near mb-3 font-display text-2xl leading-tight text-ink-900 dark:text-white">
-                            {exp.role}
-                          </h3>
-
-                          <div className="mb-5 flex flex-wrap items-center gap-4 text-sm text-ink-500">
-                            <span className="inline-flex items-center gap-1.5">
-                              <Calendar className="h-4 w-4" />
-                              {exp.duration}
-                            </span>
-                            <span className="inline-flex items-center gap-1.5">
-                              <MapPin className="h-4 w-4" />
-                              {exp.location}
-                            </span>
-                          </div>
-
-                          <ul className="z-far space-y-2.5">
-                            {exp.description.map((line) => (
-                              <li
-                                key={line}
-                                className="flex items-start gap-3 text-ink-600 dark:text-ink-400"
-                              >
-                                <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-primary-500/70" />
-                                <span className="leading-relaxed">{line}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      </TiltCard>
-                    </motion.div>
-                  </div>
+                  <span className="grid h-11 w-11 place-items-center rounded-xl bg-gradient-to-br from-primary-500 to-primary-700 shadow-lg shadow-primary-500/25 transition-transform duration-500 ease-smooth group-hover:scale-110">
+                    <Briefcase className="h-5 w-5 text-white" />
+                  </span>
                 </div>
-              )
-            })}
-          </div>
-        </div>
+
+                <div>
+                  <div className="mb-2.5 flex flex-wrap items-center gap-2">
+                    <span className="rounded-full bg-primary-500/10 px-3 py-1 text-sm font-medium text-primary-700 ring-1 ring-primary-500/20 dark:text-primary-300">
+                      {exp.company}
+                    </span>
+                    <span className="rounded-full px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-ink-500 ring-1 ring-black/10 dark:text-ink-400 dark:ring-white/10">
+                      {exp.type}
+                    </span>
+                    {exp.current && (
+                      <span className="rounded-full bg-accent-500/15 px-3 py-1 text-sm font-medium text-accent-700 ring-1 ring-accent-500/25 dark:text-accent-300">
+                        Current
+                      </span>
+                    )}
+                  </div>
+
+                  <h3 className="font-display text-2xl leading-tight text-ink-900 md:text-3xl dark:text-white">
+                    {exp.role}
+                  </h3>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-4 text-sm text-ink-500">
+                  <span className="inline-flex items-center gap-1.5">
+                    <Calendar className="h-4 w-4" />
+                    {exp.duration}
+                  </span>
+                  <span className="inline-flex items-center gap-1.5">
+                    <MapPin className="h-4 w-4" />
+                    {exp.location}
+                  </span>
+                </div>
+              </div>
+
+              <div className="lg:pt-2">
+                <h4 className="mb-2.5 font-mono text-[10px] uppercase tracking-[0.2em] text-ink-400">
+                  What I did
+                </h4>
+                <ul className="space-y-2.5">
+                  {exp.description.map((line) => (
+                    <li
+                      key={line}
+                      className="flex items-start gap-3 text-sm text-ink-600 dark:text-ink-400"
+                    >
+                      <span className="mt-[7px] h-1 w-1 flex-shrink-0 rounded-full bg-primary-500" />
+                      <span className="leading-relaxed">{line}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </StackCard>
+          ))}
+        </ol>
       </div>
     </section>
   )
