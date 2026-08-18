@@ -94,7 +94,7 @@ export default function CareerTimeline() {
   }, [])
 
   return (
-    <figure className="mb-16">
+    <figure className="mx-auto mb-16 max-w-5xl">
       <figcaption className="mb-6 text-center">
         <h3 className="font-display text-2xl text-ink-900 dark:text-white">Roles over time</h3>
         <p className="mt-1 text-sm text-ink-500">

@@ -20,7 +20,7 @@ export default function Footer() {
 
   return (
     <footer className="section-veil border-t hairline">
-      <div className="mx-auto max-w-6xl px-6 py-16 md:px-10">
+      <div className="mx-auto max-w-5xl px-6 py-16 md:px-10">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}

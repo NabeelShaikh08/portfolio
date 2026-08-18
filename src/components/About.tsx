@@ -52,7 +52,7 @@ export default function About() {
         </div>
 
         <Reveal>
-          <figure className="group relative mx-auto mb-12 max-w-3xl overflow-hidden rounded-2xl ring-1 ring-black/5 dark:ring-white/10">
+          <figure className="group relative mx-auto mb-12 max-w-5xl overflow-hidden rounded-2xl ring-1 ring-black/5 dark:ring-white/10">
             <img
               src={workspaceImg}
               alt="Nabeel Shaikh's desk — an external monitor and laptop running code, lit warm at night"
@@ -113,7 +113,7 @@ export default function About() {
             className="absolute -right-20 -top-24 hidden opacity-60 lg:block"
           />
 
-          <div className="relative grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="relative mx-auto grid max-w-5xl gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {highlights.map((item, index) => (
               <Reveal key={item.title} delay={index + 2}>
                 <TiltCard>

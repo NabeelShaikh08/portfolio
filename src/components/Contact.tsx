@@ -68,7 +68,7 @@ export default function Contact() {
           </SplitText>
         </div>
 
-        <div className="relative grid gap-12 lg:grid-cols-2">
+        <div className="relative mx-auto grid max-w-5xl gap-12 lg:grid-cols-2">
           <Orbit
             size={280}
             className="absolute -left-32 bottom-0 hidden opacity-50 xl:block"

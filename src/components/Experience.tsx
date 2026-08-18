@@ -88,7 +88,7 @@ export default function Experience() {
           <CareerTimeline />
         </Reveal>
 
-        <div ref={trackRef} className="relative">
+        <div ref={trackRef} className="relative mx-auto max-w-5xl">
           {/* Unfilled track */}
           <div
             aria-hidden="true"
