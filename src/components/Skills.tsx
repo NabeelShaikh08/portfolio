@@ -109,7 +109,7 @@ export default function Skills() {
         {/* Every technology in one moving band. The list is rendered twice so
             the -50% keyframe lands exactly on the seam and the loop is
             invisible; the copy is hidden from assistive tech. */}
-        <div className="fade-x relative mt-16 overflow-hidden py-2">
+        <div className="fade-x relative mt-12 overflow-hidden py-2">
           <div className="flex w-max animate-marquee gap-3 hover:[animation-play-state:paused]">
             {[0, 1].map((pass) => (
               <div key={pass} className="flex gap-3" aria-hidden={pass === 1}>

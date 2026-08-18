@@ -52,7 +52,7 @@ export default function About() {
         </div>
 
         <Reveal>
-          <figure className="group relative mx-auto mb-16 max-w-3xl overflow-hidden rounded-2xl ring-1 ring-black/5 dark:ring-white/10">
+          <figure className="group relative mx-auto mb-12 max-w-3xl overflow-hidden rounded-2xl ring-1 ring-black/5 dark:ring-white/10">
             <img
               src={workspaceImg}
               alt="Nabeel Shaikh's desk — an external monitor and laptop running code, lit warm at night"
@@ -67,12 +67,11 @@ export default function About() {
           </figure>
         </Reveal>
 
-        <div className="grid items-start gap-14 lg:grid-cols-[1.05fr_0.95fr]">
-          <div className="space-y-6">
+        <div className="relative mx-auto max-w-3xl space-y-6">
             {/* Lead paragraph is set larger than the rest — the eye needs one
                 obvious place to start in a five-paragraph column. */}
             <Reveal delay={2}>
-              <p className="text-xl leading-relaxed text-ink-600 dark:text-ink-300">
+              <p className="text-xl leading-relaxed text-ink-700 dark:text-ink-200">
                 I am an <span className="font-medium text-ink-900 dark:text-white">AI Engineer</span> and
                 full-stack developer with experience building production-ready web, mobile, and embedded
                 systems, from applied AI and automation pipelines to Flutter apps and Raspberry Pi firmware.
@@ -106,15 +105,15 @@ export default function About() {
                 user-facing solutions.
               </p>
             </Reveal>
-          </div>
+        </div>
 
-          <div className="relative">
-            <Orbit
-              size={340}
-              className="absolute -right-24 -top-28 hidden opacity-70 lg:block"
-            />
+        <div className="relative mt-14">
+          <Orbit
+            size={300}
+            className="absolute -right-20 -top-24 hidden opacity-60 lg:block"
+          />
 
-            <div className="grid gap-4 sm:grid-cols-2">
+          <div className="relative grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {highlights.map((item, index) => (
               <Reveal key={item.title} delay={index + 2}>
                 <TiltCard>
@@ -140,7 +139,6 @@ export default function About() {
                 </TiltCard>
               </Reveal>
             ))}
-            </div>
           </div>
         </div>
       </div>

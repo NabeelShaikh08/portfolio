@@ -2,6 +2,7 @@ import { useRef } from 'react'
 import { motion, useSpring } from 'framer-motion'
 import { Briefcase, Calendar, MapPin } from 'lucide-react'
 import { useElementProgress } from '../hooks/useElementProgress'
+import CareerTimeline from './CareerTimeline'
 import Reveal from './ui/Reveal'
 import SplitText from './ui/SplitText'
 import TiltCard from './ui/TiltCard'
@@ -82,6 +83,10 @@ export default function Experience() {
             Where I've Worked
           </SplitText>
         </div>
+
+        <Reveal>
+          <CareerTimeline />
+        </Reveal>
 
         <div ref={trackRef} className="relative">
           {/* Unfilled track */}

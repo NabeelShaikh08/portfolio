@@ -21,6 +21,9 @@
     --brand: 46 139 122;        /* primary-500, verdigris */
     --brand-deep: 20 88 78;     /* primary-700 */
     --brass: 200 162 74;        /* accent-500 */
+
+    --chart-bar: #008A72;
+    --chart-ongoing: #9A6E00;
   }
 
   .dark {
@@ -32,6 +35,9 @@
     --brand: 79 175 152;        /* primary-400 */
     --brand-deep: 46 139 122;   /* primary-500 */
     --brass: 227 199 126;       /* accent-300 */
+
+    --chart-bar: #17A88C;
+    --chart-ongoing: #B08A1E;
   }
 
   html {
@@ -65,7 +71,7 @@
 
 @layer components {
   .section-container {
-    @apply max-w-6xl mx-auto px-6 md:px-10 py-28 md:py-36;
+    @apply max-w-6xl mx-auto px-6 md:px-10 py-16 md:py-20;
   }
 
   /* Frosted veil applied to every content section so the field recedes. */
@@ -80,11 +86,11 @@
      below; only the header block is centred, which is what gives the page a
      single spine to read down. */
   .section-head {
-    @apply mx-auto mb-14 max-w-3xl text-center;
+    @apply mx-auto mb-10 max-w-3xl text-center;
   }
 
   .section-title {
-    @apply inline-flex items-center gap-3 text-xs font-mono uppercase tracking-[0.25em] text-primary-500 dark:text-primary-400 mb-6;
+    @apply inline-flex items-center gap-3 text-xs font-mono uppercase tracking-[0.25em] text-primary-500 dark:text-primary-400 mb-4;
   }
 
   .section-title::before,
