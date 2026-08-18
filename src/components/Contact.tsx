@@ -1,4 +1,5 @@
-import { Github, Linkedin, Mail, MapPin, Phone, Send } from 'lucide-react'
+import { useState } from 'react'
+import { AlertCircle, CheckCircle2, Github, Linkedin, Loader2, Mail, MapPin, Phone, Send } from 'lucide-react'
 import Orbit from './ui/Orbit'
 import Reveal from './ui/Reveal'
 import SplitText from './ui/SplitText'
@@ -21,7 +22,40 @@ const socialLinks = [
 const field =
   'w-full rounded-xl bg-black/[0.03] px-4 py-3.5 text-ink-900 outline-none ring-1 ring-black/10 transition-all duration-300 placeholder:text-ink-400 focus:bg-transparent focus:ring-2 focus:ring-primary-500 dark:bg-white/[0.04] dark:text-white dark:ring-white/10'
 
+const FORM_ENDPOINT = 'https://formspree.io/f/xnjddany'
+
+type SubmitState = 'idle' | 'submitting' | 'success' | 'error'
+
 export default function Contact() {
+  const [state, setState] = useState<SubmitState>('idle')
+
+  /**
+   * Submits in place rather than letting the browser navigate to Formspree's
+   * own thank-you page, which threw the visitor off the site at exactly the
+   * moment they had decided to get in touch.
+   *
+   * The <form> keeps its action and method, so with JavaScript unavailable
+   * this handler never runs and the plain HTML submit still works.
+   */
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    const form = event.currentTarget
+    setState('submitting')
+
+    try {
+      const response = await fetch(FORM_ENDPOINT, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { Accept: 'application/json' },
+      })
+      if (!response.ok) throw new Error(String(response.status))
+      form.reset()
+      setState('success')
+    } catch {
+      setState('error')
+    }
+  }
+
   return (
     <section id="contact" className="section-veil">
       <div className="section-container">
@@ -104,7 +138,12 @@ export default function Contact() {
                 <h3 className="z-mid mb-6 font-display text-2xl text-ink-900 dark:text-white">
                   Send a Message
                 </h3>
-                <form action="https://formspree.io/f/xnjddany" method="POST" className="space-y-5">
+                <form
+                  action={FORM_ENDPOINT}
+                  method="POST"
+                  onSubmit={handleSubmit}
+                  className="space-y-5"
+                >
                   <div>
                     <label
                       htmlFor="name"
@@ -139,10 +178,45 @@ export default function Contact() {
                       placeholder="Your message..."
                     />
                   </div>
-                  <button type="submit" className="btn-primary w-full justify-center">
-                    <Send className="h-4 w-4" />
-                    Send Message
+                  <button
+                    type="submit"
+                    disabled={state === 'submitting'}
+                    className="btn-primary w-full justify-center disabled:cursor-not-allowed disabled:opacity-70"
+                  >
+                    {state === 'submitting' ? (
+                      <>
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                        Sending…
+                      </>
+                    ) : (
+                      <>
+                        <Send className="h-4 w-4" />
+                        Send Message
+                      </>
+                    )}
                   </button>
+
+                  {/* aria-live so the outcome is announced, not just shown. */}
+                  <div aria-live="polite" className="min-h-[1.25rem]">
+                    {state === 'success' && (
+                      <p className="flex items-center gap-2 text-sm text-primary-600 dark:text-primary-400">
+                        <CheckCircle2 className="h-4 w-4 flex-shrink-0" />
+                        Thanks — your message is on its way. I'll reply soon.
+                      </p>
+                    )}
+                    {state === 'error' && (
+                      <p className="flex items-start gap-2 text-sm text-accent-700 dark:text-accent-300">
+                        <AlertCircle className="mt-0.5 h-4 w-4 flex-shrink-0" />
+                        <span>
+                          That didn't send. Please try again, or email me directly at{' '}
+                          <a href="mailto:nabeelshk0808@gmail.com" className="underline">
+                            nabeelshk0808@gmail.com
+                          </a>
+                          .
+                        </span>
+                      </p>
+                    )}
+                  </div>
                 </form>
               </div>
             </TiltCard>

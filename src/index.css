@@ -61,6 +61,19 @@
     @apply bg-primary-500/30;
   }
 
+  :focus-visible {
+    outline: 2px solid rgb(var(--brand));
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  /* The custom cursor hides the pointer, so a keyboard focus ring is the only
+     position feedback some visitors get — it must never be suppressed. */
+  :focus-visible,
+  :focus-visible * {
+    cursor: auto;
+  }
+
   /* Display face is optically large — pull it tight so headings read as
      one mass rather than loose words. */
   .font-display {

@@ -63,7 +63,12 @@ export default function Cursor() {
 
   return (
     <>
-      <style>{`@media (pointer: fine) { * { cursor: none !important; } }`}</style>
+      <style>{`
+        @media (pointer: fine) {
+          * { cursor: none !important; }
+          input, textarea, select, [contenteditable="true"] { cursor: text !important; }
+        }
+      `}</style>
       <div
         ref={dotRef}
         aria-hidden="true"
