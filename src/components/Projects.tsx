@@ -1,6 +1,7 @@
 import { BookOpen, Bone, Bot, Brain, ExternalLink, FileText, Github, Heart, Lock, Palmtree, Shirt } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import Reveal from './ui/Reveal'
+import SplitText from './ui/SplitText'
 import TiltCard from './ui/TiltCard'
 
 type Project = {
@@ -222,9 +223,9 @@ function Highlights({ highlights }: { highlights: string[] }) {
 
 function ProjectHeader({ project, large = false }: { project: Project; large?: boolean }) {
   return (
-    <div className="mb-5 flex items-start gap-4">
+    <div className="z-mid mb-5 flex items-start gap-4">
       <div
-        className={`grid flex-shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-primary-500 to-primary-700 shadow-lg shadow-primary-500/25 transition-transform duration-500 ease-smooth group-hover:scale-110 ${
+        className={`z-near grid flex-shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-primary-500 to-primary-700 shadow-lg shadow-primary-500/30 transition-transform duration-500 ease-smooth group-hover:scale-110 ${
           large ? 'h-16 w-16' : 'h-12 w-12'
         }`}
       >
@@ -262,9 +263,7 @@ export default function Projects() {
         <Reveal>
           <p className="section-title">Projects</p>
         </Reveal>
-        <Reveal delay={1}>
-          <h2 className="section-heading">Featured Work</h2>
-        </Reveal>
+        <SplitText className="section-heading">Featured Work</SplitText>
 
         {/* The flagship gets a full-width, two-column treatment. Giving every
             project identical weight is the fastest way to make none of them

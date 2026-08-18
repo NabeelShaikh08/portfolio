@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { ArrowDown, Download, Github, Linkedin, Mail } from 'lucide-react'
 import heroImg from '../assets/images/hero-img.jpg'
+import Orbit from './ui/Orbit'
 
 const socials = [
   { icon: Linkedin, href: 'https://linkedin.com/in/nabeelshaikh0808', label: 'LinkedIn' },
@@ -144,10 +145,14 @@ export default function Hero() {
           className="relative mx-auto w-full max-w-sm lg:max-w-none"
         >
           <div className="relative animate-float">
-            {/* Copper bloom behind the portrait, tying it to the field. */}
+            <Orbit
+              size={520}
+              className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 opacity-60 md:block"
+            />
+            {/* Verdigris bloom behind the portrait, tying it to the field. */}
             <div
               aria-hidden="true"
-              className="absolute -inset-8 rounded-full bg-[radial-gradient(circle,rgba(224,138,58,0.28),transparent_68%)] blur-2xl"
+              className="absolute -inset-8 rounded-full bg-[radial-gradient(circle,rgb(var(--brand)/0.3),transparent_68%)] blur-2xl"
             />
             <div className="relative aspect-square overflow-hidden rounded-[2rem] ring-1 ring-black/5 dark:ring-white/10">
               <img
@@ -158,7 +163,7 @@ export default function Hero() {
               {/* Warm grade so the photo shares the page's temperature. */}
               <div
                 aria-hidden="true"
-                className="absolute inset-0 bg-gradient-to-tr from-primary-900/25 via-transparent to-accent-400/10 mix-blend-multiply dark:mix-blend-overlay"
+                className="absolute inset-0 bg-gradient-to-tr from-primary-900/30 via-transparent to-accent-400/15 mix-blend-multiply dark:mix-blend-overlay"
               />
             </div>
 

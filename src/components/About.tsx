@@ -1,5 +1,7 @@
 import { Brain, Code2, Cpu, Server, Smartphone, Workflow } from 'lucide-react'
+import Orbit from './ui/Orbit'
 import Reveal from './ui/Reveal'
+import SplitText from './ui/SplitText'
 import TiltCard from './ui/TiltCard'
 
 const highlights = [
@@ -42,11 +44,9 @@ export default function About() {
         <Reveal>
           <p className="section-title">About Me</p>
         </Reveal>
-        <Reveal delay={1}>
-          <h2 className="section-heading max-w-4xl text-balance">
-            Crafting intelligent solutions at the intersection of AI and web development
-          </h2>
-        </Reveal>
+        <SplitText className="section-heading max-w-4xl text-balance">
+          Crafting intelligent solutions at the intersection of AI and web development
+        </SplitText>
 
         <div className="grid items-start gap-14 lg:grid-cols-[1.05fr_0.95fr]">
           <div className="space-y-6">
@@ -89,16 +89,30 @@ export default function About() {
             </Reveal>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="relative grid gap-4 sm:grid-cols-2">
+            <Orbit
+              size={340}
+              className="absolute -right-24 -top-28 hidden opacity-70 lg:block"
+            />
             {highlights.map((item, index) => (
               <Reveal key={item.title} delay={index + 2}>
                 <TiltCard>
-                  <div className="card group h-full">
-                    <div className="mb-4 grid h-11 w-11 place-items-center rounded-xl bg-primary-500/10 ring-1 ring-primary-500/20 transition-transform duration-500 ease-smooth group-hover:scale-110">
-                      <item.icon className="h-5 w-5 text-primary-600 dark:text-primary-400" />
+                  <div className="card group h-full overflow-hidden">
+                    {/* Glow anchored to the card's own plane, so it stays put
+                        while the layers above it move. */}
+                    <span
+                      aria-hidden="true"
+                      className="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-primary-500/20 opacity-60 blur-2xl transition-opacity duration-500 group-hover:opacity-100"
+                    />
+                    <div className="z-near mb-4">
+                      <div className="grid h-11 w-11 place-items-center rounded-xl bg-primary-500/10 ring-1 ring-primary-500/25 transition-transform duration-500 ease-smooth group-hover:scale-110">
+                        <item.icon className="h-5 w-5 text-primary-600 dark:text-primary-400" />
+                      </div>
                     </div>
-                    <h3 className="mb-2 font-semibold text-ink-900 dark:text-white">{item.title}</h3>
-                    <p className="text-sm leading-relaxed text-ink-500 dark:text-ink-400">
+                    <h3 className="z-mid mb-2 font-semibold text-ink-900 dark:text-white">
+                      {item.title}
+                    </h3>
+                    <p className="z-far text-sm leading-relaxed text-ink-500 dark:text-ink-400">
                       {item.description}
                     </p>
                   </div>

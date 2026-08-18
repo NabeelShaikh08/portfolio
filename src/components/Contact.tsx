@@ -1,5 +1,7 @@
 import { Github, Linkedin, Mail, MapPin, Phone, Send } from 'lucide-react'
+import Orbit from './ui/Orbit'
 import Reveal from './ui/Reveal'
+import SplitText from './ui/SplitText'
 import TiltCard from './ui/TiltCard'
 
 const contactInfo = [
@@ -26,12 +28,14 @@ export default function Contact() {
         <Reveal>
           <p className="section-title">Contact</p>
         </Reveal>
-        <Reveal delay={1}>
-          <h2 className="section-heading">Let's Work Together</h2>
-        </Reveal>
+        <SplitText className="section-heading">Let's Work Together</SplitText>
 
-        <div className="grid gap-12 lg:grid-cols-2">
-          <div className="space-y-10">
+        <div className="relative grid gap-12 lg:grid-cols-2">
+          <Orbit
+            size={280}
+            className="absolute -left-32 bottom-0 hidden opacity-50 xl:block"
+          />
+          <div className="relative space-y-10">
             <Reveal delay={2}>
               <p className="max-w-lg text-xl leading-relaxed text-ink-600 dark:text-ink-300">
                 I'm always interested in hearing about new opportunities, especially those
@@ -93,7 +97,7 @@ export default function Contact() {
           <Reveal delay={3}>
             <TiltCard intensity={3}>
               <div className="card md:p-8">
-                <h3 className="mb-6 font-display text-2xl text-ink-900 dark:text-white">
+                <h3 className="z-mid mb-6 font-display text-2xl text-ink-900 dark:text-white">
                   Send a Message
                 </h3>
                 <form action="https://formspree.io/f/xnjddany" method="POST" className="space-y-5">

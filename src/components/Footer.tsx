@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion'
 import { Github, Heart, Linkedin, Mail } from 'lucide-react'
 
 const socialLinks = [
@@ -20,7 +21,13 @@ export default function Footer() {
   return (
     <footer className="section-veil border-t hairline">
       <div className="mx-auto max-w-6xl px-6 py-16 md:px-10">
-        <div className="mb-12 grid gap-10 md:grid-cols-3">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+          className="mb-12 grid gap-10 md:grid-cols-3"
+        >
           <div className="space-y-4">
             <a href="#" className="inline-block" aria-label="Back to top">
               <img src="/header.png" alt="Nabeel Shaikh" className="h-16 w-auto" />
@@ -67,7 +74,7 @@ export default function Footer() {
               ))}
             </div>
           </div>
-        </div>
+        </motion.div>
 
         <div className="flex flex-col items-center justify-between gap-4 border-t pt-8 hairline md:flex-row">
           <p className="flex items-center gap-1.5 text-sm text-ink-500">

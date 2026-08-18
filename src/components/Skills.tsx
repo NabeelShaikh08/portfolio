@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { Brain, Code, Cpu, Database, Layers, Wrench } from 'lucide-react'
 import Reveal from './ui/Reveal'
+import SplitText from './ui/SplitText'
 import TiltCard from './ui/TiltCard'
 
 const skillGroups = [
@@ -36,6 +37,8 @@ const skillGroups = [
   },
 ]
 
+const marqueeSkills = skillGroups.flatMap((group) => group.skills)
+
 export default function Skills() {
   return (
     <section id="skills" className="section-veil">
@@ -43,9 +46,7 @@ export default function Skills() {
         <Reveal>
           <p className="section-title">Skills</p>
         </Reveal>
-        <Reveal delay={1}>
-          <h2 className="section-heading">Technologies I Work With</h2>
-        </Reveal>
+        <SplitText className="section-heading">Technologies I Work With</SplitText>
 
         <div className="relative">
           {/* Spine. The original layout drew literal connector lines between
@@ -65,8 +66,8 @@ export default function Skills() {
               <Reveal key={group.title} delay={index}>
                 <TiltCard intensity={5}>
                   <div className="card group h-full">
-                    <div className="mb-5 flex items-center gap-3">
-                      <div className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-primary-500 to-primary-600 shadow-lg shadow-primary-500/25 transition-transform duration-500 ease-smooth group-hover:scale-110">
+                    <div className="z-mid mb-5 flex items-center gap-3">
+                      <div className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-primary-500 to-primary-700 shadow-lg shadow-primary-500/25 transition-transform duration-500 ease-smooth group-hover:scale-110">
                         <group.icon className="h-5 w-5 text-white" />
                       </div>
                       <h3 className="font-semibold text-ink-900 dark:text-white">{group.title}</h3>
@@ -74,16 +75,49 @@ export default function Skills() {
                         {String(group.skills.length).padStart(2, '0')}
                       </span>
                     </div>
-                    <div className="flex flex-wrap gap-2">
-                      {group.skills.map((skill) => (
-                        <span key={skill} className="skill-tag">
+                    {/* Tags cascade rather than appearing as a block, so a
+                        dense list reads as arriving instead of dumping. */}
+                    <div className="z-far flex flex-wrap gap-2">
+                      {group.skills.map((skill, i) => (
+                        <motion.span
+                          key={skill}
+                          className="skill-tag"
+                          initial={{ opacity: 0, y: 10, scale: 0.94 }}
+                          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                          viewport={{ once: true, margin: '-40px' }}
+                          transition={{
+                            duration: 0.5,
+                            delay: i * 0.028,
+                            ease: [0.16, 1, 0.3, 1],
+                          }}
+                        >
                           {skill}
-                        </span>
+                        </motion.span>
                       ))}
                     </div>
                   </div>
                 </TiltCard>
               </Reveal>
+            ))}
+          </div>
+        </div>
+
+        {/* Every technology in one moving band. The list is rendered twice so
+            the -50% keyframe lands exactly on the seam and the loop is
+            invisible; the copy is hidden from assistive tech. */}
+        <div className="fade-x relative mt-16 overflow-hidden py-2">
+          <div className="flex w-max animate-marquee gap-3 hover:[animation-play-state:paused]">
+            {[0, 1].map((pass) => (
+              <div key={pass} className="flex gap-3" aria-hidden={pass === 1}>
+                {marqueeSkills.map((skill) => (
+                  <span
+                    key={`${pass}-${skill}`}
+                    className="whitespace-nowrap rounded-full px-4 py-2 font-mono text-xs uppercase tracking-wider text-ink-500 ring-1 ring-black/5 dark:text-ink-400 dark:ring-white/10"
+                  >
+                    {skill}
+                  </span>
+                ))}
+              </div>
             ))}
           </div>
         </div>

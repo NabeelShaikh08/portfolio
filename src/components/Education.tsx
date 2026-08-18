@@ -1,5 +1,7 @@
 import { Award, GraduationCap } from 'lucide-react'
+import Counter from './ui/Counter'
 import Reveal from './ui/Reveal'
+import SplitText from './ui/SplitText'
 import TiltCard from './ui/TiltCard'
 
 export default function Education() {
@@ -9,16 +11,14 @@ export default function Education() {
         <Reveal>
           <p className="section-title">Education</p>
         </Reveal>
-        <Reveal delay={1}>
-          <h2 className="section-heading">Academic Background</h2>
-        </Reveal>
+        <SplitText className="section-heading">Academic Background</SplitText>
 
         <div className="grid gap-6 md:grid-cols-2">
           <Reveal delay={2}>
             <TiltCard intensity={5}>
               <div className="card group h-full md:p-8">
-                <div className="mb-6 flex items-center gap-3">
-                  <div className="grid h-11 w-11 place-items-center rounded-xl bg-gradient-to-br from-primary-500 to-primary-700 shadow-lg shadow-primary-500/25 transition-transform duration-500 ease-smooth group-hover:scale-110">
+                <div className="z-mid mb-6 flex items-center gap-3">
+                  <div className="z-near grid h-11 w-11 place-items-center rounded-xl bg-gradient-to-br from-primary-500 to-primary-700 shadow-lg shadow-primary-500/25 transition-transform duration-500 ease-smooth group-hover:scale-110">
                     <GraduationCap className="h-5 w-5 text-white" />
                   </div>
                   <h3 className="font-display text-2xl text-ink-900 dark:text-white">Education</h3>
@@ -32,11 +32,13 @@ export default function Education() {
                 </p>
                 <p className="mt-2 text-sm text-ink-500">Rizvi College of Engineering | 2021 - 2025</p>
 
-                <div className="mt-5 inline-flex items-baseline gap-2 rounded-xl bg-primary-500/8 px-4 py-2 ring-1 ring-primary-500/15">
+                <div className="z-near mt-5 inline-flex items-baseline gap-2 rounded-xl bg-primary-500/10 px-4 py-2 ring-1 ring-primary-500/20">
                   <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-400">
                     CGPA
                   </span>
-                  <span className="font-display text-2xl text-ink-900 dark:text-white">8.1</span>
+                  <span className="font-display text-2xl text-ink-900 dark:text-white">
+                    <Counter to={8.1} decimals={1} />
+                  </span>
                   <span className="text-sm text-ink-500">/ 10</span>
                 </div>
               </div>
@@ -46,8 +48,8 @@ export default function Education() {
           <Reveal delay={3}>
             <TiltCard intensity={5}>
               <div className="card group h-full md:p-8">
-                <div className="mb-6 flex items-center gap-3">
-                  <div className="grid h-11 w-11 place-items-center rounded-xl bg-gradient-to-br from-accent-500 to-accent-700 shadow-lg shadow-accent-500/25 transition-transform duration-500 ease-smooth group-hover:scale-110">
+                <div className="z-mid mb-6 flex items-center gap-3">
+                  <div className="z-near grid h-11 w-11 place-items-center rounded-xl bg-gradient-to-br from-accent-500 to-accent-700 shadow-lg shadow-accent-500/25 transition-transform duration-500 ease-smooth group-hover:scale-110">
                     <Award className="h-5 w-5 text-white" />
                   </div>
                   <h3 className="font-display text-2xl text-ink-900 dark:text-white">

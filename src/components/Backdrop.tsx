@@ -11,8 +11,8 @@ const SceneCanvas = lazy(() => import('../three/SceneCanvas'))
 function StaticBackdrop() {
   return (
     <div className="absolute inset-0">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_0%,rgba(224,138,58,0.18),transparent_70%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_80%_60%,rgba(251,191,36,0.10),transparent_70%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_0%,rgb(var(--brand)/0.18),transparent_70%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_80%_60%,rgb(var(--brass)/0.10),transparent_70%)]" />
     </div>
   )
 }

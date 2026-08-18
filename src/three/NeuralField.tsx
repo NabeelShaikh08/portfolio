@@ -20,9 +20,9 @@ type Props = {
  */
 const PALETTE = {
   dark: {
-    a: new Color('#A75502'),
-    b: new Color('#FBBF24'),
-    link: new Color('#E08A3A'),
+    a: new Color('#2E8B7A'),
+    b: new Color('#E3C77E'),
+    link: new Color('#4FAF98'),
     blending: AdditiveBlending,
     pointOpacity: 1.3,
     linkOpacity: 0.5,
@@ -34,9 +34,9 @@ const PALETTE = {
   // Darker colours buy the contrast, and lower alpha keeps it behind the text
   // rather than in it.
   light: {
-    a: new Color('#7A3D02'),
-    b: new Color('#B8690C'),
-    link: new Color('#8F4802'),
+    a: new Color('#14584E'),
+    b: new Color('#A8843A'),
+    link: new Color('#1F6F63'),
     blending: NormalBlending,
     pointOpacity: 0.62,
     linkOpacity: 0.22,

@@ -25,7 +25,7 @@ export default function TiltCard({ children, className = '', intensity = 6 }: Pr
   const glowY = useMotionValue(50)
   const glowOpacity = useSpring(useMotionValue(0), { stiffness: 200, damping: 30 })
 
-  const glow = useMotionTemplate`radial-gradient(420px circle at ${glowX}% ${glowY}%, rgba(224,138,58,0.16), transparent 62%)`
+  const glow = useMotionTemplate`radial-gradient(420px circle at ${glowX}% ${glowY}%, rgb(var(--brand)/0.18), transparent 62%)`
 
   const handleMove = (event: React.PointerEvent<HTMLDivElement>) => {
     // Coarse pointers have no hover state; on touch this would fire once on

@@ -3,6 +3,7 @@ import { motion, useSpring } from 'framer-motion'
 import { Briefcase, Calendar, MapPin } from 'lucide-react'
 import { useElementProgress } from '../hooks/useElementProgress'
 import Reveal from './ui/Reveal'
+import SplitText from './ui/SplitText'
 import TiltCard from './ui/TiltCard'
 
 const experiences = [
@@ -76,9 +77,7 @@ export default function Experience() {
         <Reveal>
           <p className="section-title">Experience</p>
         </Reveal>
-        <Reveal delay={1}>
-          <h2 className="section-heading">Where I've Worked</h2>
-        </Reveal>
+        <SplitText className="section-heading">Where I've Worked</SplitText>
 
         <div ref={trackRef} className="relative">
           {/* Unfilled track */}
@@ -120,10 +119,16 @@ export default function Experience() {
                       onLeft ? 'md:pr-4 md:text-left' : 'md:col-start-2 md:pl-4'
                     }`}
                   >
-                    <Reveal y={32}>
+                    <motion.div
+                      style={{ perspective: 1400 }}
+                      initial={{ opacity: 0, rotateY: onLeft ? -22 : 22, y: 28 }}
+                      whileInView={{ opacity: 1, rotateY: 0, y: 0 }}
+                      viewport={{ once: true, margin: '-90px' }}
+                      transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                    >
                       <TiltCard intensity={4}>
                         <div className="card">
-                          <div className="mb-4 flex flex-wrap items-center gap-2">
+                          <div className="z-mid mb-4 flex flex-wrap items-center gap-2">
                             <span className="inline-flex items-center gap-1.5 rounded-full bg-primary-500/10 px-3 py-1 text-sm font-medium text-primary-700 ring-1 ring-primary-500/20 dark:text-primary-300">
                               <Briefcase className="h-3.5 w-3.5" />
                               {exp.company}
@@ -138,7 +143,7 @@ export default function Experience() {
                             )}
                           </div>
 
-                          <h3 className="mb-3 font-display text-2xl leading-tight text-ink-900 dark:text-white">
+                          <h3 className="z-near mb-3 font-display text-2xl leading-tight text-ink-900 dark:text-white">
                             {exp.role}
                           </h3>
 
@@ -153,7 +158,7 @@ export default function Experience() {
                             </span>
                           </div>
 
-                          <ul className="space-y-2.5">
+                          <ul className="z-far space-y-2.5">
                             {exp.description.map((line) => (
                               <li
                                 key={line}
@@ -166,7 +171,7 @@ export default function Experience() {
                           </ul>
                         </div>
                       </TiltCard>
-                    </Reveal>
+                    </motion.div>
                   </div>
                 </div>
               )

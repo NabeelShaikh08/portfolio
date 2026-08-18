@@ -11,15 +11,27 @@
 */
 @layer base {
   :root {
-    --veil: 250 247 242;        /* ink-50  */
+    --veil: 244 246 244;        /* ink-50  */
     --veil-strong: 255 255 255;
     --hairline: 0 0 0;
+
+    /* Brand channels, as raw RGB triples so any rule can dial its own alpha.
+       Every glow, ring and shadow on the site derives from these three — the
+       palette is changed here and nowhere else. */
+    --brand: 46 139 122;        /* primary-500, verdigris */
+    --brand-deep: 20 88 78;     /* primary-700 */
+    --brass: 200 162 74;        /* accent-500 */
   }
 
   .dark {
-    --veil: 11 8 7;             /* ink-950 */
-    --veil-strong: 22 18 16;    /* ink-900 */
+    --veil: 10 16 15;           /* ink-950 */
+    --veil-strong: 17 25 23;    /* ink-900 */
     --hairline: 255 255 255;
+    /* Lifted a step in the dark: the mid verdigris muddies against a near
+       black ground, where the lighter patina still reads as metal. */
+    --brand: 79 175 152;        /* primary-400 */
+    --brand-deep: 46 139 122;   /* primary-500 */
+    --brass: 227 199 126;       /* accent-300 */
   }
 
   html {
@@ -81,6 +93,7 @@
      reading as flat rectangles once they tilt. */
   .card {
     @apply relative rounded-2xl p-6 transition-all duration-500 ease-smooth;
+    transform-style: preserve-3d;
     background-color: rgb(var(--veil-strong) / 0.55);
     border: 1px solid rgb(var(--hairline) / 0.08);
     box-shadow:
@@ -89,10 +102,10 @@
   }
 
   .card:hover {
-    border-color: rgb(224 138 58 / 0.35);
+    border-color: rgb(var(--brand) / 0.4);
     box-shadow:
       0 1px 0 0 rgb(255 255 255 / 0.1) inset,
-      0 24px 60px -24px rgb(167 85 2 / 0.3);
+      0 24px 60px -24px rgb(var(--brand-deep) / 0.35);
   }
 
   .skill-tag {
@@ -104,8 +117,8 @@
 
   .skill-tag:hover {
     @apply text-primary-600 dark:text-primary-300 -translate-y-0.5;
-    border-color: rgb(224 138 58 / 0.45);
-    background-color: rgb(224 138 58 / 0.08);
+    border-color: rgb(var(--brand) / 0.5);
+    background-color: rgb(var(--brand) / 0.1);
   }
 
   .nav-link {
@@ -117,7 +130,7 @@
     @apply relative inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-medium
            text-white bg-primary-500 overflow-hidden
            transition-all duration-500 ease-smooth
-           hover:shadow-[0_16px_50px_-12px_rgba(167,85,2,0.7)] hover:-translate-y-0.5;
+           hover:shadow-[0_16px_50px_-12px_rgb(var(--brand-deep)/0.65)] hover:-translate-y-0.5;
   }
 
   /* Sheen sweep on hover — one shared gesture reused by both buttons. */
@@ -142,7 +155,7 @@
   }
 
   .btn-secondary:hover {
-    border-color: rgb(224 138 58 / 0.5);
+    border-color: rgb(var(--brand) / 0.55);
   }
 
   .hairline {
@@ -163,6 +176,26 @@
 
   .preserve-3d {
     transform-style: preserve-3d;
+  }
+
+  /* Z planes for tilt-card interiors, in a fixed scale so depth stays
+     consistent between sections rather than being guessed per card. */
+  .z-near {
+    transform: translateZ(42px);
+  }
+
+  .z-mid {
+    transform: translateZ(24px);
+  }
+
+  .z-far {
+    transform: translateZ(10px);
+  }
+
+  /* Masks the ends of a marquee so rows dissolve rather than being clipped. */
+  .fade-x {
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
   }
 }
 
