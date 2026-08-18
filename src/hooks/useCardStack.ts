@@ -17,8 +17,8 @@ import { clamp } from '../lib/viewport'
  * blends a card toward the page background while it stays fully opaque.
  *
  * Measured per frame rather than from scroll events: Lenis coalesces those to
- * roughly one per gesture, which is far too coarse for a continuous value —
- * the same reason useElementProgress samples on rAF.
+ * roughly one per gesture — a single 500px wheel gesture fires one scroll
+ * event — which is far too coarse for a value that must track continuously.
  *
  * Writes straight to style rather than through React state; this runs at frame
  * rate and must never re-render the tree.
