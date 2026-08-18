@@ -2,7 +2,6 @@ import { motion } from 'framer-motion'
 import { Brain, Code, Cpu, Database, Layers, Wrench } from 'lucide-react'
 import Reveal from './ui/Reveal'
 import SplitText from './ui/SplitText'
-import TiltCard from './ui/TiltCard'
 
 const skillGroups = [
   {
@@ -52,59 +51,58 @@ export default function Skills() {
           </SplitText>
         </div>
 
-        <div className="relative">
-          {/* Spine. The original layout drew literal connector lines between
-              the two rows; this keeps that idea but reduces it to a single
-              rail that draws itself in as the section enters. */}
-          <motion.div
-            aria-hidden="true"
-            initial={{ scaleX: 0 }}
-            whileInView={{ scaleX: 1 }}
-            viewport={{ once: true, margin: '-120px' }}
-            transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
-            className="pointer-events-none absolute left-0 right-0 top-1/2 hidden h-px origin-left bg-gradient-to-r from-transparent via-primary-500/40 to-transparent lg:block"
-          />
+        {/*
+          Six boxed cards put a border around every group and made a long list
+          of tags feel cramped. Rows divided by hairlines carry the same
+          content with far less chrome: the category label holds a fixed
+          column so the eye has one edge to scan down, and the tags get the
+          rest of the width to breathe.
+        */}
+        <ul className="mx-auto max-w-5xl divide-y divide-black/[0.07] dark:divide-white/[0.08]">
+          {skillGroups.map((group, index) => (
+            <li key={group.title}>
+              <Reveal delay={index}>
+                <div className="group relative grid gap-5 py-8 md:grid-cols-[minmax(190px,240px)_1fr] md:gap-10">
+                  {/* Accent rail — grows out of the row's top edge on hover,
+                      so the hover target reads as the whole row. */}
+                  <span
+                    aria-hidden="true"
+                    className="absolute -left-4 top-8 h-0 w-px bg-primary-500 transition-all duration-500 ease-smooth group-hover:h-[calc(100%-4rem)]"
+                  />
 
-          <div className="relative grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-            {skillGroups.map((group, index) => (
-              <Reveal key={group.title} delay={index}>
-                <TiltCard intensity={5}>
-                  <div className="card group h-full">
-                    <div className="z-mid mb-5 flex items-center gap-3">
-                      <div className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-primary-500 to-primary-700 shadow-lg shadow-primary-500/25 transition-transform duration-500 ease-smooth group-hover:scale-110">
-                        <group.icon className="h-5 w-5 text-white" />
-                      </div>
-                      <h3 className="font-semibold text-ink-900 dark:text-white">{group.title}</h3>
-                      <span className="ml-auto font-mono text-xs text-ink-400">
-                        {String(group.skills.length).padStart(2, '0')}
-                      </span>
-                    </div>
-                    {/* Tags cascade rather than appearing as a block, so a
-                        dense list reads as arriving instead of dumping. */}
-                    <div className="z-far flex flex-wrap gap-2">
-                      {group.skills.map((skill, i) => (
-                        <motion.span
-                          key={skill}
-                          className="skill-tag"
-                          initial={{ opacity: 0, y: 10, scale: 0.94 }}
-                          whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                          viewport={{ once: true, margin: '-40px' }}
-                          transition={{
-                            duration: 0.5,
-                            delay: i * 0.028,
-                            ease: [0.16, 1, 0.3, 1],
-                          }}
-                        >
-                          {skill}
-                        </motion.span>
-                      ))}
+                  <div className="flex items-center gap-3.5">
+                    <span className="grid h-10 w-10 flex-shrink-0 place-items-center rounded-xl bg-primary-500/10 ring-1 ring-primary-500/20 transition-all duration-500 ease-smooth group-hover:scale-110 group-hover:bg-primary-500/15">
+                      <group.icon className="h-[18px] w-[18px] text-primary-600 dark:text-primary-400" />
+                    </span>
+                    <div className="min-w-0">
+                      <h3 className="font-display text-xl leading-tight text-ink-900 dark:text-white">
+                        {group.title}
+                      </h3>
+                      <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-400">
+                        {String(group.skills.length).padStart(2, '0')} tools
+                      </p>
                     </div>
                   </div>
-                </TiltCard>
+
+                  <div className="flex flex-wrap gap-2 md:pt-1">
+                    {group.skills.map((skill, i) => (
+                      <motion.span
+                        key={skill}
+                        className="skill-tag"
+                        initial={{ opacity: 0, y: 8 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: '-40px' }}
+                        transition={{ duration: 0.45, delay: i * 0.022, ease: [0.16, 1, 0.3, 1] }}
+                      >
+                        {skill}
+                      </motion.span>
+                    ))}
+                  </div>
+                </div>
               </Reveal>
-            ))}
-          </div>
-        </div>
+            </li>
+          ))}
+        </ul>
 
         {/* Every technology in one moving band. The list is rendered twice so
             the -50% keyframe lands exactly on the seam and the loop is

@@ -2,7 +2,6 @@ import { BookOpen, Bone, Bot, Brain, ExternalLink, FileText, Github, Heart, Lock
 import type { LucideIcon } from 'lucide-react'
 import Reveal from './ui/Reveal'
 import SplitText from './ui/SplitText'
-import TiltCard from './ui/TiltCard'
 
 type Project = {
   title: string
@@ -150,7 +149,7 @@ const projects: Project[] = [
 
 function ProjectLinks({ project }: { project: Project }) {
   return (
-    <div className="mt-auto flex flex-wrap items-center gap-3 border-t pt-5 hairline">
+    <div className="flex flex-wrap items-center gap-3 pt-1">
       {project.github !== '#' && (
         <a
           href={project.github}
@@ -163,7 +162,7 @@ function ProjectLinks({ project }: { project: Project }) {
         </a>
       )}
       {project.sourcePrivate && (
-        <span className="inline-flex items-center gap-2 px-1 py-2 text-sm font-medium text-ink-500">
+        <span className="inline-flex items-center gap-2 py-2 text-sm font-medium text-ink-500">
           <Lock className="h-4 w-4" />
           Private repo — client work
         </span>
@@ -183,80 +182,16 @@ function ProjectLinks({ project }: { project: Project }) {
   )
 }
 
-function TechList({ tech }: { tech: string[] }) {
+/** Small caps label used above each block of specs. */
+function SpecLabel({ children }: { children: string }) {
   return (
-    <div>
-      <h4 className="mb-2.5 font-mono text-[10px] uppercase tracking-[0.2em] text-ink-400">
-        Tech Stack
-      </h4>
-      <div className="flex flex-wrap gap-1.5">
-        {tech.map((item) => (
-          <span
-            key={item}
-            className="rounded-md px-2 py-1 text-xs font-medium text-ink-600 ring-1 ring-black/5 dark:text-ink-400 dark:ring-white/10"
-          >
-            {item}
-          </span>
-        ))}
-      </div>
-    </div>
-  )
-}
-
-function Highlights({ highlights }: { highlights: string[] }) {
-  return (
-    <div>
-      <h4 className="mb-2.5 font-mono text-[10px] uppercase tracking-[0.2em] text-ink-400">
-        Key Features
-      </h4>
-      <ul className="space-y-2">
-        {highlights.map((line) => (
-          <li key={line} className="flex items-start gap-2.5 text-sm text-ink-600 dark:text-ink-400">
-            <span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-primary-500/70" />
-            <span className="leading-relaxed">{line}</span>
-          </li>
-        ))}
-      </ul>
-    </div>
-  )
-}
-
-function ProjectHeader({ project, large = false }: { project: Project; large?: boolean }) {
-  return (
-    <div className="z-mid mb-5 flex items-start gap-4">
-      <div
-        className={`z-near grid flex-shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-primary-500 to-primary-700 shadow-lg shadow-primary-500/30 transition-transform duration-500 ease-smooth group-hover:scale-110 ${
-          large ? 'h-16 w-16' : 'h-12 w-12'
-        }`}
-      >
-        <project.icon className={large ? 'h-8 w-8 text-white' : 'h-6 w-6 text-white'} />
-      </div>
-      <div className="min-w-0">
-        <div className="flex flex-wrap items-center gap-2">
-          <h3
-            className={`font-display leading-tight text-ink-900 dark:text-white ${
-              large ? 'text-3xl md:text-4xl' : 'text-2xl'
-            }`}
-          >
-            {project.title}
-          </h3>
-          {project.badge && (
-            <span className="whitespace-nowrap rounded-full bg-accent-500/15 px-2.5 py-0.5 text-xs font-medium text-accent-700 ring-1 ring-accent-500/25 dark:text-accent-300">
-              {project.badge}
-            </span>
-          )}
-        </div>
-        <p className="mt-1 text-sm font-medium text-primary-600 dark:text-primary-400">
-          {project.subtitle}
-        </p>
-      </div>
-    </div>
+    <h4 className="mb-2.5 font-mono text-[10px] uppercase tracking-[0.2em] text-ink-400">
+      {children}
+    </h4>
   )
 }
 
 export default function Projects() {
-  const [featured, ...rest] = projects
-
   return (
     <section id="projects" className="section-veil">
       <div className="section-container">
@@ -264,49 +199,105 @@ export default function Projects() {
           <Reveal>
             <p className="section-title">Projects</p>
           </Reveal>
-          <SplitText className="section-heading mx-auto">
-            Featured Work
-          </SplitText>
+          <SplitText className="section-heading mx-auto">Featured Work</SplitText>
         </div>
 
-        {/* The flagship gets a full-width, two-column treatment. Giving every
-            project identical weight is the fastest way to make none of them
-            look important. */}
-        <Reveal delay={2}>
-          <TiltCard intensity={3}>
-            <div className="card group mb-6 md:p-8">
-              <ProjectHeader project={featured} large />
-              <div className="grid gap-8 md:grid-cols-2">
-                <div className="flex flex-col gap-6">
-                  <p className="leading-relaxed text-ink-600 dark:text-ink-400">
-                    {featured.description}
-                  </p>
-                  <TechList tech={featured.tech} />
-                  <ProjectLinks project={featured} />
-                </div>
-                <Highlights highlights={featured.highlights} />
-              </div>
-            </div>
-          </TiltCard>
-        </Reveal>
+        {/*
+          Eight bordered cards in a two-column grid put a box around a
+          description, four bullets and eleven tags each — the content was all
+          there but it read as a wall. Full-width rows divided by hairlines
+          give every project the page width: the narrative on the left, the
+          specs on the right, and an index number to scan by. Order carries
+          the hierarchy, so the lead project needs no separate layout — only a
+          larger title.
+        */}
+        <ol className="mx-auto max-w-5xl divide-y divide-black/[0.07] dark:divide-white/[0.08]">
+          {projects.map((project, index) => {
+            const isLead = index === 0
+            return (
+              <li key={project.title}>
+                <Reveal delay={index % 2}>
+                  <article className="group relative grid gap-8 py-12 lg:grid-cols-[1fr_1fr] lg:gap-14">
+                    <span
+                      aria-hidden="true"
+                      className="absolute -left-4 top-12 h-0 w-px bg-primary-500 transition-all duration-500 ease-smooth group-hover:h-[calc(100%-6rem)]"
+                    />
 
-        <div className="grid gap-6 md:grid-cols-2">
-          {rest.map((project, index) => (
-            <Reveal key={project.title} delay={index % 2}>
-              <TiltCard intensity={4}>
-                <div className="card group flex h-full flex-col gap-5">
-                  <ProjectHeader project={project} />
-                  <p className="text-sm leading-relaxed text-ink-600 dark:text-ink-400">
-                    {project.description}
-                  </p>
-                  <Highlights highlights={project.highlights} />
-                  <TechList tech={project.tech} />
-                  <ProjectLinks project={project} />
-                </div>
-              </TiltCard>
-            </Reveal>
-          ))}
-        </div>
+                    {/* Narrative */}
+                    <div className="flex flex-col gap-4">
+                      <div className="flex items-center gap-4">
+                        <span className="font-display text-3xl leading-none text-ink-300 transition-colors duration-500 group-hover:text-primary-500/70 dark:text-ink-700">
+                          {String(index + 1).padStart(2, '0')}
+                        </span>
+                        <span className="grid h-11 w-11 place-items-center rounded-xl bg-gradient-to-br from-primary-500 to-primary-700 shadow-lg shadow-primary-500/25 transition-transform duration-500 ease-smooth group-hover:scale-110">
+                          <project.icon className="h-5 w-5 text-white" />
+                        </span>
+                      </div>
+
+                      <div>
+                        <div className="flex flex-wrap items-center gap-2.5">
+                          <h3
+                            className={`font-display leading-tight text-ink-900 dark:text-white ${
+                              isLead ? 'text-3xl md:text-4xl' : 'text-2xl md:text-3xl'
+                            }`}
+                          >
+                            {project.title}
+                          </h3>
+                          {project.badge && (
+                            <span className="whitespace-nowrap rounded-full bg-accent-500/15 px-2.5 py-0.5 text-xs font-medium text-accent-700 ring-1 ring-accent-500/25 dark:text-accent-300">
+                              {project.badge}
+                            </span>
+                          )}
+                        </div>
+                        <p className="mt-1.5 text-sm font-medium text-primary-600 dark:text-primary-400">
+                          {project.subtitle}
+                        </p>
+                      </div>
+
+                      <p className="leading-relaxed text-ink-600 dark:text-ink-400">
+                        {project.description}
+                      </p>
+
+                      <ProjectLinks project={project} />
+                    </div>
+
+                    {/* Specs */}
+                    <div className="flex flex-col gap-7 lg:pt-2">
+                      <div>
+                        <SpecLabel>Key Features</SpecLabel>
+                        <ul className="space-y-2.5">
+                          {project.highlights.map((line) => (
+                            <li
+                              key={line}
+                              className="flex items-start gap-3 text-sm text-ink-600 dark:text-ink-400"
+                            >
+                              <span className="mt-[7px] h-1 w-1 flex-shrink-0 rounded-full bg-primary-500" />
+                              <span className="leading-relaxed">{line}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      <div>
+                        <SpecLabel>Tech Stack</SpecLabel>
+                        <div className="flex flex-wrap gap-1.5">
+                          {project.tech.map((item) => (
+                            <span
+                              key={item}
+                              className="rounded-md px-2 py-1 text-xs font-medium text-ink-600 ring-1 ring-black/5 dark:text-ink-400 dark:ring-white/10"
+                            >
+                              {item}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </article>
+                </Reveal>
+              </li>
+            )
+          })}
+        </ol>
       </div>
     </section>
   )
