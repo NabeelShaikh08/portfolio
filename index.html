@@ -27,19 +27,21 @@
     <meta name="twitter:title" content="Nabeel Shaikh | AI Engineer & Full-Stack Developer" />
     <meta name="twitter:description" content="Building intelligent systems, RAG architectures, and scalable web applications." />
     <meta name="twitter:image" content="/og.jpg" />
-    <meta name="theme-color" content="#040605" />
+    <meta name="theme-color" content="#F7F5F2" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0B0A0A" media="(prefers-color-scheme: dark)" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400..800&family=Archivo:wght@400..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <title>Nabeel Shaikh | AI Engineer & Full-Stack Developer</title>
     <script>
       (function() {
-        // Dark is the default: the site is built around a luminous field on a
-        // black ground, and that is the first impression it should make. The
-        // OS preference is deliberately not consulted for a first visit — only
-        // an explicit choice the visitor made here can turn it light.
+        // Light is the default: a first-time visitor opens on paper. Dark is
+        // reachable in one click and is remembered, but it is now something
+        // the visitor turns on rather than something they arrive in. The OS
+        // preference is deliberately not consulted — only an explicit choice
+        // made here counts, so the first frame is predictable.
         var theme = localStorage.getItem('theme');
-        if (theme !== 'light') {
+        if (theme === 'dark') {
           document.documentElement.classList.add('dark');
         }
       })();

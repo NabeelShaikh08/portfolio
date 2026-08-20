@@ -1,14 +1,25 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <defs>
-    <linearGradient id="patina" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#2E8B7A"/>
-      <stop offset="100%" stop-color="#14584E"/>
+    <linearGradient id="signal" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF7538"/>
+      <stop offset="100%" stop-color="#E8420B"/>
     </linearGradient>
   </defs>
-  <!-- Near-black ground with a verdigris field, matching the site's default
-       dark theme; the brass N echoes the display serif. -->
-  <rect width="100" height="100" rx="22" fill="#040605"/>
-  <rect x="6" y="6" width="88" height="88" rx="18" fill="url(#patina)"/>
-  <text x="50" y="70" font-family="Georgia, 'Times New Roman', serif" font-size="58"
-        fill="#E3C77E" text-anchor="middle">N</text>
+  <!--
+    Warm carbon ground with the signal-orange field, matching the site.
+
+    The N is drawn as a path rather than set as text. A favicon renders in the
+    browser chrome, where webfonts are not available and the system fallback is
+    whatever the OS happens to have — the previous version asked for Georgia,
+    so it rendered as a serif on one machine and something else on another, and
+    the site's display face is a wide grotesque either way. A path is the same
+    mark everywhere and stays legible at 16px, which is the only size that
+    really matters here.
+
+    The letter is the ground colour, not white: the same rule the primary
+    button follows, because white on this orange does not carry.
+  -->
+  <rect width="100" height="100" rx="22" fill="#0B0A0A"/>
+  <rect x="6" y="6" width="88" height="88" rx="18" fill="url(#signal)"/>
+  <path d="M28,72 V28 H40 L60,58 V28 H72 V72 H60 L40,42 V72 Z" fill="#0B0A0A"/>
 </svg>

@@ -244,8 +244,8 @@ export default function Projects() {
                         <span className="font-display text-3xl leading-none text-ink-300 transition-colors duration-500 group-hover:text-primary-500/70 dark:text-ink-700">
                           {String(index + 1).padStart(2, '0')}
                         </span>
-                        <span className="grid h-11 w-11 place-items-center rounded-xl bg-gradient-to-br from-primary-500 to-primary-700 shadow-lg shadow-primary-500/25 transition-transform duration-500 ease-smooth group-hover:scale-110">
-                          <project.icon className="h-5 w-5 text-white" />
+                        <span className="grid h-11 w-11 place-items-center rounded-xl bg-gradient-to-br from-primary-400 to-primary-600 shadow-lg shadow-primary-500/20 transition-transform duration-500 ease-smooth group-hover:scale-110">
+                          <project.icon className="h-5 w-5 text-ink-950" />
                         </span>
                       </div>
 

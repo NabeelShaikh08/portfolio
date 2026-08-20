@@ -50,11 +50,11 @@ function App() {
 
       <Navbar isDark={isDark} toggleTheme={toggleTheme} />
       <main className="relative z-[2]">
-        <Hero />
+        <Hero isDark={isDark} />
         <About />
-        <Skills />
         <Experience />
         <Projects />
+        <Skills />
         <Education />
         <Contact />
       </main>

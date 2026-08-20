@@ -8,56 +8,81 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Verdigris — oxidised bronze. The primary voice: cool, technical,
-        // and uncommon enough in developer portfolios to be recognisable.
+        // Signal orange. Fluorescent, but deliberately not Groundwork's acid —
+        // that site and this one are both mine, and sharing a ground, an
+        // accent and both typefaces would make the portfolio a recolour of the
+        // studio rather than its own thing. Warm also runs against the
+        // category: developer portfolios reach for lime, cyan or violet almost
+        // without exception, so orange reads as a decision.
+        //
+        // The role is unchanged and it is the part that matters: this colour
+        // means *actionable, or where you are*. One per viewport.
         primary: {
-          50: '#EFF8F5',
-          100: '#D6EFE7',
-          200: '#ADDFD0',
-          300: '#7CC9B5',
-          400: '#4FAF98',
-          500: '#2E8B7A',
-          600: '#1F6F63',
-          700: '#14584E',
-          800: '#114740',
-          900: '#0F3A34',
-          950: '#071E1B',
+          50: '#FFF1EB',
+          100: '#FFE0D2',
+          200: '#FFBFA4',
+          300: '#FF9A6E',
+          400: '#FF7538',
+          500: '#FF5A1F',
+          600: '#E8420B',
+          700: '#BC3208',
+          800: '#94290B',
+          900: '#78240E',
+          950: '#3F1004',
         },
-        // Aged brass. Used sparingly — it is the metal against the patina,
-        // so it marks the few things that genuinely deserve attention.
+        // Steel blue. The secondary signal — availability, certifications,
+        // the freelance marker — and deliberately the one thing on the page
+        // that is *not* warm. Three greens have now been tried here and all
+        // three were wrong against this ground; a cool blue is the honest
+        // complement to signal orange and cannot be mistaken for it at any
+        // size. Reserved, never decorative: the orange keeps its monopoly on
+        // "act on this".
         accent: {
-          50: '#FBF7EA',
-          100: '#F6EDCE',
-          200: '#EEDA9F',
-          300: '#E3C77E',
-          400: '#D6B361',
-          500: '#C8A24A',
-          600: '#A8843A',
-          700: '#85662E',
-          800: '#6A5127',
-          900: '#584323',
-          950: '#322512',
+          50: '#EEF4FA',
+          100: '#D8E6F3',
+          200: '#B4CEE6',
+          300: '#86B0D5',
+          400: '#5B90C0',
+          500: '#3F73A6',
+          600: '#315C87',
+          700: '#2A4A6C',
+          800: '#263D58',
+          900: '#23344A',
+          950: '#121D2B',
         },
-        // Neutrals pulled a few degrees green so the greys sit in the same
-        // temperature as the verdigris instead of fighting it.
+        // Warm-neutral ramp. Groundwork's greys are faintly cool because its
+        // accent is; ours lean the other way for the same reason, so the
+        // orange sits on the ground instead of drifting toward it. 50/300/400
+        // are the three ink values, each measured against the ground rather
+        // than picked by eye — 400 is the floor, and nothing dimmer carries
+        // body text.
         ink: {
-          50: '#F4F6F4',
-          100: '#E7ECE9',
-          200: '#CFD8D4',
-          300: '#AAB8B3',
-          400: '#7C8D88',
-          500: '#586764',
-          600: '#40504C',
-          700: '#2D3B37',
-          800: '#1B2523',
-          900: '#0C1211',
-          950: '#040605',
+          50: '#F7F5F2',
+          100: '#EAE7E2',
+          200: '#D2CEC8',
+          300: '#A8A29A',
+          400: '#8A847B',
+          500: '#6B655D',
+          600: '#514C46',
+          700: '#3A3733',
+          800: '#262421',
+          900: '#1A1815',
+          950: '#0B0A0A',
         },
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-        display: ['"Instrument Serif"', 'Georgia', 'serif'],
-        mono: ['"JetBrains Mono"', 'monospace'],
+        // Three families, three jobs. All three are chosen against Groundwork
+        // rather than from it: Bricolage and Instrument Sans are that site's
+        // display and body, and wearing both here would have left the two
+        // indistinguishable in everything but hue.
+        //
+        // Syne is the formal break. Bricolage is a chunky workhorse grotesque;
+        // Syne is wide, slightly strange, and unmistakably *set* — which is
+        // what a name at 120px should be. Archivo carries prose without
+        // opinions. Inter stays banned: it is the default AI aesthetic.
+        sans: ['Archivo', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        display: ['Syne', '"Arial Black"', 'sans-serif'],
+        mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
       },
       letterSpacing: {
         tightest: '-0.045em',

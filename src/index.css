@@ -11,33 +11,45 @@
 */
 @layer base {
   :root {
-    --veil: 244 246 244;        /* ink-50  */
+    --veil: 247 245 242;        /* ink-50, bone */
     --veil-strong: 255 255 255;
     --hairline: 0 0 0;
 
     /* Brand channels, as raw RGB triples so any rule can dial its own alpha.
        Every glow, ring and shadow on the site derives from these three — the
        palette is changed here and nowhere else. */
-    --brand: 46 139 122;        /* primary-500, verdigris */
-    --brand-deep: 20 88 78;     /* primary-700 */
-    --brass: 200 162 74;        /* accent-500 */
+    /* A fluorescent at full strength is unusable on a light ground. Light
+       mode carries the same hue several steps down, which keeps the identity
+       and clears AA for text. */
+    --brand: 188 50 8;          /* primary-700 */
+    --brand-deep: 148 41 11;    /* primary-800 */
+    --brass: 49 92 135;         /* accent-600, the secondary signal */
 
-    --chart-bar: #008A72;
-    --chart-ongoing: #9A6E00;
+    --chart-bar: #BC3208;
+    --chart-ongoing: #315C87;
   }
 
   .dark {
-    --veil: 4 6 5;              /* ink-950 — effectively black */
-    --veil-strong: 12 18 17;    /* ink-900 */
+    --veil: 11 10 10;           /* void — carbon, faintly warm, never #000 */
+    --veil-strong: 26 24 21;    /* recessed bands and panels */
     --hairline: 255 255 255;
-    /* Lifted a step in the dark: the mid verdigris muddies against a near
-       black ground, where the lighter patina still reads as metal. */
-    --brand: 79 175 152;        /* primary-400 */
-    --brand-deep: 46 139 122;   /* primary-500 */
-    --brass: 227 199 126;       /* accent-300 */
+    /* The accent runs at full strength here and nowhere else. This is the
+       whole point of the ground being near-black rather than grey: a
+       fluorescent needs somewhere dark enough to actually fluoresce. */
+    --brand: 255 117 56;        /* primary-400, signal orange */
+    --brand-deep: 255 90 31;    /* primary-500 */
+    --brass: 134 176 213;       /* accent-300, steel blue */
 
-    --chart-bar: #17A88C;
-    --chart-ongoing: #B08A1E;
+    --chart-bar: #FF7538;
+    --chart-ongoing: #86B0D5;
+  }
+
+  /* Syne's 400 is a text weight and its display sizes want 700–800. The
+     optical-size and width axes the previous face carried do not exist here,
+     so setting them would be a silent no-op rather than a style. Utilities
+     still win — a `font-bold` on a heading overrides this. */
+  .font-display {
+    font-weight: 750;
   }
 
   html {
@@ -153,11 +165,14 @@
            hover:text-ink-900 dark:hover:text-white transition-colors duration-300;
   }
 
+  /* Text on the accent is the ground colour, never white. This is the one
+     button that carries the saturated voice, and there is never a second one
+     in the same viewport. */
   .btn-primary {
     @apply relative inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-medium
-           text-white bg-primary-500 overflow-hidden
+           text-ink-950 bg-primary-500 dark:bg-primary-400 overflow-hidden
            transition-all duration-500 ease-smooth
-           hover:shadow-[0_16px_50px_-12px_rgb(var(--brand-deep)/0.65)] hover:-translate-y-0.5;
+           hover:shadow-[0_16px_50px_-12px_rgb(var(--brand)/0.5)] hover:-translate-y-0.5;
   }
 
   /* Sheen sweep on hover — one shared gesture reused by both buttons. */

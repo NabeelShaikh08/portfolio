@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { Menu, Moon, Sun, X } from 'lucide-react'
+import { Download, Menu, Moon, Sun, X } from 'lucide-react'
+import ResumeMenu, { RESUMES } from './ui/ResumeMenu'
 
 interface NavbarProps {
   isDark: boolean
@@ -57,8 +58,12 @@ export default function Navbar({ isDark, toggleTheme }: NavbarProps) {
             : 'border border-transparent bg-transparent'
         }`}
       >
-        <a href="#" className="block shrink-0" aria-label="Back to top">
-          <img src="/header.png" alt="Nabeel Shaikh" className="h-14 w-auto md:h-16" />
+        <a
+          href="#"
+          className="block shrink-0 font-display text-[1.15rem] leading-none tracking-tightest text-ink-900 transition-colors duration-300 hover:text-primary-600 md:text-[1.3rem] dark:text-ink-50 dark:hover:text-primary-400"
+          aria-label="Back to top"
+        >
+          Nabeel <span className="text-ink-400">Shaikh</span>
         </a>
 
         <div className="hidden items-center gap-1 md:flex">
@@ -88,6 +93,13 @@ export default function Navbar({ isDark, toggleTheme }: NavbarProps) {
               </a>
             )
           })}
+
+          {/* The résumé used to sit in the hero, which meant it was reachable
+              only from the very top of the page. In the header it is one click
+              away from any section — and it is a link out, not a section, so
+              it sits after the rule that separates it from the nav items. */}
+          <span aria-hidden="true" className="mx-2 h-4 w-px bg-black/10 dark:bg-white/15" />
+          <ResumeMenu />
 
           <ThemeToggle isDark={isDark} toggleTheme={toggleTheme} />
         </div>
@@ -130,6 +142,30 @@ export default function Navbar({ isDark, toggleTheme }: NavbarProps) {
                 </span>
               </motion.a>
             ))}
+
+              {/* Listed outright rather than behind a dropdown. The sheet is
+                  already a list and there is room, so making a phone user tap
+                  twice to reach the same two links buys nothing. */}
+              <p className="mt-4 px-4 pb-1 font-mono text-[10px] uppercase tracking-[0.18em] text-ink-400">
+                Resume
+              </p>
+              {RESUMES.map((r) => (
+                <a
+                  key={r.label}
+                  href={r.href}
+                  download={r.downloadAs}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center justify-between gap-2 rounded-xl px-4 py-3 text-sm font-medium text-ink-600 transition-colors hover:bg-primary-500/10 hover:text-primary-600 dark:text-ink-300 dark:hover:text-primary-300"
+                >
+                  <span className="inline-flex items-center gap-2">
+                    <Download className="h-4 w-4" />
+                    {r.label}
+                  </span>
+                  <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-ink-400">
+                    PDF
+                  </span>
+                </a>
+              ))}
           </motion.div>
         )}
       </AnimatePresence>
@@ -154,9 +190,9 @@ function ThemeToggle({ isDark, toggleTheme }: NavbarProps) {
           className="absolute grid place-items-center"
         >
           {isDark ? (
-            <Sun className="h-[18px] w-[18px] text-accent-400" />
+            <Sun className="h-[18px] w-[18px] text-ink-400" />
           ) : (
-            <Moon className="h-[18px] w-[18px] text-primary-600" />
+            <Moon className="h-[18px] w-[18px] text-ink-500" />
           )}
         </motion.span>
       </AnimatePresence>

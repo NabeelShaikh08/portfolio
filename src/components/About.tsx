@@ -1,6 +1,4 @@
 import { Brain, Code2, Cpu, Server, Smartphone, Workflow } from 'lucide-react'
-import workspaceImg from '../assets/images/hero-img.jpg'
-import Orbit from './ui/Orbit'
 import Reveal from './ui/Reveal'
 import SplitText from './ui/SplitText'
 import TiltCard from './ui/TiltCard'
@@ -42,30 +40,26 @@ export default function About() {
   return (
     <section id="about" className="section-veil">
       <div className="section-container">
-        <div className="section-head">
+        {/* This head is set left, unlike the rest, and deliberately.
+            Everywhere else the heading is a two-word label — "Featured Work",
+            "Contact" — and a short centred label is fine. This one is a
+            76-character sentence, and a centred sentence over four lines gives
+            a rag that steps in and out on every line with nothing to anchor
+            it. Worse, the prose directly beneath it is left-aligned in a
+            narrower column, so the heading and the paragraph it introduces
+            shared no edge at all.
+
+            Both are fixed by the same move: the same measure as the body, the
+            same left edge, and a size that admits this is a sentence rather
+            than a label. */}
+        <div className="section-head max-w-3xl text-left">
           <Reveal>
             <p className="section-title">About Me</p>
           </Reveal>
-          <SplitText className="section-heading max-w-4xl text-balance mx-auto">
+          <SplitText className="font-display text-3xl leading-[1.08] tracking-tightest text-ink-900 md:text-5xl dark:text-ink-50">
             Crafting intelligent solutions at the intersection of AI and web development
           </SplitText>
         </div>
-
-        <Reveal>
-          <figure className="group relative mx-auto mb-12 max-w-5xl overflow-hidden rounded-2xl ring-1 ring-black/5 dark:ring-white/10">
-            <img
-              src={workspaceImg}
-              alt="Nabeel Shaikh's desk — an external monitor and laptop running code, lit warm at night"
-              loading="lazy"
-              className="aspect-[16/10] w-full object-cover object-center transition-transform duration-[1.2s] ease-smooth group-hover:scale-105"
-            />
-            {/* Cools the photo's warm cast toward the page temperature. */}
-            <div
-              aria-hidden="true"
-              className="absolute inset-0 bg-gradient-to-t from-primary-950/60 via-transparent to-transparent mix-blend-multiply dark:mix-blend-overlay"
-            />
-          </figure>
-        </Reveal>
 
         <div className="relative mx-auto max-w-3xl space-y-6">
             {/* Lead paragraph is set larger than the rest — the eye needs one
@@ -108,11 +102,6 @@ export default function About() {
         </div>
 
         <div className="relative mt-14">
-          <Orbit
-            size={300}
-            className="absolute -right-20 -top-24 hidden opacity-60 lg:block"
-          />
-
           <div className="relative mx-auto grid max-w-5xl gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {highlights.map((item, index) => (
               <Reveal key={item.title} delay={index + 2}>

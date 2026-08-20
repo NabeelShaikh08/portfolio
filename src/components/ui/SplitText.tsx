@@ -51,11 +51,28 @@ export default function SplitText({
         variants={container(stagger, delay)}
       >
         {words.map((w, index) => (
-          <span key={`${w}-${index}`} className="inline-block overflow-hidden align-bottom">
-            <motion.span className="inline-block" variants={word}>
-              {w}
-              {index < words.length - 1 ? ' ' : ''}
-            </motion.span>
+          <span key={`${w}-${index}`}>
+            {/* The word-space lives *outside* the mask. Inside it, the trailing
+                space was clipped but still measured: it occupied width at the
+                end of every line, so a centred heading sat visibly off-centre
+                and the rag was wrong by one space on every line.
+
+                The vertical padding is the other half of it. A mask tight to
+                the line box cuts descenders — the "g" in "intelligent" lost
+                its tail — so the box is opened below the baseline row.
+
+                It is padding alone, with no negative margin pulling it back.
+                A negative bottom margin on an `align-bottom` inline-block does
+                not simply cancel the padding: it lifts the whole run relative
+                to its line box, and the first line then overflowed upward into
+                the eyebrow above it. Paying the 0.14em in leading is the
+                cheaper of the two. */}
+            <span className="inline-block overflow-hidden align-bottom pb-[0.14em]">
+              <motion.span className="inline-block" variants={word}>
+                {w}
+              </motion.span>
+            </span>
+            {index < words.length - 1 ? ' ' : ''}
           </span>
         ))}
       </motion.span>

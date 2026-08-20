@@ -1,6 +1,14 @@
+import { Suspense, lazy, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
-import { ArrowDown, Download, Github, Linkedin, Mail } from 'lucide-react'
-import Orbit from './ui/Orbit'
+import { ArrowDown, Github, Linkedin, Mail } from 'lucide-react'
+import { useHeroProgress } from '../hooks/useHeroProgress'
+import { useMediaQuery } from '../hooks/useMediaQuery'
+import { useReducedMotion } from '../hooks/useReducedMotion'
+
+// The rig carries its own three.js import. Splitting it keeps the hero's text
+// — which is the part that actually has to be read — painting before a byte of
+// WebGL is fetched.
+const HeroRig = lazy(() => import('../three/HeroRig'))
 
 const socials = [
   { icon: Linkedin, href: 'https://linkedin.com/in/nabeelshaikh0808', label: 'LinkedIn' },
@@ -22,143 +30,228 @@ const item = {
   show: { opacity: 1, y: 0, transition: { duration: 0.9, ease: [0.16, 1, 0.3, 1] as const } },
 }
 
-export default function Hero() {
+function supportsWebGL() {
+  try {
+    const canvas = document.createElement('canvas')
+    return Boolean(
+      window.WebGLRenderingContext &&
+        (canvas.getContext('webgl') || canvas.getContext('experimental-webgl')),
+    )
+  } catch {
+    return false
+  }
+}
+
+export default function Hero({ isDark }: { isDark: boolean }) {
+  const sectionRef = useRef<HTMLElement>(null)
+  const reducedMotion = useReducedMotion()
+  const wide = useMediaQuery('(min-width: 1024px)')
+  // Resolved during the first render rather than in an effect. The copy below
+  // is gated on `rig`, so a value that starts false and corrects itself a
+  // frame later would flash the entire mobile text block onto a desktop hero
+  // before removing it again.
+  const [webgl] = useState(() => typeof window !== 'undefined' && supportsWebGL())
+
+  // Three independent reasons not to ship the rig, and all of them are real:
+  // a visitor who asked for less motion, a phone where forty parts flying
+  // apart is both illegible and expensive, and a browser without WebGL.
+  const rig = webgl && wide && !reducedMotion
+
+  // Writes scroll progress through this section into the shared viewport
+  // object, which is what the rig's render loop reads. Harmless when the rig
+  // never mounts — it just goes unread.
+  useHeroProgress(sectionRef)
+
   return (
-    <section className="relative flex min-h-[100svh] items-center justify-center overflow-hidden px-6 py-24">
-      {/* Centre-weighted scrim. The field is meant to run edge to edge here,
-          so this only darkens the middle band where the type sits and leaves
-          the periphery of the screen fully open. */}
+    <section
+      ref={sectionRef}
+      // The runway. The rig needs scroll distance to assemble over, so the
+      // section is taller than the screen and pins its contents; without the
+      // rig that extra height would be a long empty scroll to nowhere, so it
+      // collapses back to a single screen.
+      className={rig ? 'relative h-[240vh]' : 'relative'}
+    >
       <div
-        aria-hidden="true"
-        className="absolute inset-0 -z-[5] bg-[radial-gradient(ellipse_66%_58%_at_50%_50%,rgb(var(--veil)/0.78),transparent_78%)]"
-      />
-
-      <Orbit
-        size={720}
-        className="absolute left-1/2 top-1/2 -z-[4] hidden -translate-x-1/2 -translate-y-1/2 opacity-40 md:block"
-      />
-      <div
-        aria-hidden="true"
-        className="absolute left-1/2 top-1/2 -z-[4] h-[36rem] w-[36rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgb(var(--brand)/0.14),transparent_65%)] blur-3xl"
-      />
-
-      <motion.div
-        variants={container}
-        initial="hidden"
-        animate="show"
-        className="relative flex w-full max-w-4xl flex-col items-center text-center"
+        className={`sticky top-0 flex justify-center overflow-hidden px-6 ${
+          // The rig's stage must be exactly one screen — it is the sticky
+          // element being pinned, and a growing box would not pin cleanly.
+          // Without the rig nothing is pinned, so the stage only needs a
+          // *floor* of one screen: on a short viewport (a landscape phone, a
+          // small laptop) the copy is taller than the screen, and a fixed
+          // height with overflow-hidden clipped it against the nav instead of
+          // letting the section grow.
+          rig ? 'h-[100svh]' : 'min-h-[100svh]'
+        } ${
+          // With the copy gone the block is short, and centring it vertically
+          // dropped the name straight onto the monitor. It belongs at the top:
+          // the name reads first, the machine assembles underneath it, and the
+          // two never occupy the same band.
+          rig ? 'items-start pt-28' : 'items-center py-24'
+        }`}
       >
-        <motion.p
-          variants={item}
-          className="mb-5 inline-flex items-center gap-3 font-mono text-xs uppercase tracking-[0.28em] text-primary-500 dark:text-primary-400"
-        >
-          <span className="h-px w-8 bg-primary-500/60" />
-          Hey there, I'm
-          <span className="h-px w-8 bg-primary-500/60" />
-        </motion.p>
+        {rig && (
+          <Suspense fallback={null}>
+            <HeroRig dark={isDark} className="pointer-events-none absolute inset-x-0 bottom-[-4%] top-[22%] -z-[4]" />
+          </Suspense>
+        )}
 
-        <h1 className="mb-6 font-display text-[clamp(3rem,11vw,7.5rem)] leading-[0.9] tracking-tightest text-ink-900 dark:text-ink-50">
-          {/* Split per character so the name assembles rather than fading in
-              as a block; words stay in their own spans so lines still break. */}
-          {name.split(' ').map((word, wordIndex) => (
-            <span key={word} className="mr-[0.22em] inline-block whitespace-nowrap last:mr-0">
-              {word.split('').map((char, charIndex) => (
-                <motion.span
-                  key={`${char}-${charIndex}`}
-                  className="inline-block"
-                  initial={{ opacity: 0, y: '0.4em', rotateX: -55 }}
-                  animate={{ opacity: 1, y: 0, rotateX: 0 }}
-                  transition={{
-                    duration: 0.85,
-                    delay: 0.3 + wordIndex * 0.18 + charIndex * 0.035,
-                    ease: [0.16, 1, 0.3, 1],
-                  }}
-                >
-                  {char}
-                </motion.span>
-              ))}
-            </span>
-          ))}
-        </h1>
-
-        <motion.h2
-          variants={item}
-          className="mb-6 text-xl font-medium text-ink-600 md:text-2xl dark:text-ink-300"
-        >
-          AI Engineer at <span className="text-primary-600 dark:text-primary-400">Naptick</span>
-        </motion.h2>
-
-        <motion.p
-          variants={item}
-          className="mb-8 max-w-2xl text-balance text-lg leading-relaxed text-ink-500 dark:text-ink-400"
-        >
-          I build AI-powered products and full-stack applications. Currently working on
-          RAG systems, autonomous AI agents, voice AI, and workflow automation. Based in Mumbai.
-        </motion.p>
+        {/* A top band only. The left band that used to sit alongside it existed
+            to carry the pitch copy over the tower, and it was what made the
+            CPU almost invisible — it was covering the machine to keep words
+            readable. With the copy gone there are no words down there to
+            protect, so the veil stops at the name and the whole machine,
+            tower included, is left to read. */}
+        <div
+          aria-hidden="true"
+          className={
+            rig
+              ? 'absolute inset-0 -z-[3] bg-[linear-gradient(180deg,rgb(var(--veil))_0%,rgb(var(--veil)/0.92)_22%,rgb(var(--veil)/0.35)_38%,transparent_52%)]'
+              : 'absolute inset-0 -z-[3] bg-[radial-gradient(ellipse_62%_54%_at_50%_46%,rgb(var(--veil)/0.92),rgb(var(--veil)/0.55)_52%,transparent_78%)]'
+          }
+        />
 
         <motion.div
-          variants={item}
-          className="mb-9 flex flex-wrap items-center justify-center gap-4 text-sm"
+          variants={container}
+          // Never hide the copy behind an animation that might not run. Under
+          // reduced motion there is no entrance to play, so there is no
+          // from-state to apply either — the hero simply renders, readable.
+          initial={reducedMotion ? false : 'hidden'}
+          animate="show"
+          className={
+            rig
+              ? 'relative flex w-full max-w-6xl flex-col items-start text-left'
+              : 'relative flex w-full max-w-4xl flex-col items-center text-center'
+          }
         >
-          <span className="inline-flex items-center gap-2.5 text-accent-600 dark:text-accent-400">
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inset-0 animate-pulse-ring rounded-full bg-accent-500" />
-              <span className="relative h-2 w-2 rounded-full bg-accent-500" />
-            </span>
-            Open to opportunities
-          </span>
-          <span className="h-4 w-px bg-ink-300 dark:bg-ink-700" />
-          <span className="text-ink-500">Mumbai, India</span>
-        </motion.div>
-
-        <motion.div
-          variants={item}
-          className="flex flex-wrap items-center justify-center gap-3"
-        >
-          <a href="#contact" className="btn-primary">
-            Get in Touch
-          </a>
-          <a href="#projects" className="btn-secondary">
-            See My Work
-          </a>
-          <a
-            href="/NabeelResume.pdf"
-            download="Nabeel_Shaikh_Resume.pdf"
-            className="group inline-flex items-center gap-2 px-4 py-3.5 font-medium text-ink-500 transition-colors hover:text-primary-600 dark:text-ink-400 dark:hover:text-primary-400"
+          <motion.p
+            variants={item}
+            className="mb-5 inline-flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.22em] text-ink-400"
           >
-            <Download className="h-4 w-4 transition-transform duration-300 group-hover:translate-y-0.5" />
-            Resume
-          </a>
+            {!rig && <span className="h-px w-8 bg-ink-700" />}
+            Hey there, I'm
+            <span className="h-px w-8 bg-ink-700" />
+          </motion.p>
+
+          {/* Sized for Syne, and given its own measure. Syne is a noticeably
+              wider design than the face it replaced, and at the old scale the
+              name broke onto two lines and collided with the copy beneath it.
+              Shrinking it to fit the 4xl column was the wrong fix — a name is
+              not body text and does not belong in the body's measure. It gets
+              the page width; the prose keeps its 4xl column, which is also
+              what stops the hero reading as one undifferentiated centred
+              stack. Measured against the real rendered width, not guessed:
+              Syne sets "Nabeel Shaikh" at 9.17× its font size with this
+              tracking, so 1180px is the widest line 7.75rem can hold. */}
+          <h1 className="mb-5 w-full max-w-[1180px] font-display text-[clamp(2.25rem,9.5vw,7.75rem)] leading-[0.92] tracking-tightest text-ink-900 dark:text-ink-50">
+            {/* Split per character so the name assembles rather than fading in
+                as a block; words stay in their own spans so lines still break. */}
+            {name.split(' ').map((word, wordIndex) => (
+              <span key={word} className="mr-[0.3em] inline-block whitespace-nowrap last:mr-0">
+                {word.split('').map((char, charIndex) => (
+                  <motion.span
+                    key={`${char}-${charIndex}`}
+                    className="inline-block"
+                    initial={reducedMotion ? false : { opacity: 0, y: '0.4em', rotateX: -55 }}
+                    animate={{ opacity: 1, y: 0, rotateX: 0 }}
+                    transition={{
+                      duration: 0.85,
+                      delay: 0.3 + wordIndex * 0.18 + charIndex * 0.035,
+                      ease: [0.16, 1, 0.3, 1],
+                    }}
+                  >
+                    {char}
+                  </motion.span>
+                ))}
+              </span>
+            ))}
+          </h1>
+
+          {/* Shown only when the machine is not. On a large screen the hero is
+              a name over a workstation assembling itself and needs no summary
+              — and this copy is exactly what used to be read through the
+              monitor. On a phone there is no machine at all, so without this
+              the hero would be a name and nothing else.
+
+              The gate is `rig` rather than a breakpoint, which also covers the
+              two desktop cases where the machine cannot render: no WebGL, or a
+              visitor who asked for reduced motion. Those would otherwise get
+              the emptiest version of the page for the worst reason. */}
+          {!rig && (
+            <div className="flex w-full flex-col items-center">
+              <motion.h2
+                variants={item}
+                className="mb-6 text-xl font-medium text-ink-600 md:text-2xl dark:text-ink-300"
+              >
+                AI Engineer at <span className="text-ink-900 dark:text-ink-50">Naptick</span>
+              </motion.h2>
+
+              <motion.p
+                variants={item}
+                className="mb-8 max-w-2xl text-balance text-lg leading-relaxed text-ink-500 dark:text-ink-300"
+              >
+                I build AI-powered products and full-stack applications. Currently working on
+                RAG systems, autonomous AI agents, voice AI, and workflow automation. Based in Mumbai.
+              </motion.p>
+
+              <motion.div
+                variants={item}
+                className="mb-9 flex flex-wrap items-center justify-center gap-4 font-mono text-[11px] uppercase tracking-[0.14em]"
+              >
+                <span className="inline-flex items-center gap-2.5 text-accent-600 dark:text-accent-300">
+                  <span className="relative flex h-2 w-2">
+                    <span className="absolute inset-0 animate-pulse-ring rounded-full bg-accent-500 dark:bg-accent-300" />
+                    <span className="relative h-2 w-2 rounded-full bg-accent-500 dark:bg-accent-300" />
+                  </span>
+                  Open to opportunities
+                </span>
+                <span className="h-4 w-px bg-ink-300 dark:bg-ink-700" />
+                <span className="text-ink-400">Mumbai, India</span>
+              </motion.div>
+
+              <motion.div variants={item} className="flex flex-wrap items-center justify-center gap-3">
+                <a href="#contact" className="btn-primary">
+                  Get in Touch
+                </a>
+                <a href="#projects" className="btn-secondary">
+                  See My Work
+                </a>
+              </motion.div>
+            </div>
+          )}
+
+          <motion.div variants={item} className={`flex items-center gap-2 ${rig ? 'mt-3 justify-start' : 'mt-9 justify-center'}`}>
+            {socials.map(({ icon: Icon, href, label }) => (
+              <a
+                key={label}
+                href={href}
+                target={href.startsWith('http') ? '_blank' : undefined}
+                rel="noopener noreferrer"
+                aria-label={label}
+                className="tap-target group relative grid h-11 w-11 place-items-center rounded-full text-ink-500 transition-all duration-500 ease-smooth hover:-translate-y-1 hover:text-ink-900 dark:hover:text-ink-50"
+              >
+                <span className="absolute inset-0 scale-75 rounded-full opacity-0 ring-1 ring-transparent transition-all duration-500 ease-smooth group-hover:scale-100 group-hover:bg-[rgb(var(--hairline)/0.06)] group-hover:opacity-100 group-hover:ring-ink-700" />
+                <Icon className="relative h-[18px] w-[18px]" />
+              </a>
+            ))}
+          </motion.div>
         </motion.div>
 
-        <motion.div variants={item} className="mt-9 flex items-center justify-center gap-2">
-          {socials.map(({ icon: Icon, href, label }) => (
-            <a
-              key={label}
-              href={href}
-              target={href.startsWith('http') ? '_blank' : undefined}
-              rel="noopener noreferrer"
-              aria-label={label}
-              className="tap-target group relative grid h-11 w-11 place-items-center rounded-full text-ink-500 transition-all duration-500 ease-smooth hover:-translate-y-1 hover:text-primary-500"
-            >
-              <span className="absolute inset-0 scale-75 rounded-full opacity-0 ring-1 ring-primary-500/0 transition-all duration-500 ease-smooth group-hover:scale-100 group-hover:bg-primary-500/10 group-hover:opacity-100 group-hover:ring-primary-500/30" />
-              <Icon className="relative h-[18px] w-[18px]" />
-            </a>
-          ))}
-        </motion.div>
-      </motion.div>
-
-      <motion.a
-        href="#about"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.8, duration: 1 }}
-        className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-ink-400 transition-colors hover:text-primary-500 md:flex"
-        aria-label="Scroll to about section"
-      >
-        <span className="font-mono text-[10px] uppercase tracking-[0.25em]">Scroll</span>
-        <ArrowDown className="h-4 w-4 animate-bounce" />
-      </motion.a>
+        <motion.a
+          href="#about"
+          initial={reducedMotion ? false : { opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.8, duration: 1 }}
+          className={`absolute bottom-8 hidden flex-col gap-2 text-ink-400 transition-colors hover:text-ink-900 md:flex dark:hover:text-ink-50 ${
+            rig ? 'left-6 items-start lg:left-[max(1.5rem,calc((100vw-72rem)/2))]' : 'left-1/2 -translate-x-1/2 items-center'
+          }`}
+          aria-label="Scroll to about section"
+        >
+          <span className="font-mono text-[10px] uppercase tracking-[0.22em]">
+            {rig ? 'Scroll to assemble' : 'Scroll'}
+          </span>
+          <ArrowDown className="h-4 w-4 animate-bounce" />
+        </motion.a>
+      </div>
     </section>
   )
 }
