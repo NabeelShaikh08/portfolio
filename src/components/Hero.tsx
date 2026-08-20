@@ -103,7 +103,17 @@ export default function Hero({ isDark }: { isDark: boolean }) {
             <span className="h-px w-8 bg-ink-700" />
           </motion.p>
 
-          <h1 className="mb-6 font-display text-[clamp(3rem,11vw,7.5rem)] leading-[0.9] tracking-tightest text-ink-900 dark:text-ink-50">
+          {/* Sized for Syne, and given its own measure. Syne is a noticeably
+              wider design than the face it replaced, and at the old scale the
+              name broke onto two lines and collided with the copy beneath it.
+              Shrinking it to fit the 4xl column was the wrong fix — a name is
+              not body text and does not belong in the body's measure. It gets
+              the page width; the prose keeps its 4xl column, which is also
+              what stops the hero reading as one undifferentiated centred
+              stack. Measured against the real rendered width, not guessed:
+              Syne sets "Nabeel Shaikh" at 9.17× its font size with this
+              tracking, so 1180px is the widest line 7.75rem can hold. */}
+          <h1 className="mb-6 w-[min(92vw,1180px)] max-w-none font-display text-[clamp(2.25rem,9.5vw,7.75rem)] leading-[0.92] tracking-tightest text-ink-900 dark:text-ink-50">
             {/* Split per character so the name assembles rather than fading in
                 as a block; words stay in their own spans so lines still break. */}
             {name.split(' ').map((word, wordIndex) => (

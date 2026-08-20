@@ -8,72 +8,76 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Acid. Borrowed from Groundwork, where it earns its keep by meaning
-        // exactly one thing: *this is actionable, or this is where you are*.
-        // It is never a second heading colour, never a card fill, and never
-        // two competing buttons in one viewport. 400 is the acid itself —
-        // 16.8:1 on the void ground — and the darker steps exist for light
-        // mode, where a fluorescent is unusable at full strength.
+        // Signal orange. Fluorescent, but deliberately not Groundwork's acid —
+        // that site and this one are both mine, and sharing a ground, an
+        // accent and both typefaces would make the portfolio a recolour of the
+        // studio rather than its own thing. Warm also runs against the
+        // category: developer portfolios reach for lime, cyan or violet almost
+        // without exception, so orange reads as a decision.
+        //
+        // The role is unchanged and it is the part that matters: this colour
+        // means *actionable, or where you are*. One per viewport.
         primary: {
-          50: '#FAFFE5',
-          100: '#F3FFC2',
-          200: '#E8FF8A',
-          300: '#DDFF4D',
-          400: '#CCFF00',
-          500: '#B4E000',
-          600: '#A9D400',
-          700: '#7E9E00',
-          800: '#627A05',
-          900: '#4E610A',
-          950: '#283303',
+          50: '#FFF1EB',
+          100: '#FFE0D2',
+          200: '#FFBFA4',
+          300: '#FF9A6E',
+          400: '#FF7538',
+          500: '#FF5A1F',
+          600: '#E8420B',
+          700: '#BC3208',
+          800: '#94290B',
+          900: '#78240E',
+          950: '#3F1004',
         },
-        // Signal green, and it is a signal — the availability dot and the
-        // shipped state, nothing else. Reserved rather than decorative, so
-        // the acid keeps its monopoly on "act on this".
+        // Live aqua. The availability signal and nothing else — a dot and a
+        // text colour, never a fill. Cool against the warm accent so the two
+        // can never be mistaken for each other at a glance.
         accent: {
-          50: '#EAFBF0',
-          100: '#D0F6DE',
-          200: '#A6EDC1',
-          300: '#6BE28F',
-          400: '#45CE72',
-          500: '#2BB35B',
-          600: '#1E8F49',
-          700: '#1B713D',
-          800: '#195A33',
-          900: '#16492C',
-          950: '#062915',
+          50: '#E8FBF8',
+          100: '#C9F5EE',
+          200: '#97EADF',
+          300: '#5FDCCC',
+          400: '#2BC4B2',
+          500: '#14A594',
+          600: '#0D8577',
+          700: '#0E6A60',
+          800: '#10554E',
+          900: '#114641',
+          950: '#032926',
         },
-        // Cool-neutral ramp. The ground is coal, faintly cool — never
-        // #000000, which is the tell of a template, and never the neutral
-        // grey of a dashboard. 50/300/400 are chalk, ash and slate: the three
-        // ink values, each measured against the ground rather than picked by
-        // eye. 400 is the floor — nothing dimmer carries body text.
+        // Warm-neutral ramp. Groundwork's greys are faintly cool because its
+        // accent is; ours lean the other way for the same reason, so the
+        // orange sits on the ground instead of drifting toward it. 50/300/400
+        // are the three ink values, each measured against the ground rather
+        // than picked by eye — 400 is the floor, and nothing dimmer carries
+        // body text.
         ink: {
-          50: '#F4F4F1',
-          100: '#E4E4E2',
-          200: '#C9C9CE',
-          300: '#A2A2AA',
-          400: '#84848E',
-          500: '#6B6B75',
-          600: '#53535C',
-          700: '#3B3B44',
-          800: '#26262C',
-          900: '#1A1A1F',
-          950: '#0A0A0B',
+          50: '#F7F5F2',
+          100: '#EAE7E2',
+          200: '#D2CEC8',
+          300: '#A8A29A',
+          400: '#8A847B',
+          500: '#6B655D',
+          600: '#514C46',
+          700: '#3A3733',
+          800: '#262421',
+          900: '#1A1815',
+          950: '#0B0A0A',
         },
       },
       fontFamily: {
-        // Three families, three jobs; a font used outside its job is a bug.
-        // Inter was the previous body face and is the single loudest tell of
-        // a generated page — it goes, along with the serif display.
+        // Three families, three jobs. All three are chosen against Groundwork
+        // rather than from it: Bricolage and Instrument Sans are that site's
+        // display and body, and wearing both here would have left the two
+        // indistinguishable in everything but hue.
         //
-        // The mono is deliberately *not* Groundwork's Martian Mono. That site
-        // and this one are both mine, and its design notes reserve JetBrains
-        // Mono for the portfolio precisely so the two do not read as one
-        // template wearing two palettes. Display and body are shared; the
-        // structural voice is what keeps them apart.
-        sans: ['"Instrument Sans"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        display: ['"Bricolage Grotesque"', '"Arial Black"', 'sans-serif'],
+        // Syne is the formal break. Bricolage is a chunky workhorse grotesque;
+        // Syne is wide, slightly strange, and unmistakably *set* — which is
+        // what a name at 120px should be. Archivo carries prose without
+        // opinions. Inter stays banned: it is the default AI aesthetic.
+        sans: ['Archivo', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        display: ['Syne', '"Arial Black"', 'sans-serif'],
         mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
       },
       letterSpacing: {

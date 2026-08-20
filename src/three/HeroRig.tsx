@@ -89,8 +89,8 @@ function buildWorkstation(dark: boolean) {
   // paper — so the whole set drops instead. This is not a tint applied to one
   // palette; it is two, because the fix runs in opposite directions.
   const tone = dark
-    ? { chassis: 0x5f636b, panel: 0x4a4e56, machined: 0xa9aeb6, bezel: 0x2f333a, keycap: 0x6b7079, deck: 0x3b4048, screen: 0x191c21 }
-    : { chassis: 0x343941, panel: 0x282d34, machined: 0x767c85, bezel: 0x181c21, keycap: 0x40454d, deck: 0x21262c, screen: 0x101316 }
+    ? { chassis: 0x66625b, panel: 0x514d47, machined: 0xaeaaa1, bezel: 0x35322e, keycap: 0x726e66, deck: 0x413d38, screen: 0x1c1a18 }
+    : { chassis: 0x3a3733, panel: 0x2d2a27, machined: 0x7b776f, bezel: 0x1d1b19, keycap: 0x464340, deck: 0x252320, screen: 0x131110 }
 
   const chassis = new THREE.MeshStandardMaterial({ color: tone.chassis, roughness: 0.68, metalness: 0.28 })
   const panel = new THREE.MeshStandardMaterial({ color: tone.panel, roughness: 0.6, metalness: 0.36 })
@@ -106,15 +106,15 @@ function buildWorkstation(dark: boolean) {
     color: tone.screen,
     roughness: 0.52,
     metalness: 0.14,
-    emissive: new THREE.Color(0xccff00),
+    emissive: new THREE.Color(0xff7538),
     emissiveIntensity: 0,
   })
   /** Power lamps. Dark until the machine boots. */
   const lamp = new THREE.MeshStandardMaterial({
-    color: 0x2f3a12,
+    color: 0x3a2113,
     roughness: 0.4,
     metalness: 0.2,
-    emissive: new THREE.Color(0xa9d400),
+    emissive: new THREE.Color(0xff5a1f),
     emissiveIntensity: 0,
   })
 
@@ -315,8 +315,9 @@ export default function HeroRig({ className, dark }: { className?: string; dark:
     renderer.domElement.style.cssText = 'display:block;width:100%;height:100%'
 
     // Lighting is neutral-cool, matching the coal ground. It is deliberately
-    // not tinted acid: the only acid in this scene comes from the screen and
-    // the lamps once the machine boots, and washing the whole rig in it would
+    // not tinted: the only saturated colour in this scene comes from the
+    // screen and the lamps once the machine boots, and washing the rig in it
+    // would
     // spend that moment before it arrives. Ambient stays low — on black the
     // risk is a flat, evenly-lit object with no modelling, and lighting a
     // subject in a dark room *is* the contrast.
@@ -348,14 +349,14 @@ export default function HeroRig({ className, dark }: { className?: string; dark:
 
     // Rims carve the silhouette, and matter more here than anywhere else —
     // they are the only thing separating a dark edge from a dark page. The
-    // lower rim carries a trace of acid, which is the one place the accent is
+    // lower rim carries a trace of the accent, which is the one place it is
     // allowed before the boot: it reads as bounce off the desk, not as a
     // second light source.
     const rimA = new THREE.DirectionalLight(0xffffff, lit.rimA)
     rimA.position.set(-4, 2.5, -6)
     scene.add(rimA)
 
-    const rimB = new THREE.DirectionalLight(0xa9b48a, lit.rimB)
+    const rimB = new THREE.DirectionalLight(0xd9a184, lit.rimB)
     rimB.position.set(5, -2, -5)
     scene.add(rimB)
 

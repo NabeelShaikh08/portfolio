@@ -41,9 +41,9 @@ const PALETTE = {
   // Darker colours buy the contrast, and lower alpha keeps it behind the text
   // rather than in it.
   light: {
-    a: new Color('#53535C'),
-    b: new Color('#6B6B75'),
-    link: new Color('#84848E'),
+    a: new Color('#514C46'),
+    b: new Color('#6B655D'),
+    link: new Color('#8A847B'),
     blending: NormalBlending,
     pointOpacity: 0.7,
     linkOpacity: 0.26,

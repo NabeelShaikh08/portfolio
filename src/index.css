@@ -11,47 +11,45 @@
 */
 @layer base {
   :root {
-    --veil: 244 244 241;        /* ink-50, chalk */
+    --veil: 247 245 242;        /* ink-50, bone */
     --veil-strong: 255 255 255;
     --hairline: 0 0 0;
 
     /* Brand channels, as raw RGB triples so any rule can dial its own alpha.
        Every glow, ring and shadow on the site derives from these three — the
        palette is changed here and nowhere else. */
-    /* Acid at full strength is unusable on a light ground — #CCFF00 on chalk
-       is under 1.5:1. Light mode therefore carries the same hue several steps
-       down, which keeps the identity and clears AA for text. */
-    --brand: 126 158 0;         /* primary-700 */
-    --brand-deep: 98 122 5;     /* primary-800 */
-    --brass: 30 143 73;         /* accent-600, the signal green */
+    /* A fluorescent at full strength is unusable on a light ground. Light
+       mode carries the same hue several steps down, which keeps the identity
+       and clears AA for text. */
+    --brand: 188 50 8;          /* primary-700 */
+    --brand-deep: 148 41 11;    /* primary-800 */
+    --brass: 13 133 119;        /* accent-600, the live signal */
 
-    --chart-bar: #627A05;
-    --chart-ongoing: #1E8F49;
+    --chart-bar: #BC3208;
+    --chart-ongoing: #0D8577;
   }
 
   .dark {
-    --veil: 10 10 11;           /* void — coal, faintly cool, never #000 */
-    --veil-strong: 18 18 21;    /* carbon — recessed bands and panels */
+    --veil: 11 10 10;           /* void — carbon, faintly warm, never #000 */
+    --veil-strong: 26 24 21;    /* recessed bands and panels */
     --hairline: 255 255 255;
-    /* The acid runs at full strength here and nowhere else. This is the whole
-       point of the ground being coal rather than grey: a fluorescent needs
-       somewhere dark enough to actually fluoresce. */
-    --brand: 204 255 0;         /* primary-400, acid */
-    --brand-deep: 169 212 0;    /* primary-600, acid-deep */
-    --brass: 107 226 143;       /* accent-300, live */
+    /* The accent runs at full strength here and nowhere else. This is the
+       whole point of the ground being near-black rather than grey: a
+       fluorescent needs somewhere dark enough to actually fluoresce. */
+    --brand: 255 117 56;        /* primary-400, signal orange */
+    --brand-deep: 255 90 31;    /* primary-500 */
+    --brass: 95 220 204;        /* accent-300, live aqua */
 
-    --chart-bar: #CCFF00;
-    --chart-ongoing: #6BE28F;
+    --chart-bar: #FF7538;
+    --chart-ongoing: #5FDCCC;
   }
 
-  /* Bricolage Grotesque is a variable grotesque whose 400 is a *text* weight.
-     Display type on this site is set at 600–700 with the optical size pushed
-     to its ceiling; without this every heading would render at the family's
-     default and read as body copy blown up to 80px. Utilities still win — a
-     `font-bold` on a heading overrides this, because base loses to utilities. */
+  /* Syne's 400 is a text weight and its display sizes want 700–800. The
+     optical-size and width axes the previous face carried do not exist here,
+     so setting them would be a silent no-op rather than a style. Utilities
+     still win — a `font-bold` on a heading overrides this. */
   .font-display {
-    font-weight: 650;
-    font-variation-settings: 'opsz' 96, 'wdth' 100;
+    font-weight: 750;
   }
 
   html {
@@ -167,12 +165,12 @@
            hover:text-ink-900 dark:hover:text-white transition-colors duration-300;
   }
 
-  /* Text on acid is the ground colour, never white — white on #CCFF00 is
-     1.1:1 and simply cannot be read. This is the one button that carries the
-     saturated voice, and there is never a second one in the same viewport. */
+  /* Text on the accent is the ground colour, never white. This is the one
+     button that carries the saturated voice, and there is never a second one
+     in the same viewport. */
   .btn-primary {
     @apply relative inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-medium
-           text-ink-950 bg-primary-600 dark:bg-primary-400 overflow-hidden
+           text-ink-950 bg-primary-500 dark:bg-primary-400 overflow-hidden
            transition-all duration-500 ease-smooth
            hover:shadow-[0_16px_50px_-12px_rgb(var(--brand)/0.5)] hover:-translate-y-0.5;
   }
