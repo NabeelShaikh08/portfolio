@@ -29,8 +29,12 @@ export default function Footer() {
           className="mb-12 grid gap-10 md:grid-cols-3"
         >
           <div className="space-y-4">
-            <a href="#" className="inline-block" aria-label="Back to top">
-              <img src="/header.png" alt="Nabeel Shaikh" className="h-16 w-auto" />
+            <a
+              href="#"
+              className="inline-block font-display text-[1.4rem] leading-none tracking-tightest text-ink-900 transition-colors duration-300 hover:text-primary-600 dark:text-ink-50 dark:hover:text-primary-400"
+              aria-label="Back to top"
+            >
+              Nabeel <span className="text-ink-400">Shaikh</span>
             </a>
             <p className="max-w-xs text-sm leading-relaxed text-ink-500">
               AI Engineer & Full-Stack Developer building intelligent systems and scalable applications.

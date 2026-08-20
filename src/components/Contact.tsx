@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { AlertCircle, CheckCircle2, Github, Linkedin, Loader2, Mail, MapPin, Phone, Send } from 'lucide-react'
-import Orbit from './ui/Orbit'
 import Reveal from './ui/Reveal'
 import SplitText from './ui/SplitText'
 import TiltCard from './ui/TiltCard'
@@ -69,10 +68,6 @@ export default function Contact() {
         </div>
 
         <div className="relative mx-auto grid max-w-5xl gap-12 lg:grid-cols-2">
-          <Orbit
-            size={280}
-            className="absolute -left-32 bottom-0 hidden opacity-50 xl:block"
-          />
           <div className="relative space-y-10">
             <Reveal delay={2}>
               <p className="max-w-lg text-xl leading-relaxed text-ink-600 dark:text-ink-300">

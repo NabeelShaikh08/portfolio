@@ -23,10 +23,10 @@
        and clears AA for text. */
     --brand: 188 50 8;          /* primary-700 */
     --brand-deep: 148 41 11;    /* primary-800 */
-    --brass: 13 133 119;        /* accent-600, the live signal */
+    --brass: 49 92 135;         /* accent-600, the secondary signal */
 
     --chart-bar: #BC3208;
-    --chart-ongoing: #0D8577;
+    --chart-ongoing: #315C87;
   }
 
   .dark {
@@ -38,10 +38,10 @@
        fluorescent needs somewhere dark enough to actually fluoresce. */
     --brand: 255 117 56;        /* primary-400, signal orange */
     --brand-deep: 255 90 31;    /* primary-500 */
-    --brass: 95 220 204;        /* accent-300, live aqua */
+    --brass: 134 176 213;       /* accent-300, steel blue */
 
     --chart-bar: #FF7538;
-    --chart-ongoing: #5FDCCC;
+    --chart-ongoing: #86B0D5;
   }
 
   /* Syne's 400 is a text weight and its display sizes want 700–800. The

@@ -57,8 +57,12 @@ export default function Navbar({ isDark, toggleTheme }: NavbarProps) {
             : 'border border-transparent bg-transparent'
         }`}
       >
-        <a href="#" className="block shrink-0" aria-label="Back to top">
-          <img src="/header.png" alt="Nabeel Shaikh" className="h-14 w-auto md:h-16" />
+        <a
+          href="#"
+          className="block shrink-0 font-display text-[1.15rem] leading-none tracking-tightest text-ink-900 transition-colors duration-300 hover:text-primary-600 md:text-[1.3rem] dark:text-ink-50 dark:hover:text-primary-400"
+          aria-label="Back to top"
+        >
+          Nabeel <span className="text-ink-400">Shaikh</span>
         </a>
 
         <div className="hidden items-center gap-1 md:flex">
@@ -154,9 +158,9 @@ function ThemeToggle({ isDark, toggleTheme }: NavbarProps) {
           className="absolute grid place-items-center"
         >
           {isDark ? (
-            <Sun className="h-[18px] w-[18px] text-accent-400" />
+            <Sun className="h-[18px] w-[18px] text-ink-400" />
           ) : (
-            <Moon className="h-[18px] w-[18px] text-primary-600" />
+            <Moon className="h-[18px] w-[18px] text-ink-500" />
           )}
         </motion.span>
       </AnimatePresence>

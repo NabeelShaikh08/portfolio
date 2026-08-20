@@ -52,9 +52,9 @@ function App() {
       <main className="relative z-[2]">
         <Hero isDark={isDark} />
         <About />
-        <Skills />
         <Experience />
         <Projects />
+        <Skills />
         <Education />
         <Contact />
       </main>

@@ -27,9 +27,9 @@ type Props = {
  */
 const PALETTE = {
   dark: {
-    a: new Color('#6B6B75'),
-    b: new Color('#A2A2AA'),
-    link: new Color('#3B3B44'),
+    a: new Color('#6B655D'),
+    b: new Color('#A8A29A'),
+    link: new Color('#3A3733'),
     blending: AdditiveBlending,
     pointOpacity: 1.55,
     linkOpacity: 0.62,

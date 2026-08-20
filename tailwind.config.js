@@ -30,21 +30,25 @@ export default {
           900: '#78240E',
           950: '#3F1004',
         },
-        // Live aqua. The availability signal and nothing else — a dot and a
-        // text colour, never a fill. Cool against the warm accent so the two
-        // can never be mistaken for each other at a glance.
+        // Steel blue. The secondary signal — availability, certifications,
+        // the freelance marker — and deliberately the one thing on the page
+        // that is *not* warm. Three greens have now been tried here and all
+        // three were wrong against this ground; a cool blue is the honest
+        // complement to signal orange and cannot be mistaken for it at any
+        // size. Reserved, never decorative: the orange keeps its monopoly on
+        // "act on this".
         accent: {
-          50: '#E8FBF8',
-          100: '#C9F5EE',
-          200: '#97EADF',
-          300: '#5FDCCC',
-          400: '#2BC4B2',
-          500: '#14A594',
-          600: '#0D8577',
-          700: '#0E6A60',
-          800: '#10554E',
-          900: '#114641',
-          950: '#032926',
+          50: '#EEF4FA',
+          100: '#D8E6F3',
+          200: '#B4CEE6',
+          300: '#86B0D5',
+          400: '#5B90C0',
+          500: '#3F73A6',
+          600: '#315C87',
+          700: '#2A4A6C',
+          800: '#263D58',
+          900: '#23344A',
+          950: '#121D2B',
         },
         // Warm-neutral ramp. Groundwork's greys are faintly cool because its
         // accent is; ours lean the other way for the same reason, so the
