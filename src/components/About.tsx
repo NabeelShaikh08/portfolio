@@ -40,11 +40,17 @@ export default function About() {
   return (
     <section id="about" className="section-veil">
       <div className="section-container">
-        <div className="section-head">
+        {/* Wider than the shared section head, because this heading is a long
+            sentence rather than a two-word label. At the default max-w-3xl it
+            broke across five lines of 60px display type, which reads as a wall
+            rather than as a line. The max-w-4xl that used to sit on the heading
+            itself never did anything — the parent was narrower, so the child's
+            larger cap could not take effect. It belongs on the container. */}
+        <div className="section-head max-w-5xl">
           <Reveal>
             <p className="section-title">About Me</p>
           </Reveal>
-          <SplitText className="section-heading max-w-4xl text-balance mx-auto">
+          <SplitText className="section-heading text-balance mx-auto">
             Crafting intelligent solutions at the intersection of AI and web development
           </SplitText>
         </div>

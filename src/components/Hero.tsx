@@ -72,7 +72,7 @@ export default function Hero({ isDark }: { isDark: boolean }) {
       <div className="sticky top-0 flex h-[100svh] items-center justify-center overflow-hidden px-6 py-24">
         {rig && (
           <Suspense fallback={null}>
-            <HeroRig dark={isDark} className="pointer-events-none absolute bottom-[-4%] right-[-3%] top-[26%] w-[56%] -z-[4]" />
+            <HeroRig dark={isDark} className="pointer-events-none absolute inset-x-0 bottom-[-4%] top-[22%] -z-[4]" />
           </Suspense>
         )}
 
