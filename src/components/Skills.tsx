@@ -12,7 +12,7 @@ const skillGroups = [
   {
     title: 'Frameworks & Libraries',
     icon: Layers,
-    skills: ['React.js', 'Node.js', 'Next.js', 'NestJS', 'Express.js', 'Flutter', 'TensorFlow', 'Keras', 'FastAPI', 'Flask', 'Pydantic', 'OpenCV', 'Hugging Face'],
+    skills: ['React.js', 'Node.js', 'Next.js', 'NestJS', 'Express.js', 'Flutter', 'Tailwind CSS', 'Three.js', 'GSAP', 'TensorFlow', 'Keras', 'FastAPI', 'Flask', 'Pydantic', 'OpenCV', 'Hugging Face'],
   },
   {
     title: 'Databases & Cloud',
@@ -22,7 +22,7 @@ const skillGroups = [
   {
     title: 'DevOps & Tools',
     icon: Wrench,
-    skills: ['Git', 'GitHub Actions', 'CI/CD', 'Docker', 'npm (package author)', 'Webhooks', 'Firebase', 'OAuth', 'Google Analytics', 'Google File Search', 'Tableau'],
+    skills: ['Git', 'GitHub Actions', 'CI/CD', 'Docker', 'Puppeteer', 'npm (package author)', 'Webhooks', 'Firebase', 'OAuth', 'Google Analytics', 'Google File Search', 'Tableau'],
   },
   {
     title: 'AI & ML',

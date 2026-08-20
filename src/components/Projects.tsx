@@ -1,4 +1,4 @@
-import { BookOpen, Bone, Bot, Brain, ExternalLink, FileText, Github, Heart, Lock, Palmtree, Shirt } from 'lucide-react'
+import { Beef, BookOpen, Bone, Clapperboard, ExternalLink, FileText, Github, Heart, Lock, Palmtree, Shirt } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { useRef } from 'react'
 import { useCardStack } from '../hooks/useCardStack'
@@ -42,6 +42,25 @@ const projects: Project[] = [
     github: '#',
     sourcePrivate: true,
     live: 'https://thekeystonevacations.com/',
+    liveLabel: 'Visit Site',
+  },
+  {
+    title: 'All In Productions',
+    subtitle: 'Creative Production Studio — Video-First Site with a 3D Scroll Stage',
+    description:
+      'A single-page site for a Mumbai video production studio, built video-first: every film plays on the page itself rather than linking out to Instagram. The hero is a cinema camera that assembles from its own parts as you scroll, and the work gallery renders as a curved WebGL arc on desktop, falling back to a DOM grid on phones and under reduced motion.',
+    highlights: [
+      'Built a scroll-pinned three.js hero in which a cinema camera assembles itself as the page moves, driven by GSAP ScrollTrigger over Lenis smooth scroll',
+      'Rendered the film gallery two ways from one content source — a curved WebGL arc on wide viewports, a DOM grid below 768px and under prefers-reduced-motion',
+      'Cut the cost of browsing the gallery from ~40 MB to ~4 MB by shipping two renditions per film: a silent 540p preview for hover, and the full cut fetched only when a visitor opens it',
+      'Wrote a Puppeteer harness that drives real Chrome before any media ships — asserting playback actually advances, audio decodes, the pinned rig progresses, and every text node clears WCAG contrast',
+    ],
+    tech: ['Next.js 16', 'React 19', 'TypeScript', 'Tailwind CSS', 'Three.js', 'WebGL', 'GSAP ScrollTrigger', 'Lenis', 'Puppeteer', 'FFmpeg', 'Vercel'],
+    icon: Clapperboard,
+    badge: 'Freelance',
+    github: '#',
+    sourcePrivate: true,
+    live: 'https://allinproductionss.vercel.app/',
     liveLabel: 'Visit Site',
   },
   {
@@ -90,19 +109,22 @@ const projects: Project[] = [
     live: 'https://huggingface.co/spaces/nabeelshk/bonescan-fracture-classifier',
   },
   {
-    title: 'Ragnius',
-    subtitle: 'Intelligent Chat Agent with Bedrock RAG Architecture',
+    title: 'Fresh Cuts',
+    subtitle: 'Premium Meat Supplier — Static Site with a Backendless Order System',
     description:
-      'A knowledge-grounded AI chatbot using Amazon Bedrock, combining Claude Sonnet for natural language generation and Titan Embeddings for semantic search to enable real-time, contextually rich conversations.',
+      'A six-page site for a Mumbai goat, lamb and chicken supplier, hand-built with no framework, no dependencies and no build step. Customers assemble an order from the catalogue and send it as a single formatted WhatsApp message — backendless by design, so the client can host it free anywhere and no customer detail is ever stored on a server.',
     highlights: [
-      'Built modular RAG system delivering accurate, domain-specific insights',
-      'Supports future features like file uploads, multilingual support, and user personalization',
-      'Real-time contextual conversations with semantic search capabilities',
+      'Built an order list with preparation and quantity options that survives page changes and browser restarts in localStorage, then composes a formatted WhatsApp message with an email fallback when pop-ups are blocked',
+      'Drove the catalogue from data attributes on the product cards themselves, so a new cut is added in markup with no separate data file to fall out of sync',
+      'Hand-wrote the design system in CSS custom properties — self-hosted Bodoni Moda and Archivo, editorial hairlines, alternating dark and light sections — with prefers-reduced-motion respected throughout',
+      'Shipped LocalBusiness structured data, a keyboard-navigable lightbox gallery and lazy-loaded photography, responsive from 320px up',
     ],
-    tech: ['Amazon Bedrock', 'Claude Sonnet', 'Titan Embeddings', 'RAG', 'Python'],
-    icon: Bot,
-    github: '#',
-    live: '#',
+    tech: ['HTML', 'CSS', 'JavaScript', 'localStorage', 'WhatsApp Deep Links', 'JSON-LD', 'Vercel'],
+    icon: Beef,
+    badge: 'Freelance',
+    github: 'https://github.com/NabeelShaikh08/Fresh_Cuts',
+    live: 'https://freshcuts-blond.vercel.app/',
+    liveLabel: 'Visit Site',
   },
   {
     title: 'Life-Fit Healthcare',
@@ -117,21 +139,6 @@ const projects: Project[] = [
     tech: ['React.js', 'React Router', 'CSS Modules', 'CSS Variables', 'Responsive Design'],
     icon: Heart,
     github: 'https://github.com/NabeelShaikh08/Life-Fit-Healthcare',
-    live: '#',
-  },
-  {
-    title: 'CNN Image Classifier',
-    subtitle: 'Custom Deep Learning Model for Produce Classification',
-    description:
-      'A custom Convolutional Neural Network (CNN) model built from scratch for image classification, trained to accurately distinguish between apples and tomatoes with high precision and recall.',
-    highlights: [
-      'Built custom CNN architecture optimized for produce classification',
-      'Implemented data preprocessing, augmentation, and model training pipeline',
-      'Achieved high accuracy in binary classification between apples and tomatoes',
-    ],
-    tech: ['Python', 'TensorFlow', 'CNN', 'Deep Learning', 'Image Classification'],
-    icon: Brain,
-    github: 'https://github.com/NabeelShaikh08/cnn-model',
     live: '#',
   },
   {
