@@ -72,17 +72,22 @@ export default function Hero({ isDark }: { isDark: boolean }) {
       <div className="sticky top-0 flex h-[100svh] items-center justify-center overflow-hidden px-6 py-24">
         {rig && (
           <Suspense fallback={null}>
-            <HeroRig dark={isDark} className="pointer-events-none absolute inset-x-0 bottom-[-4%] top-[22%] -z-[4]" />
+            <HeroRig dark={isDark} className="pointer-events-none absolute bottom-[-4%] right-[-3%] top-[26%] w-[56%] -z-[4]" />
           </Suspense>
         )}
 
-        {/* Centre-weighted scrim, and it is doing more work than it used to.
-            The rig assembles directly behind this type, so the middle band has
-            to stay dark enough to read against a lit machine — the periphery
-            is left open so the parts still fly through open space. */}
+        {/* The veil is shaped to the composition rather than to the centre.
+            The name runs full width across the top and the copy sits left, so
+            those are the two bands that have to stay dark enough to read
+            against a lit machine; the right side is left open, which is where
+            the parts fly and where the workstation finally stands. */}
         <div
           aria-hidden="true"
-          className="absolute inset-0 -z-[3] bg-[radial-gradient(ellipse_62%_54%_at_50%_46%,rgb(var(--veil)/0.92),rgb(var(--veil)/0.55)_52%,transparent_78%)]"
+          className={
+            rig
+              ? 'absolute inset-0 -z-[3] bg-[linear-gradient(180deg,rgb(var(--veil))_0%,rgb(var(--veil)/0.9)_26%,rgb(var(--veil)/0.15)_48%,transparent_66%),linear-gradient(90deg,rgb(var(--veil))_0%,rgb(var(--veil)/0.94)_30%,rgb(var(--veil)/0.4)_52%,transparent_72%)]'
+              : 'absolute inset-0 -z-[3] bg-[radial-gradient(ellipse_62%_54%_at_50%_46%,rgb(var(--veil)/0.92),rgb(var(--veil)/0.55)_52%,transparent_78%)]'
+          }
         />
 
         <motion.div
@@ -92,13 +97,17 @@ export default function Hero({ isDark }: { isDark: boolean }) {
           // from-state to apply either — the hero simply renders, readable.
           initial={reducedMotion ? false : 'hidden'}
           animate="show"
-          className="relative flex w-full max-w-4xl flex-col items-center text-center"
+          className={
+            rig
+              ? 'relative flex w-full max-w-6xl flex-col items-start text-left'
+              : 'relative flex w-full max-w-4xl flex-col items-center text-center'
+          }
         >
           <motion.p
             variants={item}
             className="mb-5 inline-flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.22em] text-ink-400"
           >
-            <span className="h-px w-8 bg-ink-700" />
+            {!rig && <span className="h-px w-8 bg-ink-700" />}
             Hey there, I'm
             <span className="h-px w-8 bg-ink-700" />
           </motion.p>
@@ -113,7 +122,7 @@ export default function Hero({ isDark }: { isDark: boolean }) {
               stack. Measured against the real rendered width, not guessed:
               Syne sets "Nabeel Shaikh" at 9.17× its font size with this
               tracking, so 1180px is the widest line 7.75rem can hold. */}
-          <h1 className="mb-6 w-[min(100vw-3rem,1180px)] max-w-none font-display text-[clamp(2.25rem,9.5vw,7.75rem)] leading-[0.92] tracking-tightest text-ink-900 dark:text-ink-50">
+          <h1 className="mb-6 w-full max-w-[1180px] font-display text-[clamp(2.25rem,9.5vw,7.75rem)] leading-[0.92] tracking-tightest text-ink-900 dark:text-ink-50">
             {/* Split per character so the name assembles rather than fading in
                 as a block; words stay in their own spans so lines still break. */}
             {name.split(' ').map((word, wordIndex) => (
@@ -137,6 +146,14 @@ export default function Hero({ isDark }: { isDark: boolean }) {
             ))}
           </h1>
 
+          {/* Everything below the name is prose, and prose needs a measure.
+              That measure is also what keeps the copy clear of the machine:
+              the rig owns the right 56% of the stage, so the text stops well
+              short of it instead of being read through a monitor. The measure
+              steps down below 1280px because that 56% is a proportion, not a
+              fixed column — at 1024 a 32rem measure would meet the canvas
+              again. */}
+          <div className={rig ? 'w-full max-w-[26rem] xl:max-w-[32rem]' : 'flex w-full flex-col items-center'}>
           <motion.h2
             variants={item}
             className="mb-6 text-xl font-medium text-ink-600 md:text-2xl dark:text-ink-300"
@@ -154,7 +171,7 @@ export default function Hero({ isDark }: { isDark: boolean }) {
 
           <motion.div
             variants={item}
-            className="mb-9 flex flex-wrap items-center justify-center gap-4 font-mono text-[11px] uppercase tracking-[0.14em]"
+            className={`mb-9 flex flex-wrap items-center gap-4 font-mono text-[11px] uppercase tracking-[0.14em] ${rig ? 'justify-start' : 'justify-center'}`}
           >
             {/* The signal green, and this is the only thing it marks. It is a
                 dot and a text colour — never a fill, and never a second
@@ -172,7 +189,7 @@ export default function Hero({ isDark }: { isDark: boolean }) {
 
           <motion.div
             variants={item}
-            className="flex flex-wrap items-center justify-center gap-3"
+            className={`flex flex-wrap items-center gap-3 ${rig ? 'justify-start' : 'justify-center'}`}
           >
             {/* One acid CTA per viewport. "See My Work" and "Resume" are
                 deliberately quiet — two saturated buttons side by side is how
@@ -193,7 +210,7 @@ export default function Hero({ isDark }: { isDark: boolean }) {
             </a>
           </motion.div>
 
-          <motion.div variants={item} className="mt-9 flex items-center justify-center gap-2">
+          <motion.div variants={item} className={`mt-9 flex items-center gap-2 ${rig ? 'justify-start' : 'justify-center'}`}>
             {socials.map(({ icon: Icon, href, label }) => (
               <a
                 key={label}
@@ -208,6 +225,7 @@ export default function Hero({ isDark }: { isDark: boolean }) {
               </a>
             ))}
           </motion.div>
+          </div>
         </motion.div>
 
         <motion.a
@@ -215,7 +233,9 @@ export default function Hero({ isDark }: { isDark: boolean }) {
           initial={reducedMotion ? false : { opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.8, duration: 1 }}
-          className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-ink-400 transition-colors hover:text-ink-900 md:flex dark:hover:text-ink-50"
+          className={`absolute bottom-8 hidden flex-col gap-2 text-ink-400 transition-colors hover:text-ink-900 md:flex dark:hover:text-ink-50 ${
+            rig ? 'left-6 items-start lg:left-[max(1.5rem,calc((100vw-72rem)/2))]' : 'left-1/2 -translate-x-1/2 items-center'
+          }`}
           aria-label="Scroll to about section"
         >
           <span className="font-mono text-[10px] uppercase tracking-[0.22em]">
