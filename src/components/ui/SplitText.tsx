@@ -59,9 +59,15 @@ export default function SplitText({
 
                 The vertical padding is the other half of it. A mask tight to
                 the line box cuts descenders — the "g" in "intelligent" lost
-                its tail — so the box is opened below and pulled back up by the
-                same amount, which buys the room without moving the baseline. */}
-            <span className="inline-block overflow-hidden align-bottom pb-[0.14em] -mb-[0.14em]">
+                its tail — so the box is opened below the baseline row.
+
+                It is padding alone, with no negative margin pulling it back.
+                A negative bottom margin on an `align-bottom` inline-block does
+                not simply cancel the padding: it lifts the whole run relative
+                to its line box, and the first line then overflowed upward into
+                the eyebrow above it. Paying the 0.14em in leading is the
+                cheaper of the two. */}
+            <span className="inline-block overflow-hidden align-bottom pb-[0.14em]">
               <motion.span className="inline-block" variants={word}>
                 {w}
               </motion.span>

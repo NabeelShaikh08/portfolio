@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { Menu, Moon, Sun, X } from 'lucide-react'
+import { Download, Menu, Moon, Sun, X } from 'lucide-react'
 
 interface NavbarProps {
   isDark: boolean
@@ -93,6 +93,20 @@ export default function Navbar({ isDark, toggleTheme }: NavbarProps) {
             )
           })}
 
+          {/* The résumé used to sit in the hero, which meant it was reachable
+              only from the very top of the page. In the header it is one click
+              away from any section — and it is a link out, not a section, so
+              it sits after the rule that separates it from the nav items. */}
+          <span aria-hidden="true" className="mx-2 h-4 w-px bg-black/10 dark:bg-white/15" />
+          <a
+            href="/NabeelResume.pdf"
+            download="Nabeel_Shaikh_Resume.pdf"
+            className="group inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium text-ink-600 ring-1 ring-black/10 transition-all duration-300 hover:text-ink-900 hover:ring-black/20 dark:text-ink-300 dark:ring-white/15 dark:hover:text-white dark:hover:ring-white/30"
+          >
+            <Download className="h-4 w-4 transition-transform duration-300 group-hover:translate-y-0.5" />
+            Resume
+          </a>
+
           <ThemeToggle isDark={isDark} toggleTheme={toggleTheme} />
         </div>
 
@@ -134,6 +148,16 @@ export default function Navbar({ isDark, toggleTheme }: NavbarProps) {
                 </span>
               </motion.a>
             ))}
+
+              <a
+                href="/NabeelResume.pdf"
+                download="Nabeel_Shaikh_Resume.pdf"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="mt-2 flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium text-ink-600 ring-1 ring-black/10 transition-colors hover:bg-primary-500/10 hover:text-primary-600 dark:text-ink-300 dark:ring-white/15 dark:hover:text-primary-300"
+              >
+                <Download className="h-4 w-4" />
+                Resume
+              </a>
           </motion.div>
         )}
       </AnimatePresence>

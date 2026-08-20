@@ -40,17 +40,23 @@ export default function About() {
   return (
     <section id="about" className="section-veil">
       <div className="section-container">
-        {/* Wider than the shared section head, because this heading is a long
-            sentence rather than a two-word label. At the default max-w-3xl it
-            broke across five lines of 60px display type, which reads as a wall
-            rather than as a line. The max-w-4xl that used to sit on the heading
-            itself never did anything — the parent was narrower, so the child's
-            larger cap could not take effect. It belongs on the container. */}
-        <div className="section-head max-w-5xl">
+        {/* This head is set left, unlike the rest, and deliberately.
+            Everywhere else the heading is a two-word label — "Featured Work",
+            "Contact" — and a short centred label is fine. This one is a
+            76-character sentence, and a centred sentence over four lines gives
+            a rag that steps in and out on every line with nothing to anchor
+            it. Worse, the prose directly beneath it is left-aligned in a
+            narrower column, so the heading and the paragraph it introduces
+            shared no edge at all.
+
+            Both are fixed by the same move: the same measure as the body, the
+            same left edge, and a size that admits this is a sentence rather
+            than a label. */}
+        <div className="section-head max-w-3xl text-left">
           <Reveal>
             <p className="section-title">About Me</p>
           </Reveal>
-          <SplitText className="section-heading text-balance mx-auto">
+          <SplitText className="font-display text-3xl leading-[1.08] tracking-tightest text-ink-900 md:text-5xl dark:text-ink-50">
             Crafting intelligent solutions at the intersection of AI and web development
           </SplitText>
         </div>

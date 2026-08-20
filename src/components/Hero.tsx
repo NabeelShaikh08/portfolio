@@ -1,6 +1,6 @@
 import { Suspense, lazy, useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
-import { ArrowDown, Download, Github, Linkedin, Mail } from 'lucide-react'
+import { ArrowDown, Github, Linkedin, Mail } from 'lucide-react'
 import { useHeroProgress } from '../hooks/useHeroProgress'
 import { useMediaQuery } from '../hooks/useMediaQuery'
 import { useReducedMotion } from '../hooks/useReducedMotion'
@@ -69,23 +69,32 @@ export default function Hero({ isDark }: { isDark: boolean }) {
       // collapses back to a single screen.
       className={rig ? 'relative h-[240vh]' : 'relative'}
     >
-      <div className="sticky top-0 flex h-[100svh] items-center justify-center overflow-hidden px-6 py-24">
+      <div
+        className={`sticky top-0 flex h-[100svh] justify-center overflow-hidden px-6 ${
+          // With the copy gone the block is short, and centring it vertically
+          // dropped the name straight onto the monitor. It belongs at the top:
+          // the name reads first, the machine assembles underneath it, and the
+          // two never occupy the same band.
+          rig ? 'items-start pt-28' : 'items-center py-24'
+        }`}
+      >
         {rig && (
           <Suspense fallback={null}>
             <HeroRig dark={isDark} className="pointer-events-none absolute inset-x-0 bottom-[-4%] top-[22%] -z-[4]" />
           </Suspense>
         )}
 
-        {/* The veil is shaped to the composition rather than to the centre.
-            The name runs full width across the top and the copy sits left, so
-            those are the two bands that have to stay dark enough to read
-            against a lit machine; the right side is left open, which is where
-            the parts fly and where the workstation finally stands. */}
+        {/* A top band only. The left band that used to sit alongside it existed
+            to carry the pitch copy over the tower, and it was what made the
+            CPU almost invisible — it was covering the machine to keep words
+            readable. With the copy gone there are no words down there to
+            protect, so the veil stops at the name and the whole machine,
+            tower included, is left to read. */}
         <div
           aria-hidden="true"
           className={
             rig
-              ? 'absolute inset-0 -z-[3] bg-[linear-gradient(180deg,rgb(var(--veil))_0%,rgb(var(--veil)/0.9)_26%,rgb(var(--veil)/0.15)_48%,transparent_66%),linear-gradient(90deg,rgb(var(--veil))_0%,rgb(var(--veil)/0.94)_30%,rgb(var(--veil)/0.4)_52%,transparent_72%)]'
+              ? 'absolute inset-0 -z-[3] bg-[linear-gradient(180deg,rgb(var(--veil))_0%,rgb(var(--veil)/0.92)_22%,rgb(var(--veil)/0.35)_38%,transparent_52%)]'
               : 'absolute inset-0 -z-[3] bg-[radial-gradient(ellipse_62%_54%_at_50%_46%,rgb(var(--veil)/0.92),rgb(var(--veil)/0.55)_52%,transparent_78%)]'
           }
         />
@@ -122,7 +131,7 @@ export default function Hero({ isDark }: { isDark: boolean }) {
               stack. Measured against the real rendered width, not guessed:
               Syne sets "Nabeel Shaikh" at 9.17× its font size with this
               tracking, so 1180px is the widest line 7.75rem can hold. */}
-          <h1 className="mb-6 w-full max-w-[1180px] font-display text-[clamp(2.25rem,9.5vw,7.75rem)] leading-[0.92] tracking-tightest text-ink-900 dark:text-ink-50">
+          <h1 className="mb-5 w-full max-w-[1180px] font-display text-[clamp(2.25rem,9.5vw,7.75rem)] leading-[0.92] tracking-tightest text-ink-900 dark:text-ink-50">
             {/* Split per character so the name assembles rather than fading in
                 as a block; words stay in their own spans so lines still break. */}
             {name.split(' ').map((word, wordIndex) => (
@@ -146,71 +155,17 @@ export default function Hero({ isDark }: { isDark: boolean }) {
             ))}
           </h1>
 
-          {/* Everything below the name is prose, and prose needs a measure.
-              That measure is also what keeps the copy clear of the machine:
-              the rig owns the right 56% of the stage, so the text stops well
-              short of it instead of being read through a monitor. The measure
-              steps down below 1280px because that 56% is a proportion, not a
-              fixed column — at 1024 a 32rem measure would meet the canvas
-              again. */}
-          <div className={rig ? 'w-full max-w-[26rem] xl:max-w-[32rem]' : 'flex w-full flex-col items-center'}>
-          <motion.h2
-            variants={item}
-            className="mb-6 text-xl font-medium text-ink-600 md:text-2xl dark:text-ink-300"
-          >
-            AI Engineer at <span className="text-ink-900 dark:text-ink-50">Naptick</span>
-          </motion.h2>
+          {/* The role line, the pitch paragraph, the availability row and the
+              three buttons all used to live here, and all of them are gone.
+              They were what forced the copy over the machine in the first
+              place, and every one of them already exists further down the
+              page: the role and the pitch open About, availability and the
+              call to action are the whole of Contact, and the résumé now sits
+              in the header where it is reachable from any section rather than
+              only from the top. A hero that states a name over a machine
+              assembling itself does not need to also be a summary. */}
 
-          <motion.p
-            variants={item}
-            className="mb-8 max-w-2xl text-balance text-lg leading-relaxed text-ink-500 dark:text-ink-300"
-          >
-            I build AI-powered products and full-stack applications. Currently working on
-            RAG systems, autonomous AI agents, voice AI, and workflow automation. Based in Mumbai.
-          </motion.p>
-
-          <motion.div
-            variants={item}
-            className={`mb-9 flex flex-wrap items-center gap-4 font-mono text-[11px] uppercase tracking-[0.14em] ${rig ? 'justify-start' : 'justify-center'}`}
-          >
-            {/* The signal green, and this is the only thing it marks. It is a
-                dot and a text colour — never a fill, and never a second
-                accent competing with the acid on the button below. */}
-            <span className="inline-flex items-center gap-2.5 text-accent-600 dark:text-accent-300">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inset-0 animate-pulse-ring rounded-full bg-accent-500 dark:bg-accent-300" />
-                <span className="relative h-2 w-2 rounded-full bg-accent-500 dark:bg-accent-300" />
-              </span>
-              Open to opportunities
-            </span>
-            <span className="h-4 w-px bg-ink-300 dark:bg-ink-700" />
-            <span className="text-ink-400">Mumbai, India</span>
-          </motion.div>
-
-          <motion.div
-            variants={item}
-            className={`flex flex-wrap items-center gap-3 ${rig ? 'justify-start' : 'justify-center'}`}
-          >
-            {/* One acid CTA per viewport. "See My Work" and "Resume" are
-                deliberately quiet — two saturated buttons side by side is how
-                an accent stops meaning anything. */}
-            <a href="#contact" className="btn-primary">
-              Get in Touch
-            </a>
-            <a href="#projects" className="btn-secondary">
-              See My Work
-            </a>
-            <a
-              href="/NabeelResume.pdf"
-              download="Nabeel_Shaikh_Resume.pdf"
-              className="group inline-flex items-center gap-2 px-4 py-3.5 font-medium text-ink-500 transition-colors hover:text-ink-900 dark:text-ink-400 dark:hover:text-ink-50"
-            >
-              <Download className="h-4 w-4 transition-transform duration-300 group-hover:translate-y-0.5" />
-              Resume
-            </a>
-          </motion.div>
-
-          <motion.div variants={item} className={`mt-9 flex items-center gap-2 ${rig ? 'justify-start' : 'justify-center'}`}>
+          <motion.div variants={item} className={`flex items-center gap-2 ${rig ? 'mt-3 justify-start' : 'mt-9 justify-center'}`}>
             {socials.map(({ icon: Icon, href, label }) => (
               <a
                 key={label}
@@ -225,7 +180,6 @@ export default function Hero({ isDark }: { isDark: boolean }) {
               </a>
             ))}
           </motion.div>
-          </div>
         </motion.div>
 
         <motion.a
