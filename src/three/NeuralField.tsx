@@ -17,12 +17,19 @@ type Props = {
  * Light mode inverts more than the palette. On a bone background additive
  * blending drives everything to white, so the field switches to normal
  * blending with darker, denser nodes — same composition, legible ground.
+ *
+ * The field is deliberately *not* acid. Acid means one thing on this site —
+ * this is actionable, or this is where you are — and three thousand acid
+ * particles drifting behind the copy would spend that meaning on decoration,
+ * which is exactly how a saturated colour stops being read as a signal. The
+ * field is cool-neutral texture; the only fluorescent in the hero is the
+ * workstation booting, and it has to be earned by scrolling to it.
  */
 const PALETTE = {
   dark: {
-    a: new Color('#2E8B7A'),
-    b: new Color('#E3C77E'),
-    link: new Color('#4FAF98'),
+    a: new Color('#6B6B75'),
+    b: new Color('#A2A2AA'),
+    link: new Color('#3B3B44'),
     blending: AdditiveBlending,
     pointOpacity: 1.55,
     linkOpacity: 0.62,
@@ -34,9 +41,9 @@ const PALETTE = {
   // Darker colours buy the contrast, and lower alpha keeps it behind the text
   // rather than in it.
   light: {
-    a: new Color('#14584E'),
-    b: new Color('#A8843A'),
-    link: new Color('#1F6F63'),
+    a: new Color('#53535C'),
+    b: new Color('#6B6B75'),
+    link: new Color('#84848E'),
     blending: NormalBlending,
     pointOpacity: 0.7,
     linkOpacity: 0.26,

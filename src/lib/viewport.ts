@@ -14,6 +14,13 @@ export const viewport = {
   pointerY: 0,
   /** Set while the pointer is over an interactive element. */
   hovering: false,
+  /**
+   * Scroll progress through the hero specifically, 0 to 1. The hero is taller
+   * than the screen and pins its contents, so this is the runway the
+   * workstation assembles over — distinct from `progress`, which spans the
+   * whole page.
+   */
+  hero: 0,
 }
 
 /** Number of section formations the field morphs between. */
