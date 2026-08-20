@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Download, Menu, Moon, Sun, X } from 'lucide-react'
+import ResumeMenu, { RESUMES } from './ui/ResumeMenu'
 
 interface NavbarProps {
   isDark: boolean
@@ -98,14 +99,7 @@ export default function Navbar({ isDark, toggleTheme }: NavbarProps) {
               away from any section — and it is a link out, not a section, so
               it sits after the rule that separates it from the nav items. */}
           <span aria-hidden="true" className="mx-2 h-4 w-px bg-black/10 dark:bg-white/15" />
-          <a
-            href="/NabeelResume.pdf"
-            download="Nabeel_Shaikh_Resume.pdf"
-            className="group inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium text-ink-600 ring-1 ring-black/10 transition-all duration-300 hover:text-ink-900 hover:ring-black/20 dark:text-ink-300 dark:ring-white/15 dark:hover:text-white dark:hover:ring-white/30"
-          >
-            <Download className="h-4 w-4 transition-transform duration-300 group-hover:translate-y-0.5" />
-            Resume
-          </a>
+          <ResumeMenu />
 
           <ThemeToggle isDark={isDark} toggleTheme={toggleTheme} />
         </div>
@@ -149,15 +143,29 @@ export default function Navbar({ isDark, toggleTheme }: NavbarProps) {
               </motion.a>
             ))}
 
-              <a
-                href="/NabeelResume.pdf"
-                download="Nabeel_Shaikh_Resume.pdf"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="mt-2 flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium text-ink-600 ring-1 ring-black/10 transition-colors hover:bg-primary-500/10 hover:text-primary-600 dark:text-ink-300 dark:ring-white/15 dark:hover:text-primary-300"
-              >
-                <Download className="h-4 w-4" />
+              {/* Listed outright rather than behind a dropdown. The sheet is
+                  already a list and there is room, so making a phone user tap
+                  twice to reach the same two links buys nothing. */}
+              <p className="mt-4 px-4 pb-1 font-mono text-[10px] uppercase tracking-[0.18em] text-ink-400">
                 Resume
-              </a>
+              </p>
+              {RESUMES.map((r) => (
+                <a
+                  key={r.label}
+                  href={r.href}
+                  download={r.downloadAs}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center justify-between gap-2 rounded-xl px-4 py-3 text-sm font-medium text-ink-600 transition-colors hover:bg-primary-500/10 hover:text-primary-600 dark:text-ink-300 dark:hover:text-primary-300"
+                >
+                  <span className="inline-flex items-center gap-2">
+                    <Download className="h-4 w-4" />
+                    {r.label}
+                  </span>
+                  <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-ink-400">
+                    PDF
+                  </span>
+                </a>
+              ))}
           </motion.div>
         )}
       </AnimatePresence>

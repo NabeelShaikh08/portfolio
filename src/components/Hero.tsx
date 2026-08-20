@@ -1,4 +1,4 @@
-import { Suspense, lazy, useEffect, useRef, useState } from 'react'
+import { Suspense, lazy, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import { ArrowDown, Github, Linkedin, Mail } from 'lucide-react'
 import { useHeroProgress } from '../hooks/useHeroProgress'
@@ -46,9 +46,11 @@ export default function Hero({ isDark }: { isDark: boolean }) {
   const sectionRef = useRef<HTMLElement>(null)
   const reducedMotion = useReducedMotion()
   const wide = useMediaQuery('(min-width: 1024px)')
-  const [webgl, setWebgl] = useState(false)
-
-  useEffect(() => setWebgl(supportsWebGL()), [])
+  // Resolved during the first render rather than in an effect. The copy below
+  // is gated on `rig`, so a value that starts false and corrects itself a
+  // frame later would flash the entire mobile text block onto a desktop hero
+  // before removing it again.
+  const [webgl] = useState(() => typeof window !== 'undefined' && supportsWebGL())
 
   // Three independent reasons not to ship the rig, and all of them are real:
   // a visitor who asked for less motion, a phone where forty parts flying
@@ -70,7 +72,16 @@ export default function Hero({ isDark }: { isDark: boolean }) {
       className={rig ? 'relative h-[240vh]' : 'relative'}
     >
       <div
-        className={`sticky top-0 flex h-[100svh] justify-center overflow-hidden px-6 ${
+        className={`sticky top-0 flex justify-center overflow-hidden px-6 ${
+          // The rig's stage must be exactly one screen — it is the sticky
+          // element being pinned, and a growing box would not pin cleanly.
+          // Without the rig nothing is pinned, so the stage only needs a
+          // *floor* of one screen: on a short viewport (a landscape phone, a
+          // small laptop) the copy is taller than the screen, and a fixed
+          // height with overflow-hidden clipped it against the nav instead of
+          // letting the section grow.
+          rig ? 'h-[100svh]' : 'min-h-[100svh]'
+        } ${
           // With the copy gone the block is short, and centring it vertically
           // dropped the name straight onto the monitor. It belongs at the top:
           // the name reads first, the machine assembles underneath it, and the
@@ -155,15 +166,58 @@ export default function Hero({ isDark }: { isDark: boolean }) {
             ))}
           </h1>
 
-          {/* The role line, the pitch paragraph, the availability row and the
-              three buttons all used to live here, and all of them are gone.
-              They were what forced the copy over the machine in the first
-              place, and every one of them already exists further down the
-              page: the role and the pitch open About, availability and the
-              call to action are the whole of Contact, and the résumé now sits
-              in the header where it is reachable from any section rather than
-              only from the top. A hero that states a name over a machine
-              assembling itself does not need to also be a summary. */}
+          {/* Shown only when the machine is not. On a large screen the hero is
+              a name over a workstation assembling itself and needs no summary
+              — and this copy is exactly what used to be read through the
+              monitor. On a phone there is no machine at all, so without this
+              the hero would be a name and nothing else.
+
+              The gate is `rig` rather than a breakpoint, which also covers the
+              two desktop cases where the machine cannot render: no WebGL, or a
+              visitor who asked for reduced motion. Those would otherwise get
+              the emptiest version of the page for the worst reason. */}
+          {!rig && (
+            <div className="flex w-full flex-col items-center">
+              <motion.h2
+                variants={item}
+                className="mb-6 text-xl font-medium text-ink-600 md:text-2xl dark:text-ink-300"
+              >
+                AI Engineer at <span className="text-ink-900 dark:text-ink-50">Naptick</span>
+              </motion.h2>
+
+              <motion.p
+                variants={item}
+                className="mb-8 max-w-2xl text-balance text-lg leading-relaxed text-ink-500 dark:text-ink-300"
+              >
+                I build AI-powered products and full-stack applications. Currently working on
+                RAG systems, autonomous AI agents, voice AI, and workflow automation. Based in Mumbai.
+              </motion.p>
+
+              <motion.div
+                variants={item}
+                className="mb-9 flex flex-wrap items-center justify-center gap-4 font-mono text-[11px] uppercase tracking-[0.14em]"
+              >
+                <span className="inline-flex items-center gap-2.5 text-accent-600 dark:text-accent-300">
+                  <span className="relative flex h-2 w-2">
+                    <span className="absolute inset-0 animate-pulse-ring rounded-full bg-accent-500 dark:bg-accent-300" />
+                    <span className="relative h-2 w-2 rounded-full bg-accent-500 dark:bg-accent-300" />
+                  </span>
+                  Open to opportunities
+                </span>
+                <span className="h-4 w-px bg-ink-300 dark:bg-ink-700" />
+                <span className="text-ink-400">Mumbai, India</span>
+              </motion.div>
+
+              <motion.div variants={item} className="flex flex-wrap items-center justify-center gap-3">
+                <a href="#contact" className="btn-primary">
+                  Get in Touch
+                </a>
+                <a href="#projects" className="btn-secondary">
+                  See My Work
+                </a>
+              </motion.div>
+            </div>
+          )}
 
           <motion.div variants={item} className={`flex items-center gap-2 ${rig ? 'mt-3 justify-start' : 'mt-9 justify-center'}`}>
             {socials.map(({ icon: Icon, href, label }) => (
