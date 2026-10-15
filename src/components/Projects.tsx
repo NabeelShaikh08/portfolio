@@ -1,4 +1,4 @@
-import { Beef, BookOpen, Bone, Clapperboard, ExternalLink, FileText, Github, Heart, Lock, Palmtree, Shirt } from 'lucide-react'
+import { Beef, BookOpen, Bone, Clapperboard, ExternalLink, FileText, Github, GitBranch, Heart, Lock, Package, Palmtree, Shirt } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { useRef } from 'react'
 import { useCardStack } from '../hooks/useCardStack'
@@ -125,6 +125,36 @@ const projects: Project[] = [
     github: 'https://github.com/NabeelShaikh08/Fresh_Cuts',
     live: 'https://freshcuts-blond.vercel.app/',
     liveLabel: 'Visit Site',
+  },
+  {
+    title: 'GitGuru',
+    subtitle: 'Claude Code Skills Plugin for Developer Productivity',
+    description:
+      'A Claude Code plugin that ships two developer productivity skills — /explain-diff and /repo-onboard — to help individuals and teams understand code changes faster and onboard to any codebase in minutes.',
+    highlights: [
+      '/explain-diff: plain English summary, risk level (Low/Medium/High), what could break, and concrete test cases for any git diff or GitHub PR',
+      '/repo-onboard: auto-generates ARCHITECTURE.md, FLOW.md (Mermaid diagrams), QUICKSTART.md, and KEY_FILES.md for any repo',
+      'Watch mode with Chokidar auto-runs /explain-diff on every file save for live diff feedback while coding',
+    ],
+    tech: ['Claude Code', 'Claude API', 'JavaScript', 'Chokidar', 'gh CLI', 'Bash'],
+    icon: GitBranch,
+    github: 'https://github.com/NabeelShaikh08/gitguru',
+    live: '#',
+  },
+  {
+    title: 'Inventory Management System',
+    subtitle: 'Full-Stack Inventory App with Django REST & React',
+    description:
+      'A production-grade inventory management system built for Al Yafour General Contracting, featuring a Django REST Framework API with JWT auth and a React + TypeScript frontend with real-time search, pagination, and full CRUD.',
+    highlights: [
+      'Django REST API with JWT access/refresh token flow and a silent refresh interceptor that keeps sessions alive without re-login prompts',
+      'React frontend with TanStack Query (caching, background refetch), Zod + react-hook-form validation, and debounced server-side search',
+      '17 pytest tests covering auth, CRUD, search, category filtering, pagination, and all validation rules; Docker Compose for one-command setup',
+    ],
+    tech: ['Django REST Framework', 'Python', 'React', 'TypeScript', 'TanStack Query', 'JWT', 'Tailwind CSS', 'Docker', 'Vite'],
+    icon: Package,
+    github: 'https://github.com/NabeelShaikh08/Inventory_Managemnt',
+    live: '#',
   },
   {
     title: 'Life-Fit Healthcare',
