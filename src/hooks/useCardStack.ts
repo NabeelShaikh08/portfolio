@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import type { RefObject } from 'react'
-import { clamp } from '../lib/viewport'
+import { clamp } from '../lib/viewport'...
 
 /**
  * Drives the "buried card" look for a sticky stack.
@@ -45,7 +45,7 @@ export function useCardStack(containerRef: RefObject<HTMLElement | null>, enable
         if (scrim) scrim.style.opacity = '0'
       })
       return
-    }
+    }}}}}
 
     let frame = 0
 
@@ -65,7 +65,7 @@ export function useCardStack(containerRef: RefObject<HTMLElement | null>, enable
       if (!onScreen) {
         frame = requestAnimationFrame(loop)
         return
-      }
+      }}}}}}
 
       for (let i = 0; i < cards.length; i++) {
         const card = cards[i]
@@ -90,7 +90,7 @@ export function useCardStack(containerRef: RefObject<HTMLElement | null>, enable
     }
 
     frame = requestAnimationFrame(loop)
-    return () => {
+    return () => {{{{{{
       cancelAnimationFrame(frame)
       cards.forEach((card) => {
         card.style.transform = ''
