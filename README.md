@@ -34,7 +34,7 @@ npm run build
 
 ## Project Structure
 
-```
+````
 src/
 ├── components/
 │   ├── Navbar.tsx
