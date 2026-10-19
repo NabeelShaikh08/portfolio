@@ -34,7 +34,7 @@ npm run build
 
 ## Project Structure
 
-```
+````
 src/
 ├── components/
 │   ├── Navbar.tsx
@@ -48,7 +48,7 @@ src/
 ├── App.tsx
 ├── main.tsx
 └── index.css
-```
+````
 
 ## Contact
 
