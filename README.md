@@ -21,7 +21,7 @@ Personal portfolio website showcasing my work as an AI Engineer and Full-Stack D
 
 ## Getting Started
 
-```bash
+````bash
 # Install dependencies
 npm install
 
@@ -30,7 +30,7 @@ npm run dev
 
 # Build for production
 npm run build
-```
+````
 
 ## Project Structure
 
