@@ -1,4 +1,4 @@
-import { Beef, BookOpen, Bone, Clapperboard, ExternalLink, FileText, Github, GitBranch, Heart, Lock, Package, Palmtree, Shirt } from 'lucide-react'
+import { Beef, BookOpen, Bone, Bot, Clapperboard, ExternalLink, FileText, Github, GitBranch, Heart, Lock, Package, Palmtree, Shirt } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { useRef } from 'react'
 import { useCardStack } from '../hooks/useCardStack'
@@ -92,6 +92,22 @@ const projects: Project[] = [
     icon: FileText,
     github: 'https://github.com/NabeelShaikh08/Autonomus_Doc_Agent',
     live: 'https://huggingface.co/spaces/nabeelshk/Autonomus_Doc_Agent',
+  },
+  {
+    title: 'Autonomous PR Reviewer',
+    subtitle: 'Multi-Agent GitHub App for Automated Code Review',
+    description:
+      'A production-grade GitHub App that reviews every pull request automatically using a multi-agent AI pipeline. When a PR is opened or updated, four specialist agents — Security, Logic, Performance, and Tests — analyse the diff concurrently and post inline comments; a Coordinator agent deduplicates findings and writes the final verdict.',
+    highlights: [
+      'Four specialist agents run in parallel (Security, Logic, Performance, Tests) so review time equals one agent, not four — with file-type routing and language-enriched prompts for Python, JavaScript, TypeScript, Go, and Java',
+      'Three-verdict system (APPROVED / NEEDS_WORK / CRITICAL) with every finding deduplicated via Redis SET before the Coordinator posts the final review to GitHub',
+      'Production infrastructure: FastAPI webhook server, Redis job queue, standalone async worker, PostgreSQL audit log, and a Prometheus /metrics endpoint tracking per-agent latency and queue depth',
+      '52 pytest tests covering webhook routing, HMAC-SHA256 signature verification, token caching, file filtering, multi-agent pipeline, deduplication, worker concurrency, and graceful shutdown',
+    ],
+    tech: ['Python', 'FastAPI', 'Groq API', 'Redis', 'PostgreSQL', 'asyncpg', 'Prometheus', 'Docker', 'Railway'],
+    icon: Bot,
+    github: 'https://github.com/NabeelShaikh08/Autonomus_pr_review',
+    live: '#',
   },
   {
     title: 'BoneScan AI',
