@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import type { RefObject } from 'react'
 import { clamp } from '../lib/viewport'
+import
 
 /**
  * Drives the "buried card" look for a sticky stack.
